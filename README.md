@@ -293,7 +293,7 @@ considere necesarios.
 ### Pruebas unitarias (unit tests)
 
 - Este boilerplate no incluye setup de tests definido, dependerá de la estructura de tu proyecto, por lo que deberan realizarse al inicio o final de cada funcionalidad para evitar que los errores se acumulen en la fase final.
-- Asegurate de incluir en la definicion de terminado ruebas unitaria para cada issue/milestone.
+- Asegurate de incluir en la definicion de terminado pruebas unitarias para cada issue/milestone.
 - Tus pruebas unitarias deben dar una cobertura del 80% de statements (sentencias), functions (funciones), lines (líneas), y branches (ramas) del archivo que las contenga.
 
 ## Este proyecto consta de DOS partes
