@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/TaniQL/LIM015-md-links#readme",
   "dependencies": {
-    "jest": "^27.0.6"
+    "@laboratoria/curriculum-parser": "github:Laboratoria/course-parser",
+    "jest": "^27.0.6",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {}
 }
