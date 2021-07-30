@@ -1,4 +1,29 @@
 {
-  "name": "md-links",
-  "version": "0.1.0"
+  "name": "lim015-md-links",
+  "version": "1.0.0",
+  "description": "MD Links Project",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nanita462/LIM015-md-links.git"
+  },
+  "keywords": [
+    "jest",
+    "testing"
+  ],
+  "author": "Ana Aguilera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nanita462/LIM015-md-links/issues"
+  },
+  "homepage": "https://github.com/nanita462/LIM015-md-links#readme",
+  "devDependencies": {
+    "jest": "^27.0.6"
+  }
 }
