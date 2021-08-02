@@ -1,4 +1,39 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "## Índice",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "htmlhint": "htmlhint src/*.html test/*.html",
+    "eslint": "eslint --ext .js src/ test/",
+    "test": "jest --verbose --coverage",
+    "open-coverage-report": "opener ./coverage/lcov-report/index.html",
+    "start": "serve src/",
+    "deploy": "gh-pages -d src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/margaZM/LIM015-md-links.git"
+  },
+  "keywords": [
+    "markdown",
+    "md"
+  ],
+  "author": "margazm",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/margaZM/LIM015-md-links/issues"
+  },
+  "bin": {
+    "md-links": "src/md-links.js"
+  },
+  "homepage": "https://github.com/margaZM/LIM015-md-links#readme",
+  "dependencies": {
+    "g": "^2.0.1",
+    "jest": "^27.0.6",
+    "markdown-it": "^12.1.0"
+  }
 }
