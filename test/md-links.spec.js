@@ -1,49 +1,71 @@
-const {validateRoute, listFiles, listFilesMd} = require('../cli');
+const { validatePath, checkTypePath, listFilesMd, toPathAbsolute} = require('../src/index');
 
 
-describe('validateRoute(routeCommand)', () => {
+describe('validatePath(pathSent)', () => {
 
   it ("Deberia ser una funcion", () => {
-    expect(typeof validateRoute).toBe('function');
+    expect(typeof validatePath).toBe('function');
   });
 
-  it("Should return absolute path if it exists", () => {
-    expect(validateRoute('../../laboratoria')).toBe('/home/marga/laboratoria');
+  it("Should return true if path exist", () => {
+    expect(validatePath('../../laboratoria')).toBe(true);
   });
 
-  it("Should return null if it doesn't exist", () => {
-    expect(validateRoute('../../laborato')).toBe(null);
+  it("Should return false if it doesn't exist", () => {
+    expect(validatePath('../../laborato')).toBe(false);
   });
 });
 
-describe('listFiles(routeAbsolute)', () => {
+describe('checkTypePath(pathSent)', () => {
 
   it ("It should be a function", () => {
-    expect(typeof listFiles).toBe('function');
+    expect(typeof checkTypePath).toBe('function');
   });
 
-  it("Should return list of files", () => {
-    const result = listFiles("/home/marga/test");
-    expect(result).toEqual([ 'README.md', 'hello-world.js', 'mdlinks', 'prueba', 'test.md' ]);
+  it("Should return true if it is directory", () => {
+    const result = checkTypePath("/home/marga/test");
+    expect(result).toBe(true);
   });
 
-  it("If it is a file it should return an array with that file", () => {
-    const result = listFiles("/home/marga/test/hello-world.js");
-    console.log(result)
-    expect(result).toEqual(['hello-world.js']);
+  it("Should return false if it is file", () => {
+    const result = checkTypePath("/home/marga/test/hello-world.js");
+    expect(result).toBe(false);
   });
 
 });
 
 describe('listFilesMd(list)', () => {
-
   it ("It should be a function", () => {
     expect(typeof listFilesMd).toBe('function');
   });
-  it ("Should return list of files only extension .md", () => {
+  it ("Should return list of files only md of directory", () => {
     expect(listFilesMd(['README.md', 'Vídeos','baby-steps.js','hello-world.js'])).toEqual(['README.md']);
   });
   it ("Should be null if you don't have .md files", () => {
     expect(listFilesMd(['Vídeos','baby-steps.js','hello-world.js'])).toEqual([]);
   });
+});
+
+describe('toPathAbsolute(boolean)', () => {
+  it ("It should be a function", () => {
+    expect(typeof toPathAbsolute).toBe('function');
+  });
+  // it ("Should return list of files with path absolute", () => {
+  //   expect(toPathAbsolute(true)).toEqual([]);
+  // });
+  // it ("Should be null if you don't have .md files", () => {
+  //   expect(toPathAbsolute(false)).toEqual([]);
+  // });
+});
+
+describe('readFilesMd(list)', () => {
+  it ("It should be a function", () => {
+    expect(typeof readFilesMd).toBe('function');
+  });
+  // it ("Should return list of files with path absolute", () => {
+  //   expect(toPathAbsolute(true)).toEqual([]);
+  // });
+  // it ("Should be null if you don't have .md files", () => {
+  //   expect(toPathAbsolute(false)).toEqual([]);
+  // });
 });
