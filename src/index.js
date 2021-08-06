@@ -6,48 +6,61 @@
 //              /home/marga/test/README.md   ../../../test.md
 const fs = require('fs');
 const path = require('path');
-const [,, pathSent] = process.argv;
+
+const validatePath = (pathSent) => {
+    return fs.existsSync(pathSent) ? true  : false; 
+};
 
 const checkTypePath = (pathSent) => { // Verifica si es directorio
     return fs.lstatSync(pathSent).isDirectory();
+};
+
+const arrayFilePath = (pathSent) => {
+    const isDirectory = checkTypePath(pathSent);
+    let files = [];
+    if (isDirectory) {
+        const paths = fs.readdirSync(pathSent);
+        paths.forEach(element => {
+            files = files.concat(arrayFilePath(pathSent + '/' + element));
+        })
+    } else {
+        files.push(pathSent);
+    }
+    return files;
 };
 
 const listFilesMd = (list) => { //listar los archivos md
     return list.filter(file => path.extname(file) === '.md');
 };
 
-const toPathAbsolute = (typePath) => { // Pasar a ruta absoluta
-    return (typePath === true) ? listFilesMd(fs.readdirSync(pathSent))
-        .map(file => path.resolve(pathSent) + '/' + file)
-        : [path.resolve(pathSent)];
-}
-
-const listLinks = (listFilesMd) => { //Lista los links de los archivos md
-    const regEXp = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
-    let url = [];
-    console.log(listFilesMd)
-    listFilesMd.map((file, index)=> {
-        fs.readFile(file, 'UTF-8', (error, file) => {
-            if(error){
-                throw error;
-            }
-            console.log(index)
-            url = file.match(regEXp);
-            checkLinks(url);
-        })
+const toPathAbsolute = (list) => { // Pasar a ruta absoluta
+    return list.map(element => {
+        return path.resolve(element);
     })
-}
+};
 
-const isDirectory = checkTypePath(pathSent);
-const listmd = toPathAbsolute(isDirectory);
-listLinks(listmd);
+const readFilesMd = (list) => { //Lee los links de los archivos md
+    const regEXp = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    return list.map(file => {
+        const fileContent = fs.readFileSync(file, 'UTF-8');
+        const urls = fileContent.match(regEXp);
 
-const checkLinks = (url) => {
-    url.forEach(element => {
-        console.log(element)
-    });
-}
+        if (urls === null){
+            return null;
+        }
+        const infoUrls = urls.map(url => {
+            const infoUrl = {
+                filePath: file,
+                urlsArray: url.slice(0, -1)
+            }
+            return infoUrl;
+        })
+        return infoUrls;
+    })
+};
 
+
+module.exports = { validatePath, checkTypePath, listFilesMd, readFilesMd, arrayFilePath, toPathAbsolute }
 
 
 // const validateRoute = (routeCommand) => {
