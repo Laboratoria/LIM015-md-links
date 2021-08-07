@@ -63,7 +63,24 @@ const mdLinks = function(path, options) {
         }
 
     } else {
-
+        options.forEach(option => {
+            if (option === '--validate') {
+                for (const message of arrayMessage) {
+                    // console.log(message.href)
+                    fetch(message.href)
+                    .then((res)=> {
+                        message.status = res.status; 
+                        message.ok = res.statusText;
+                        console.log(message.path, message.href, message.status, message.ok)
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+                }
+            }else if (option === '--test') {
+                
+            }
+        })
 
     }
 }(pathSent, options);
