@@ -3,25 +3,19 @@ const index = require('./index');
 const { rejects } = require('assert');
 const [,, pathSent, ...options] = process.argv;
 const fetch = require('node-fetch');
-// const http = require('http');
-const https = require('https');
-const { url } = require('inspector');
-const { Console } = require('console');
-
 
 const mdLinks = function(path, options) {
 
     const isValid = index.validatePath(path);
     let urls = [];
-    let arrayMessage = [];
 
     if( isValid ) {
         const allFiles = index.arrayFilePath(pathSent);
         const filesMd = index.listFilesMd(allFiles);
 
         if (filesMd.length === 0) {
-            console.error(
-            `                Error: no hay 
+            console.error(`                
+            Error: no hay 
             archivos .md para analizar`
             );
             return;
@@ -30,8 +24,8 @@ const mdLinks = function(path, options) {
             const filesMdAbsolute = index.toPathAbsolute(filesMd);
             const infoUrls = index.readFilesMd(filesMdAbsolute);
             if (infoUrls[0] === null) {
-                console.error(
-                    `            Error: no hay 
+                console.error(`            
+                Error: no hay 
                 links para analizar`
                 );
                 return;
@@ -44,44 +38,90 @@ const mdLinks = function(path, options) {
         }
 
     }else {
-        console.error('Error: ${path} es una ruta inválida');
-        return;
-    };
+        if(pathSent === '--help'){
+            console.log(`
+            md-links <path-to-file> [options]
 
-    for (const url of urls) {
-        let message = {
-            path: url.filePath,
-            href: url.urlsArray
-        };
-        arrayMessage.push(message);
-    }
+            Uso:
+
+            md-links <path-to-file>                             acción por default que analiza el archivo Markdown, 
+            imprime los links que contiene, junto con la ruta del archivo donde aparece y el texto que hay dentro 
+            del link (truncado a 50 caracteres).
+
+                $ md-links ./some/example.md
+                ./some/example.md http://algo.com/2/3/ Link a algo
+                ./some/example.md https://otra-cosa.net/algun-doc.html algún doc
+                ./some/example.md http://google.com/ Google
+
+            Opciones:
+            
+            $ md-links ./some/example.md --validate             analiza si el link funciona o no y devuelve su status.
+
+                $ md-links ./some/example.md --validate
+                ./some/example.md http://algo.com/2/3/ ok 200 Link a algo
+                ./some/example.md https://otra-cosa.net/algun-doc.html fail 404 algún doc
+                ./some/example.md http://google.com/ ok 301 Google
+
+            $ md-links ./some/example.md --stats                devuelve estadísticas básicas sobre los links.
+                $ md-links ./some/example.md --stats
+                Total: 3
+                Unique: 3
+
+            $ md-links ./some/example.md --stats --validate     devuelve estadísticas de los resultados de la validación.
+                $ md-links ./some/example.md --stats --validate
+                Total: 3
+                Unique: 3
+                Broken: 1
+            `)
+        }else if (pathSent === undefined) {
+            console.error(`
+            por favor ingrese la ruta del 
+            archivo a analizar 
+        `);
+        } else {
+            console.error(`
+            Error: ${path} es una 
+            ruta inválida
+        `);
+        return;
+        }
+    };
 
     if (options.length === 0 ) {
 
-        for (const message of arrayMessage) {
-            console.log(message.path, message.href)
+        for (const url of urls) {
+            console.log(url.file, url.href)
         }
-
+        
     } else {
-        options.forEach(option => {
-            if (option === '--validate') {
-                for (const message of arrayMessage) {
-                    // console.log(message.href)
-                    fetch(message.href)
+        if (options.length === 1){
+            if (options[0] === '--validate') {
+                for (const url of urls) {
+                    fetch(url.href)
                     .then((res)=> {
-                        message.status = res.status; 
-                        message.ok = res.statusText;
-                        console.log(message.path, message.href, message.status, message.ok)
+                        url.status = res.status; 
+                        url.ok = res.statusText;
+                        console.log(url.file, url.href, url.status, url.ok)
                     })
                     .catch((error) => {
                         console.error(error)
                     })
                 }
-            }else if (option === '--test') {
-                
+            } else if (options[0] === '--stats') {
+                let countedUrls = urls.reduce(function (allUrls, url) {
+                    return (url.href in allUrls ? allUrls[url.href]++ : allUrls[url.href]=1, allUrls) 
+                }, {})
+                console.log(countedUrls)
+            } else {
+                console.error(('orden no encontrada'));
             }
-        })
-
+        } else if (options.length === 2) {
+            if (options[0] === '--stats' && options[1] === '--validate') {
+                console.log('es stats y validate')
+            } else {
+                console.error(('orden no encontrada'));
+            }
+        }
     }
 }(pathSent, options);
 
