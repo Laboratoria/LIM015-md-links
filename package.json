@@ -21,7 +21,9 @@
   "homepage": "https://github.com/TaniQL/LIM015-md-links#readme",
   "dependencies": {
     "@laboratoria/curriculum-parser": "github:Laboratoria/course-parser",
+    "filehound": "^1.17.4",
     "jest": "^27.0.6",
+    "markdown-link-extractor": "^1.3.0",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {}
