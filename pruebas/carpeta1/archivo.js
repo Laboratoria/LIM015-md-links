@@ -49,3 +49,34 @@ delayed(7).then(x=>{
 
 
 
+
+
+
+
+
+
+const fileslinkMD = (rutaAbs) => {
+
+    let mdFilesArray=[];
+    //leer el directorio 
+    let filesDir = readDirectory(rutaAbs);
+    filesDir.forEach(ele=> {
+
+        let joinFile=path.join(rutaAbs,ele);
+
+        console.log(joinFile);
+
+        if (fs.statSync(joinFile).isFile() && path.extname(joinFile) === '.md') {
+
+            mdFilesArray.push(joinFile);
+
+        } else if ( fs.statSync(joinFile).isDirectory()){ 
+            mdFilesArray=mdFilesArray.concat(fileslinkMD(joinFile));
+
+        }
+    });
+    return mdFilesArray;
+};
+
+
+
