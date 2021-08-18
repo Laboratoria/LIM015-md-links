@@ -55,51 +55,53 @@ const filesLinkMd =(rutaAbs)=> {
 }
 
 
-let mor=filesLinkMd("D:\\PROGRAMACION\\LIM015-md-links\\pruebas\\carpeta1")
-console.log(mor);
-console.log(showDetails(mor));
 
 
+//function para extraer los links dentro de los archivos  MD 
 
-//mostrar finalmnete el array 
+const extractLink =(rutaAbs)=> new Promise((resolve, reject)=> {
+    let objLinks=[];
+    const dataPath=filesLinkMd(rutaAbs);
+    console.log(dataPath);
 
+    dataPath.forEach((mdRoute) =>{ 
 
+    const fileContentArr = fs.readFileSync(mdRoute, 'utf-8');
 
-// verificar dentro del documento 
+    const regExLinks = /\[([\w\s\d.()]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#&_%~,.:-]+)\)/mg;
+    const regExHref = /\((http|https).+?\)/g;
+    const regExText = /\[.+?\]/g;
 
- 
+    const  linksArr = fileContentArr.match(regExLinks);
+    console.log(linksArr);
 
+    if (linksArr) {
+        linksArr.forEach((link)=> {
+            console.log("estoy aqui");
+          const txtHref = link.match(regExHref);
+          const txtText = link.match(regExText);
+          objLinks.push({
+            route: mdRoute,
+            href: txtHref.join().slice(1, -1),
+            text: txtText.join().slice(1, -1)
+          });
+        });
+      }
+    });
+    resolve(objLinks);
 
-
-
-
-
-
-
-
-
-
-
-
-// salida de datos mediante promesa .
-
-const LinksOut= (rutaAbs)=> new Promise ((resolve,reject)=>{
-       // si no es un archivo 
-    if(!isFile(rutaAbs)){
-
-        const pathArray= filesLinkMd (rutaAbs);
-                resolve (allLinks(pathArray,rutaAbs));
-
-    }else if (path.extname(rutaAbs) ==='.md') {
-        const PathAbsoluteMD=[rutaAbs];
-        resolve (allLinks(PathAbsoluteMD,rutaAbs));
+    if (!dataPath) {
+      reject({
+        error: 'la ruta no es valida'
+      });
     }
-
-    })
-
+  });
 
 
+    
+const  mor=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
+console.log(mor);
 
 
 
-module.exports = LinksOut;
+module.exports = extractLink;
