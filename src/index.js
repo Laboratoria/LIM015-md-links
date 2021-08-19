@@ -9,45 +9,24 @@ const rutadelUsuario = process.argv[2];
 //El metodo .slice copiaba una parte del arreglo segun lo que le pidamos que copie por su indice 
 
 /*para verificar si el archivo existe en la terminal powershel o bash, poner lo siguiente node src/index.js copia ruta relativa o absoluta y darle enter*/
-
-//RUTA EXISTE////
-
-/*Verificando si existe una ruta de archivo o directorio/carpeta con fs.existsSync()*/
- function validarruta(filePath){
-if(fs.existsSync(filePath)){
-    return "El archivo EXISTE!";
- } else /*if(fs.existsSync(filePath)===false)*/{
-    return "El archivo NO EXISTE!";
- }
-}
-console.log(validarruta(rutadelUsuario));
+fs.readdirSync(path)
 
 
-/*Convirtiendo a ruta absoluta con el metodo: path.resolve() */
-const rutaAbsolut= (ruta)=> path.resolve(ruta)
-    console.log(rutaAbsolut(rutadelUsuario, "convertido a ruta absoluta"))
 
 
-/*Verificando si es directorio/carpeta con el metodo: fs.statSync().isDirectory() */
+const {validarruta}= require("./md-links.js");
 
-const verDirectorio=(ruta)=> fs.statSync(ruta).isDirectory()
-    console.log(verDirectorio(rutadelUsuario));
-
- 
-/*Verificando si es archivo con el metodo: fs.statSync().isFile()*/
-const verArchivo=(ruta)=> fs.statSync(ruta).isFile()
-console.log(verArchivo(rutadelUsuario));
-
-
-/*Viendo si el archivo es md con el metodo: path.extname() */
-const esArchivoMd =(filePath)=> path.extname(filePath)
-    console.log(esArchivoMd(rutadelUsuario));
+const {esArchivoMd}=require("./md-links.js");
+//Leyendo archivos//
+const respuesta = esArchivoMd(path.readFileSync(file, 'leelo'));
+console.log(respuesta);
 
     
 /*fs.readdirSync(paths)*/
 module.exports = {
    
-    validarruta,
-    esArchivoMd
+    respuesta,
+    
+    
     
 }
