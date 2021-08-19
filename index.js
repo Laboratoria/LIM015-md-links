@@ -1,88 +1,114 @@
-module.exports = (verificRoute) => {
-  // ...
-};
- const chalk = require('chalk');
- const path = require('path');
- const fs = require('fs');
- const readline= require('readline');
- //const realpath = require('realpath');
-//const const readline = require('readline');
+module.exports = (verificRoute) => {};
+//const chalk = require("chalk");
+const path = require("path");
+const fs = require("fs");
 
-//funcion ruta absoluta o relativa
+//const { yellow } = require("chalk");
 
-const userRoute= process.argv[2];
-//console.log( userRute)
+const userRoute = process.argv[2];
 
-function verificRoute (route){
-
-if (path.isAbsolute(route)) {
-  console.log("Es absoluta")
-return route;
-}else {
-
-  console.log(path.resolve(route))
-  console.log("la ruta no es absoluta")
-  return( path.resolve(route));
-  
-}
-
-}
-verificRoute(userRoute);
-
-// const ruteExists= (route);cler
-// const rl= readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout
-// });
-
-// rl.question("Dime tu nombre:", function(nombre){
-//   console.log("Hola "  + nombre);
-//   rl.close();
-// });
-
- //console.log(chalk.blue('hola mundo'));
-
-
-  // directory to check if exists
-  const direction = './uploads';
-
-//  // check if directory exists
-// fs.access(direction, (err) => {
-//     console.log(`Directorio ${err ? 'No existe' : 'Existe'}`);
-//  });
-
-   fs.readFile('./prueba/enlaces.md', 'utf-8', (err, data) => {
-   if(err) {
-      console.log('error: ', err);
-    } else {
-      console.log(data);
+class Links {
+  constructor(link, descripcion, estado, codigoHTTP) {
+    this.link = link;
+    this.descripcion = descripcion;
+    this.estado = estado;
+    this.codigoHTTP = codigoHTTP;
   }
+}
+
+class ArchivosMD{
+  constructor (ruta,links){
+    this.ruta = ruta;
+    this.links= links;
+  }
+}
+function procesoVerificacion(ruta) {
+  //validar link mdlink
+  let rutaFinal = ruta;
+  if (!esRutaAbsoluta(ruta)) {
+    rutaFinal = transformarRutaRelativa(ruta);
+  }
+
+  if (!existeRuta(rutaFinal)) {
+    console.log("La Ruta No Existe");
+    return false;
+  }
+
+  let archivosMD = buscarArchivosMd(rutaFinal);
+  let arrayArchivosMd = [];
+
+  archivosMD.forEach((archivoMD) => {
+    let linksEncontrados = buscarLinksEnArchivo(archivoMD);
+    let archivoMDEncontrado= new ArchivosMD(archivoMD,linksEncontrados);
+    arrayArchivosMd.push(archivoMDEncontrado);
   });
 
+   console.log(arrayArchivosMd);
+}
 
-fs.lstat(userRoute, function(err, stats) {
-  if (!err && stats.isDirectory()) {
-    console.log("Es directorio")
-    arreglosdeArchivos(userRoute)
+procesoVerificacion(userRoute);
+
+function esRutaAbsoluta(ruta) {
+  if (path.isAbsolute(ruta)) {
+    return true;
   }
-});
+}
 
-const arreglosdeArchivos = (userRoute) => {
+function transformarRutaRelativa(ruta) {
+  return path.resolve(ruta);
+}
 
-  const respuesta= [];
- 
+function existeRuta(ruta) {
+  return fs.existsSync(ruta);
+}
 
+function buscarArchivosMd(ruta, archivosMD = []) {
+  if (esDirectorio(ruta)) {
+    const archivos = fs.readdirSync(ruta);
 
-  fs.readdir(userRoute, function (err, archivos) {
-    if (err) {
-    onError(err);
-    return;
-    }
-    console.log(archivos);
-    respuesta.push(archivos);
+    archivos.forEach((archivo) => {
+      const rutaFinal = path.join(ruta, archivo);
+
+      if (esDirectorio(rutaFinal)) {
+        buscarArchivosMd(rutaFinal, archivosMD);
+      } else if (esArchivosMd(rutaFinal)) {
+        archivosMD.push(rutaFinal);
+      }
     });
-    return respuesta;
- };
+  } else if (esArchivosMd(ruta)) {
+    archivosMD.push(ruta);
+  }
 
- 
+  return archivosMD;
+}
 
+function esArchivosMd(ruta) {
+  return /\.md$/.test(ruta);
+}
+
+function esDirectorio(ruta) {
+  return fs.lstatSync(ruta).isDirectory();
+}
+
+function buscarLinksEnArchivo(rutaArchivo) {
+  const regexMdLinks = /(((https?:\/\/)|(http?:\/\/)|(www\.))[^\s\n)]+)(?=\))/g;
+  const regexText =
+    /(?:[^[])([^[]*)(?=(\]+\(((https?:\/\/)|(http?:\/\/)|(www\.))))/g;
+  let linksEncontrados = [];
+  let informacion = fs.readFileSync(rutaArchivo, "utf8");
+  const lineas = informacion.match(regexMdLinks);
+  const descripciones = informacion.match(regexText);
+
+  if (lineas != null) {
+    for (let i = 0; i < lineas.length; i++) {
+      let link = new Links(lineas[i], descripciones[i]);
+      linksEncontrados.push(link);
+    }
+  }
+
+  return linksEncontrados;
+}
+
+// function validarLinks(link) {
+
+// }
