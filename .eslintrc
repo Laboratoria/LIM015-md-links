@@ -1,3 +1,5 @@
+/* Después de cada regla, el valor «2» significa que una violación supondría un error. 
+    Si el valor puesto es 1 generaría un “warning” y un valor de 0 deshabilitaría la regla. */
 {
   "env": {
     "node": true
