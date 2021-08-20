@@ -16,19 +16,19 @@
  
  //console.log(validarruta(rutadelUsuario));
  
- 
- //Convirtiendo a ruta absoluta con el metodo: path.resolve() //
- const convertiraAbsolut= (ruta)=> path.resolve(ruta)
-     //console.log(convertiraAbsolut(rutadelUsuario))
-
-  //verificando si es ruta absoluta con el metodo: path.resolve() //
+  //verifico si es ruta absoluta con el metodo: path.resolve(ruta)===(ruta) //
   const rutaAbsolut= (ruta)=> path.resolve(ruta)===(ruta)
   //console.log(rutaAbsolut(rutadelUsuario))
- 
- //Verificando si es directorio/carpeta con el metodo: fs.statSync().isDirectory() //
+
+  //Verifico si es directorio/carpeta con el metodo: fs.statSync().isDirectory() //
  
  const esDirectorio=(ruta)=> fs.statSync(ruta).isDirectory()
-     //console.log(esDirectorio(rutadelUsuario));
+ //console.log(esDirectorio(rutadelUsuario));
+
+
+ //Convierto a ruta absoluta con el metodo: path.resolve() //
+ const convertiraAbsolut= (ruta)=> path.resolve(ruta)
+     //console.log(convertiraAbsolut(rutadelUsuario))
 
   
  //Verificando si es archivo con el metodo: fs.statSync().isFile()//
@@ -43,12 +43,12 @@ const esArchivoMd =(filePath)=> path.extname(filePath)===".md"
 
 
 module.exports={
-    esArchivoMd,
+    
     validarRuta,
     rutaAbsolut,
-    convertiraAbsolut,
     esDirectorio,
+    convertiraAbsolut,
     isArchivo,
-/*mdlinks,
-md*/
+    esArchivoMd,
+
 }
