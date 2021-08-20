@@ -12,20 +12,18 @@
  
  
  //Verificando si existe una ruta de archivo o directorio/carpeta con fs.existsSync()//
-  function validarruta(filePath){
- if(fs.existsSync(filePath)){
-     return "El archivo EXISTE!";
-  } else {
-     return "El archivo NO EXISTE!";
-  }
- }
+  const validarRuta = (filePath)=> fs.existsSync(filePath)
+ 
  //console.log(validarruta(rutadelUsuario));
  
  
  //Convirtiendo a ruta absoluta con el metodo: path.resolve() //
- const rutaAbsolut= (ruta)=> path.resolve(ruta)
-    // console.log(rutaAbsolut(rutadelUsuario, "convertido a ruta absoluta"))
- 
+ const convertiraAbsolut= (ruta)=> path.resolve(ruta)
+     //console.log(convertiraAbsolut(rutadelUsuario))
+
+  //verificando si es ruta absoluta con el metodo: path.resolve() //
+  const rutaAbsolut= (ruta)=> path.resolve(ruta)===(ruta)
+  //console.log(rutaAbsolut(rutadelUsuario))
  
  //Verificando si es directorio/carpeta con el metodo: fs.statSync().isDirectory() //
  
@@ -46,8 +44,9 @@ const esArchivoMd =(filePath)=> path.extname(filePath)===".md"
 
 module.exports={
     esArchivoMd,
-    validarruta,
+    validarRuta,
     rutaAbsolut,
+    convertiraAbsolut,
     esDirectorio,
     isArchivo,
 /*mdlinks,
