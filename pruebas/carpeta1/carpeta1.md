@@ -28,7 +28,7 @@ muchas veces están rotos o ya no son válidos y eso perjudica mucho el valor de
 la información que se quiere compartir.
 
 Dentro de una comunidad de código abierto, nos han propuesto crear una
-herramienta usando [Node.js](https://nodejs.org/), que lea y analice archivos
+herramienta usando [Node.js](https://noejs.org/), que lea y analice archivos
 en formato `Markdown`, para verificar los links que contengan y reportar
 algunas estadísticas.
 
@@ -36,7 +36,7 @@ algunas estadísticas.
 
 ## 2. Resumen del proyecto
 
-[Node.js](https://nodejs.org/es/) es un entorno de ejecución para JavaScript
+[Node.js](https://noejs.org/es/) es un entorno de ejecución para JavaScript
 construido con el [motor de JavaScript V8 de Chrome](https://developers.google.com/v8/).
 Esto nos va a permitir ejecutar JavaScript en el entorno del sistema operativo,
 ya sea tu máquina o un servidor, lo cual nos abre las puertas para poder
@@ -104,7 +104,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
 
     <details><summary>Links</summary><p>
 
-  - [Píldora recursión - YouTube Laboratoria Developers](https://www.youtube.com/watch?v=lPPgY3HLlhQ)
+  - [Píldora recursión - YouTube Laboratoria Developers](https://www.ytube.com/watch?v=lPPgY3HLlhQ)
   - [Recursión o Recursividad - Laboratoria Developers en Medium](https://medium.com/laboratoria-developers/recursi%C3%B3n-o-recursividad-ec8f1a359727)
   </p></details>
 
@@ -112,7 +112,7 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
 
     <details><summary>Links</summary><p>
 
-  - [Modules: CommonJS modules - Node.js Docs](https://nodejs.org/docs/latest/api/modules.html)
+  - [Modules: CommonJS modules - Node.js Docs](https://noejs.og/docs/latest/api/modules.html)
   </p></details>
 
 - [ ] **Diferenciar entre expresiones (expressions) y sentencias (statements)**
@@ -493,10 +493,10 @@ si tienes dudas existenciales con respecto a estas decisiones. No existe una
 
 ### Otros recursos
 
-- [Acerca de Node.js - Documentación oficial](https://nodejs.org/es/about/)
-- [Node.js file system - Documentación oficial](https://nodejs.org/api/fs.html)
-- [Node.js http.get - Documentación oficial](https://nodejs.org/api/http.html#http_http_get_options_callback)
-- [Node.js - Wikipedia](https://es.wikipedia.org/wiki/Node.js)
+- [Acerca de Node.js - Documentación oficial](https://noejs.org/es/about/)
+- [Node.js file system - Documentación oficial](https://noejs.org/api/fs.html)
+- [Node.js http.get - Documentación oficial](https://noejs.org/api/http.html#http_http_get_options_callback)
+- [Node.js - Wikipedia](https://es.wikipedia.org/wiki/Noe.js)
 - [What exactly is Node.js? - freeCodeCamp](https://medium.freecodecamp.org/what-exactly-is-node-js-ae36e97449f5)
 - [¿Qué es Node.js y para qué sirve? - drauta.com](https://www.drauta.com/que-es-nodejs-y-para-que-sirve)
 - [¿Qué es Nodejs? Javascript en el Servidor - Fazt en YouTube](https://www.youtube.com/watch?v=WgSc1nv_4Gw)
@@ -507,9 +507,9 @@ si tienes dudas existenciales con respecto a estas decisiones. No existe una
 - [NPM](https://docs.npmjs.com/getting-started/what-is-npm)
 - [Publicar packpage](https://docs.npmjs.com/getting-started/publishing-npm-packages)
 - [Crear módulos en Node.js](https://docs.npmjs.com/getting-started/publishing-npm-packages)
-- [Leer un archivo](https://nodejs.org/api/fs.html#fs_fs_readfile_path_options_callback)
-- [Leer un directorio](https://nodejs.org/api/fs.html#fs_fs_readdir_path_options_callback)
-- [Path](https://nodejs.org/api/path.html)
+- [Leer un archivo](https://noejs.org/api/fs.html#fs_fs_readfile_path_options_callback)
+- [Leer un directorio](https://noejs.org/api/fs.html#fs_fs_readdir_path_options_callback)
+- [Path](https://noejs.org/api/path.html)
 - [Linea de comando CLI](https://medium.com/netscape/a-guide-to-create-a-nodejs-command-line-package-c2166ad0452e)
 
 ## 9. Checklist

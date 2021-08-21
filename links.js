@@ -3,8 +3,8 @@ const fs = require('fs');
 const marked = require('marked');
 const { rejects } = require('assert');
 const { resolve } = require('dns');
-//const jsdom = require('jsdom');
-//const { JSDOM } = jsdom;
+const fetch = require('node-fetch')
+
 
 
 
@@ -25,13 +25,6 @@ const isFile = (rutaAbs) => {
     return readDir;
    } 
 
-
-
-//convertir un archivo md a un contenido  html   
-const mdToHTML = (contenido) => {
-    const textHtml = marked(contenido);
-    return textHtml;
-  };
 
 
 
@@ -59,13 +52,12 @@ const filesLinkMd =(rutaAbs)=> {
 
 //function para extraer los links dentro de los archivos  MD 
 
-const extractLink =(rutaAbs)=> new Promise((resolve, reject)=> {
+const extractLink =(rutaAbs)=> { 
+
     let objLinks=[];
     const dataPath=filesLinkMd(rutaAbs);
-    console.log(dataPath);
-
+    //console.log(dataPath);
     dataPath.forEach((mdRoute) =>{ 
-
     const fileContentArr = fs.readFileSync(mdRoute, 'utf-8');
 
     const regExLinks = /\[([\w\s\d.()]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#&_%~,.:-]+)\)/mg;
@@ -73,35 +65,65 @@ const extractLink =(rutaAbs)=> new Promise((resolve, reject)=> {
     const regExText = /\[.+?\]/g;
 
     const  linksArr = fileContentArr.match(regExLinks);
+
     console.log(linksArr);
 
     if (linksArr) {
-        linksArr.forEach((link)=> {
-            console.log("estoy aqui");
+          linksArr.forEach((link)=> {
+          console.log("estoy aqui");
           const txtHref = link.match(regExHref);
           const txtText = link.match(regExText);
-          objLinks.push({
-            route: mdRoute,
+          return ( objLinks.push({
             href: txtHref.join().slice(1, -1),
-            text: txtText.join().slice(1, -1)
-          });
+            text: txtText.join().slice(1, -1),
+            route: mdRoute
+          }));
+          //console.log(objLinks);
         });
-      }
-    });
-    resolve(objLinks);
-
-    if (!dataPath) {
-      reject({
-        error: 'la ruta no es valida'
-      });
+          
     }
-  });
-
-
     
+  });
+  return objLinks;
+};
+
+
+
 const  mor=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
 console.log(mor);
 
+//obtener el arreglo de links 
+/*const validateLink= (arrayLink)=>{ 
+  return new Promise ((resolve,reject)=>{ 
+
+    const objectData=extractLink(objectLink);
+    console.log(objectData);
+    const datalinks= e.map(link=>link.href);
 
 
-module.exports = extractLink;
+   });
+};*/
+
+
+//function validate 
+
+
+
+//console.log(validateLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//module.exports = extractLink;

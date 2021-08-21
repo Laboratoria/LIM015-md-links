@@ -2,7 +2,7 @@
 SECRET DOCTOR es una aplicación web que resultará útil tanto para el publico en general como para uso del personal médico. Debido a que nuestros usuarios tendran por primera vez la oportunidad de compartir los resultados de los examenes de sus pacientes de manera incognita, al enviar los resultados de los examenes  en lenguaje cifrado ya no correrán el riesgo que se divulgen con personas equivocadas.
 
 
-![alt text](imagenes/resultados.jpg)
+![alt text](imagenes/restados.jpg)
 
 ### Definición del Producto
 
