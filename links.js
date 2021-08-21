@@ -48,8 +48,6 @@ const filesLinkMd =(rutaAbs)=> {
 }
 
 
-
-
 //function para extraer los links dentro de los archivos  MD 
 
 const extractLink =(rutaAbs)=> { 
@@ -66,11 +64,11 @@ const extractLink =(rutaAbs)=> {
 
     const  linksArr = fileContentArr.match(regExLinks);
 
-    console.log(linksArr);
+    //console.log(linksArr);
 
     if (linksArr) {
           linksArr.forEach((link)=> {
-          console.log("estoy aqui");
+          //console.log("estoy aqui");
           const txtHref = link.match(regExHref);
           const txtText = link.match(regExText);
           return ( objLinks.push({
@@ -80,7 +78,10 @@ const extractLink =(rutaAbs)=> {
           }));
           //console.log(objLinks);
         });
-          
+    
+    }
+    else{
+      return "no existe ruta "
     }
     
   });
@@ -89,41 +90,52 @@ const extractLink =(rutaAbs)=> {
 
 
 
-const  mor=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
-console.log(mor);
-
 //obtener el arreglo de links 
-/*const validateLink= (arrayLink)=>{ 
-  return new Promise ((resolve,reject)=>{ 
 
-    const objectData=extractLink(objectLink);
-    console.log(objectData);
-    const datalinks= e.map(link=>link.href);
+const validateLink= (rutaAbs)=> {
+    const objectData=extractLink(rutaAbs);
+
+    objectData.forEach(link=>{
+
+     return fetch(link.href)
+     .then(element=>{
+      if(element.status >= 200 && element.status < 400) { 
+        const mystatus= element.status;
+        //console.log(mystatus);
+        const mymessage=element.statusText;
+       // console.log(mymessage);
+        const newObj = {
+          ...link,
+          status: mystatus,
+          message: mymessage,
+        };
+        return newObj;
+      }}
+      
+    ).then(result=>console.log(result))
+    .catch(()=> {
+      const mystatus=" code error: 404";
+      const mymessage= 'Fail';
+      const newObj = {
+        ...link,
+        status: mystatus,
+        message: mymessage,
+      };
+      return newObj;
+    }).catch(e=>console.log(e))
+       
+    });
 
 
-   });
-};*/
+    //const datalinks=objectData.map(link=>link.href);
 
+    //console.log(datalinks);
 
-//function validate 
+};
 
-
-
-//console.log(validateLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas"));
-
-
+const  mostrar=validateLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
+console.log(mostrar);
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-//module.exports = extractLink;
