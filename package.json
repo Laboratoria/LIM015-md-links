@@ -7,7 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prueba": "src/prueba.js"
+   
   },
   "repository": {
     "type": "git",

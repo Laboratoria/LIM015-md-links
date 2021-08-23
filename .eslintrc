@@ -2,7 +2,10 @@
     Si el valor puesto es 1 generaría un “warning” y un valor de 0 deshabilitaría la regla. */
 {
   "env": {
-    "node": true
+    "node": true,
+    "commonjs": true,
+    "es2021": true,
+    "jest": true
   },
   "parserOptions": {
     "ecmaVersion": 8,
@@ -28,6 +31,7 @@
     "object-curly-spacing": ["error", "always"],
     "eqeqeq": ["error", "always"], // require the use of === and !==
     "keyword-spacing": ["error", { "before": true }], // espacio entre caracteres y palabras reservadas.
-    "space-before-blocks": "error" // espacio entre () {}
+    "space-before-blocks": "error", // espacio entre () {}
+    "import/extensions": 0
   }
 }
