@@ -6,49 +6,62 @@ const { resolve } = require('dns');
 const fetch = require('node-fetch')
 
 
-
-
-
 // si existe ruta 
 const isFile = (rutaAbs) => {
     const fileExist = fs.statSync(rutaAbs).isFile();
     return fileExist;
 };
 
-  
-
+ 
 
 //abrir directorio
 
   const readDirectory=(ruta)=>{ 
       const readDir=fs.readdirSync(ruta,'utf8');
     return readDir;
-   } 
+} 
 
 
 
 
- //obtener los links de los archivos dentro de un directorio
+ //obtener los path  de los archivos dentro de un directorio
  
 const filesLinkMd =(rutaAbs)=> {
-       let arrayPaths =[];
-       let filesDirectory=readDirectory(rutaAbs);
-       filesDirectory.forEach (fileOrDirectory=> {
+
+let arrayPaths =[];
+
+if(isFile(rutaAbs) && path.extname(rutaAbs)==='.md'){
+  arrayPaths=rutaAbs;
+  return arrayPaths;
+}
+
+else if(fs.statSync(rutaAbs).isDirectory()) {
+
+  let filesDirectory=readDirectory(rutaAbs);
+  filesDirectory.forEach (fileOrDirectory=> {
+
         let pathJoin=path.join(rutaAbs,fileOrDirectory) ;
 
-        if(fs.statSync(pathJoin).isFile() && path.extname(pathJoin)==='.md') {
+        if(isFile(pathJoin) && path.extname(pathJoin)==='.md') {
             arrayPaths.push(pathJoin)
            
         } else if (fs.statSync(pathJoin).isDirectory()){
         arrayPaths =arrayPaths.concat(filesLinkMd(pathJoin));
             
-        }         
+        }       
     })
     return  arrayPaths;
+  }
+ 
+  else {
+  return "error , no existe archivo md";
+}
 }
 
 
-//function para extraer los links dentro de los archivos  MD 
+
+
+//function para extraer los links totales dentro de los archivos  MD 
 
 const extractLink =(rutaAbs)=> { 
 
@@ -90,12 +103,14 @@ const extractLink =(rutaAbs)=> {
 
 
 
-//obtener el arreglo de links 
+
+//obtener el arreglo de links con la opcion validate 
 
 const validateLink= (rutaAbs)=> {
     const objectData=extractLink(rutaAbs);
 
     objectData.forEach(link=>{
+      //console.log(link);
 
      return fetch(link.href)
      .then(element=>{
@@ -133,8 +148,13 @@ const validateLink= (rutaAbs)=> {
 
 };
 
-const  mostrar=validateLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
-console.log(mostrar);
+//const  mostrar=validateLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
+//console.log(mostrar);
+
+module.exports = validateLink;
+module.exports=extractLink;
+//module.exports=filesLinkMd;
+
 
 
 

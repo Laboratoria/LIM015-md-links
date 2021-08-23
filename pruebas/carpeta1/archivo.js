@@ -1,3 +1,44 @@
+
+/*
+//que siginifica los ...arr
+
+
+const array=[1,2,3,4];
+console.log(...array);
+
+
+const objeto={
+    primero:"uno",
+    segundo:"2",
+    tercero:[1,2,3]
+};
+
+//console.log(objeto);
+
+
+const nuevoObjeto={
+    ...array,
+    nuevo1: "policias",
+    nuevo2: [1,2,3]
+}
+
+//console.log(nuevoObjeto);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //promesas son un objeto que eventualmente vamos a resolver y eventualmente vamos a acceder 
 //ventajas : componibles 
 //eventualmente pueden resolver INMEDIATAMENNTE O EVENTUALMENTE  en un fututo 
@@ -50,11 +91,6 @@ delayed(7).then(x=>{
 
 
 
-
-
-
-
-
 const fileslinkMD = (rutaAbs) => {
 
     let mdFilesArray=[];
@@ -78,5 +114,5 @@ const fileslinkMD = (rutaAbs) => {
     return mdFilesArray;
 };
 
-
+*/
 

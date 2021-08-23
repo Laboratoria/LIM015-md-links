@@ -1,7 +1,7 @@
 module.exports = () => {
 }
-
-
+const getLinks = require('./links.js');
+const validateLink = require('./validate.js');
 const path = require('path');
 const  fs = require('fs');
 
@@ -48,8 +48,6 @@ function fileExists(ruta){
 */
 
 
-
-
  //recorrer un directorio los archivos dentro directorio 
 
  function readDirectory(ruta){ 
@@ -89,43 +87,6 @@ return new Promise ( resolve, reject)=> {
 
  console.log(mdLinks("function.js"));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- //let dir=readDirectory("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
-
- //console.log(dir);
-
- //obtener la extension del archivo 
-
- //console.log(()));
-
-//Hola Natalia, hay un metodo para ver la extension. Path.extname  puedes buscar
-
-//console.log(path.extname('D:\\PROGRAMACION\\LIM015-md-links\\data.txt'));
-
-//console.log(absolutePath("D:\\PROGRAMACION\\LIM015-md-links\\data.txt"));
-//console.log(convertedPath("function.js"));
-//console.log(fileExists("D:\\PROGRAMACION\\LIM015-md-links"));
-//console.log(readDirectory("D:\\PROGRAMACION\\LIM015-md-links"));
 
 
 
