@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch');
 // const marked = require('marked');
 
 /* valida si existe la ruta */
@@ -83,4 +84,69 @@ const extracProLinks = (route) => {
   return arrayProLinks;
 };
 
-console.log(extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos'));
+// const arrayLinks = extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos');
+
+/*
+const getStatusLinks = (arrayLinks) => {
+  const array = arrayLinks.map(elemento => {
+    const resultStatus = fetch(elemento.href)
+      .then((res) => {
+        const daatos1 = {
+          href: elemento.href,
+          text: elemento.text,
+          file: elemento.file,
+          status: res.status,
+          message: res.status >= 200 && res.status <= 399 ? 'Ok' : 'fail',
+        };
+        return (daatos1);
+      }).catch((error) => {
+        const daatos2 = {
+          href: elemento.href,
+          text: elemento.text,
+          file: elemento.file,
+          status: error,
+          message: 'fail',
+        };
+        return (daatos2);
+      });
+    return resultStatus;
+  });
+  return array;
+}; */
+
+const getStatusLinks = (arrayLinks) => {
+  const array = arrayLinks.map((elemento) => 
+    fetch(elemento.href)
+      .then((res) => {
+        const data = {
+          href: elemento.href,
+          text: elemento.text,
+          file: elemento.file,
+          status: res.status,
+          message: res.status >= 200 && res.status <= 399 ? 'Ok' : 'fail',
+        };
+        return data;
+      }).catch((error) => {
+        const data = {
+          href: elemento.href,
+          text: elemento.text,
+          file: elemento.file,
+          status: error,
+          message: 'fail',
+        };
+        return (data);
+      }));
+  return array;
+};
+
+const arrayLin = extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos');
+getStatusLinks(arrayLin).forEach((ele) => {
+  ele.then((resul) => {
+    console.log(resul);
+  });
+});
+
+// console.log();
+// fetch('https://www.section.io/engineering-etion/http-requests-nodejs/').then((res) => {
+//   console.log(res);
+// });
