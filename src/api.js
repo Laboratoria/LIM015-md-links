@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+// const marked = require('marked');
 
 /* valida si existe la ruta */
 const existsRoute = (route) => fs.existsSync(route);
@@ -25,35 +26,25 @@ console.log(routeValidation('./src/prueba'));
 
 /* valida si es un directorio */
 const isDirectory = (route) => fs.statSync(route).isDirectory();
-// console.log(isDirectory('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos\\file3.md'));
 
 /* valida si es un archivo */
 const isFile = (route) => fs.statSync(route).isFile();
-// console.log(isFile('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos\\file3.md'));
 
 /* valida si es un archivo .md */
 const isFileMd = (route) => path.extname(route);
-// console.log(isFileMd('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos\\file3.md'));
 
 /* lee archivos de un directorio */
 const readDirectory = (route) => fs.readdirSync(route);
-// console.log(readDirectory(convert));
 
 /* Despues de leer un directorio, el nombre de los archivos unirlo con su ruta */
 const joinFilewithPath = (route) => {
   return readDirectory(route).map((index) => path.join(route, index));
 };
 
-// const joinFilewithPath = (route) => {
-//   return readDirectory(route).length === 0 ? 'directorio vacio' : readDirectory(route).map((index) => path.join(route, index));
-// };
-// console.log(joinFilewithPath('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos\\directorio2'));
-
 /* leer un archivo .md */
-
 const readFile = (route) => fs.readFileSync(route).toString();
-console.log(readFile('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos\\file3.md'));
 
+/* Funcion para extraer cada arvhivo .md con su ruta */
 const extracPathFilesMd = (route) => {
   let arrayFilesMd = [];
   if (isFile(route) && (isFileMd(route) === '.md')) { // guarda en un array la ruta de archivos .md
@@ -62,13 +53,34 @@ const extracPathFilesMd = (route) => {
     joinFilewithPath(route).forEach((elemento) => {
       const newRouteWithFile = elemento;
       const saveRoutesNew = extracPathFilesMd(newRouteWithFile);
-      // arrayFilesMd.push(saveRoutesNew);
       arrayFilesMd = arrayFilesMd.concat(saveRoutesNew);
     });
-  } else {
-    console.log('no es un archivo .md o es un directorio vacio');
   }
   return arrayFilesMd;
 };
-  
-console.log(extracPathFilesMd('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos')); 
+
+const regexAll = /\[([\w\s\d.()]+)\]\((((ftp|http|https):\/\/)[\w\d\s./?=#&_%~,\-.:]+)\)/g;
+const regxText = /\[([\w\s\d.()]+)\]/g;
+const regexLink = /\((((ftp|http|https):\/\/)[\w\d\s./?=#&_%~,\-.:]+)\)/g ;
+
+/* Funcion para extraer cada link y mostrar sus propiedades */
+const extracProLinks = (route) => {
+  const arrayProLinks = [];
+  extracPathFilesMd(route).forEach( (file) => {
+    const readingFile = readFile(file);
+    const links = readingFile.match(regexAll);
+    if ( readingFile !== 0 && regexAll.test(readingFile) === true) {
+      links.forEach((link) => {
+        const propertiesLinks = {
+          href : link.match(regexLink).join().slice(1,-1),
+          text : link.match(regxText).join().slice(1,-1),
+          file : file,
+        };
+        arrayProLinks.push(propertiesLinks);
+      });
+    }
+  });
+  return arrayProLinks;
+};
+
+console.log(extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos'));

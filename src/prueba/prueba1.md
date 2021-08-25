@@ -1,4 +1,3 @@
-[Markdown](https://es.wikipedia.org/wiki/Markdown)
-[Node.js](https://nodejs.org/es/)
-[Moks](https://jestjs.io/es-ES/docs/manual-mocks)
-
+[Import Export](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/export)
+[Regex](https://regexr.com/)
+[Marked](https://github.com/markedjs/marked)

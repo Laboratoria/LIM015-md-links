@@ -1,0 +1,1 @@
+[npm Script](https://docs.npmjs.com/cli/v7/using-npm/scripts)
