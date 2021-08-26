@@ -5,25 +5,15 @@ const fetch = require('node-fetch');
 
 /* valida si existe la ruta */
 const existsRoute = (route) => fs.existsSync(route);
-console.log(existsRoute('C:\\Users\\bethz\\Documents\\Laboratoria'));
-console.log(existsRoute('./src/prueba'));
 
 /* valida si la ruta es absoluta */
-const isAbsolute = (route) => path.isAbsolute(route);
-console.log(isAbsolute('C:\\Users\\bethz\\Documents\\Laboratoria'));
-console.log( isAbsolute('./src/prueba'));
+// const isAbsolute = (route) => path.isAbsolute(route);
 
 /* convertir ruta relativa a absoluta */
-const convertAbsolute = (route) => path.resolve(route);
-// const convert = convertAbsolute('./src/prueba');
-console.log(convertAbsolute('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos'));
+// const convertAbsolute = (route) => path.resolve(route);
 
 /* valida si la tura es absoluta y la retorna, si es rrlativa la convierte a absoluta. */
-
-const routeValidation = (route) => {
-  return (path.isAbsolute(route)) === true ? route : path.resolve(route);
-};
-console.log(routeValidation('./src/prueba'));
+const routeValidation = (route) => (path.isAbsolute(route)) === true ? route : path.resolve(route);
 
 /* valida si es un directorio */
 const isDirectory = (route) => fs.statSync(route).isDirectory();
@@ -45,13 +35,14 @@ const joinFilewithPath = (route) => {
 /* leer un archivo .md */
 const readFile = (route) => fs.readFileSync(route).toString();
 
-/* Funcion para extraer cada arvhivo .md con su ruta */
+/* Funcion para extraer cada archivo .md con su ruta */
 const extracPathFilesMd = (route) => {
   let arrayFilesMd = [];
-  if (isFile(route) && (isFileMd(route) === '.md')) { // guarda en un array la ruta de archivos .md
-    arrayFilesMd.push(route);
-  } else if (isDirectory(route) && readDirectory(route).length !== 0) {
-    joinFilewithPath(route).forEach((elemento) => {
+  const pathAbsolute = routeValidation(route);
+  if (isFile(pathAbsolute) && (isFileMd(pathAbsolute) === '.md')) { // guarda en un array la ruta de archivos .md
+    arrayFilesMd.push(pathAbsolute);
+  } else if (isDirectory(pathAbsolute) && readDirectory(pathAbsolute).length !== 0) {
+    joinFilewithPath(pathAbsolute).forEach((elemento) => {
       const newRouteWithFile = elemento;
       const saveRoutesNew = extracPathFilesMd(newRouteWithFile);
       arrayFilesMd = arrayFilesMd.concat(saveRoutesNew);
@@ -59,6 +50,10 @@ const extracPathFilesMd = (route) => {
   }
   return arrayFilesMd;
 };
+
+// console.log(extracPathFilesMd('./src/prueba/directorio2'));
+
+// console.log(extracPathFilesMd('./src/prueba'));
 
 const regexAll = /\[([\w\s\d.()]+)\]\((((ftp|http|https):\/\/)[\w\d\s./?=#&_%~,\-.:]+)\)/g;
 const regxText = /\[([\w\s\d.()]+)\]/g;
@@ -84,35 +79,10 @@ const extracProLinks = (route) => {
   return arrayProLinks;
 };
 
-// const arrayLinks = extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos');
+console.log(extracProLinks('./src/prueba/directorio2'));
+// console.log(extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba'));
 
-/*
-const getStatusLinks = (arrayLinks) => {
-  const array = arrayLinks.map(elemento => {
-    const resultStatus = fetch(elemento.href)
-      .then((res) => {
-        const daatos1 = {
-          href: elemento.href,
-          text: elemento.text,
-          file: elemento.file,
-          status: res.status,
-          message: res.status >= 200 && res.status <= 399 ? 'Ok' : 'fail',
-        };
-        return (daatos1);
-      }).catch((error) => {
-        const daatos2 = {
-          href: elemento.href,
-          text: elemento.text,
-          file: elemento.file,
-          status: error,
-          message: 'fail',
-        };
-        return (daatos2);
-      });
-    return resultStatus;
-  });
-  return array;
-}; */
+// const arrayLinks = extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos');
 
 const getStatusLinks = (arrayLinks) => {
   const array = arrayLinks.map((elemento) => 
@@ -139,14 +109,25 @@ const getStatusLinks = (arrayLinks) => {
   return array;
 };
 
-const arrayLin = extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos');
-getStatusLinks(arrayLin).forEach((ele) => {
-  ele.then((resul) => {
-    console.log(resul);
-  });
-});
-
-// console.log();
-// fetch('https://www.section.io/engineering-etion/http-requests-nodejs/').then((res) => {
-//   console.log(res);
+// const arrayLin = extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos');
+// getStatusLinks(arrayLin).forEach((ele) => {
+//   ele.then((resul) => {
+//     console.log(resul);
+//   });
 // });
+
+module.exports = {
+  existsRoute,
+  // isAbsolute,
+  // convertAbsolute,
+  routeValidation,
+  isDirectory,
+  isFile,
+  isFileMd,
+  readDirectory,
+  joinFilewithPath,
+  readFile,
+  extracPathFilesMd,
+  extracProLinks,
+  getStatusLinks
+};
