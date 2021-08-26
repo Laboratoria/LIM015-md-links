@@ -9,6 +9,7 @@ const fetch = require('node-fetch')
 // si existe ruta 
 const isFile = (rutaAbs) => {
     const fileExist = fs.statSync(rutaAbs).isFile();
+    //console.log({rutaAbs});
     return fileExist;
 };
 
@@ -60,59 +61,65 @@ else if(fs.statSync(rutaAbs).isDirectory()) {
 
 
 
-
 //function para extraer los links totales dentro de los archivos  MD 
 
+
+
 const extractLink =(rutaAbs)=> { 
+  let objLinks=[];
+  const dataPath=filesLinkMd(rutaAbs);
+  //console.log(dataPath);
+  dataPath.forEach((mdRoute) =>{ 
+  const fileContentArr = fs.readFileSync(mdRoute, 'utf-8');
 
-    let objLinks=[];
-    const dataPath=filesLinkMd(rutaAbs);
-    //console.log(dataPath);
-    dataPath.forEach((mdRoute) =>{ 
-    const fileContentArr = fs.readFileSync(mdRoute, 'utf-8');
+  const regExLinks = /\[([\w\s\d.()]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#&_%~,.:-]+)\)/mg;
+  const regExHref = /\((http|https).+?\)/g;
+  const regExText = /\[.+?\]/g;
 
-    const regExLinks = /\[([\w\s\d.()]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#&_%~,.:-]+)\)/mg;
-    const regExHref = /\((http|https).+?\)/g;
-    const regExText = /\[.+?\]/g;
-
-    const  linksArr = fileContentArr.match(regExLinks);
-
-    //console.log(linksArr);
-
-    if (linksArr) {
-          linksArr.forEach((link)=> {
-          //console.log("estoy aqui");
-          const txtHref = link.match(regExHref);
-          const txtText = link.match(regExText);
-          return ( objLinks.push({
-            href: txtHref.join().slice(1, -1),
-            text: txtText.join().slice(1, -1),
-            route: mdRoute
-          }));
-          //console.log(objLinks);
-        });
-    
-    }
-    else{
-      return "no existe ruta "
-    }
-    
-  });
-  return objLinks;
+  const  linksArr = fileContentArr.match(regExLinks);
+  
+  //console.log(linksArr);
+  
+  if (linksArr) {
+        linksArr.forEach((link)=> {
+        //console.log("estoy aqui");
+        const txtHref = link.match(regExHref);
+        const txtText = link.match(regExText);
+        return ( objLinks.push({
+          href: txtHref.join().slice(1, -1),
+          text: txtText.join().slice(1, -1),
+          route: mdRoute
+        }));
+        //console.log(objLinks);
+      });
+  
+  }
+  else{
+    return "no existe ruta "
+  }
+  
+});
+return objLinks;
 };
-
 
 
 
 //obtener el arreglo de links con la opcion validate 
 
-const validateLink= (rutaAbs)=> {
-    const objectData=extractLink(rutaAbs);
 
-    objectData.forEach(link=>{
-      //console.log(link);
+const linkValidate=(objectData)=>{
+  return new Promise ((resolve ,reject)=>{
+  const statuslinks=objectData.map(link=>validateLink(link));
+    resolve(Promise.all(statuslinks))
+    //resolve("estoy en linkvalidate");
 
-     return fetch(link.href)
+  });
+}
+
+
+const validateLink= (link)=> {
+  return new Promise ((resolve,reject)=>{
+      fetch(link.href)
      .then(element=>{
       if(element.status >= 200 && element.status < 400) { 
         const mystatus= element.status;
@@ -124,10 +131,12 @@ const validateLink= (rutaAbs)=> {
           status: mystatus,
           message: mymessage,
         };
-        return newObj;
-      }}
-      
-    ).then(result=>console.log(result))
+        //console.log(newObj);
+        resolve (newObj);
+      }
+       }
+
+      ).then(element=> resolve(element))
     .catch(()=> {
       const mystatus=" code error: 404";
       const mymessage= 'Fail';
@@ -136,26 +145,21 @@ const validateLink= (rutaAbs)=> {
         status: mystatus,
         message: mymessage,
       };
-      return newObj;
-    }).catch(e=>console.log(e))
-       
+      resolve (newObj);
     });
+  });
+ };
 
 
-    //const datalinks=objectData.map(link=>link.href);
-
-    //console.log(datalinks);
-
-};
-
-//const  mostrar=validateLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
-//console.log(mostrar);
-
-module.exports = validateLink;
-module.exports=extractLink;
-//module.exports=filesLinkMd;
+ 
 
 
+//const objectData=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
+//console.log(objectData);
+
+//linkValidate(objectData).then(result=>console.log(result)).catch(error=>console.log(error));
+
+module.exports = {linkValidate,extractLink};
 
 
 

@@ -1,5 +1,5 @@
 
-/*
+/*/*
 //que siginifica los ...arr
 
 
@@ -28,6 +28,20 @@ const nuevoObjeto={
 
 
 
+//const usersArg=process.argv.slice(2);
+//console.log(usersArg,49);
+
+/*
+if(usersArg.length===1){
+    mdlinks(usersArg[0],{validate:false}).then(result=>console.log(result));
+
+    console.log("*******************************************************")
+}else{
+    mdlinks(usersArg[0],{validate:true}).then(result=>console.log(result));
+    console.log("--------------------------------------------------------------")
+}
+
+*/
 
 
 
@@ -38,6 +52,7 @@ const nuevoObjeto={
 
 
 
+/*
 
 //promesas son un objeto que eventualmente vamos a resolver y eventualmente vamos a acceder 
 //ventajas : componibles 
@@ -115,4 +130,149 @@ const fileslinkMD = (rutaAbs) => {
 };
 
 */
+
+/*
+
+
+const extractLink =(rutaAbs)=> { 
+
+    let objLinks=[];
+    const dataPath=filesLinkMd(rutaAbs);
+    //console.log(dataPath);
+    dataPath.forEach((mdRoute) =>{ 
+    const fileContentArr = fs.readFileSync(mdRoute, 'utf-8');
+
+    const regExLinks = /\[([\w\s\d.()]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#&_%~,.:-]+)\)/mg;
+    const regExHref = /\((http|https).+?\)/g;
+    const regExText = /\[.+?\]/g;
+
+    const  linksArr = fileContentArr.match(regExLinks);
+
+    
+    //console.log(linksArr);
+    
+
+    if (linksArr) {
+          linksArr.forEach((link)=> {
+          //console.log("estoy aqui");
+          const txtHref = link.match(regExHref);
+          const txtText = link.match(regExText);
+          return ( objLinks.push({
+            href: txtHref.join().slice(1, -1),
+            text: txtText.join().slice(1, -1),
+            route: mdRoute
+          }));
+          //console.log(objLinks);
+        });
+    
+    }
+    else{
+      return "no existe ruta "
+    }
+    
+  });
+  return objLinks;
+};
+
+
+
+//obtener el arreglo de links con la opcion validate 
+
+const validateLink= (rutaAbs)=> {
+    const objectData=extractLink(rutaAbs);
+
+    objectData.forEach(link=>{
+      //console.log(link);
+
+     return fetch(link.href)
+     .then(element=>{
+      if(element.status >= 200 && element.status < 400) { 
+        const mystatus= element.status;
+        //console.log(mystatus);
+        const mymessage=element.statusText;
+       // console.log(mymessage);
+        const newObj = {
+          ...link,
+          status: mystatus,
+          message: mymessage,
+        };
+        return newObj;
+      }}
+      
+    ).then(result=>console.log(result))
+    .catch(()=> {
+      const mystatus=" code error: 404";
+      const mymessage= 'Fail';
+      const newObj = {
+        ...link,
+        status: mystatus,
+        message: mymessage,
+      };
+      return newObj;
+    }).catch(e=>console.log(e))
+       
+    });
+
+
+    //const datalinks=objectData.map(link=>link.href);
+
+    //console.log(datalinks);
+
+};
+
+const  mostrar=validateLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
+//console.log(mostrar);
+
+module.exports = validateLink;
+module.exports=extractLink;
+//module.exports=filesLinkMd;
+*/
+
+
+
+/* funcion validate  funcion.js
+
+const validateLink= (objectData)=> {
+
+  return new Promise ((resolve,reject)=>{
+
+    objectData.forEach(link=>{
+            //console.log(link);
+      fetch(link.href)
+     .then(element=>{
+      if(element.status >= 200 && element.status < 400) { 
+        const mystatus= element.status;
+        //console.log(mystatus);
+        const mymessage=element.statusText;
+       // console.log(mymessage);
+        const newObj = {
+          ...link,
+          status: mystatus,
+          message: mymessage,
+        };
+        console.log(newObj);
+        resolve (newObj);
+      }
+       }
+
+      ).then(element=> resolve(element))
+    .catch(()=> {
+      const mystatus=" code error: 404";
+      const mymessage= 'Fail';
+      const newObj = {
+        ...link,
+        status: mystatus,
+        message: mymessage,
+      };
+      resolve (newObj);
+    });
+  });
+ 
+})
+};
+*/
+
+
+
+
 

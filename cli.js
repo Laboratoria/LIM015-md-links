@@ -1,98 +1,22 @@
-module.exports = () => {
-}
-const getLinks = require('./links.js');
-const validateLink = require('./validate.js');
-const path = require('path');
-const  fs = require('fs');
+//#!/usr/bin/env node
+
+const mdLinks = require('./mdLinks.js');
+
+const process = require('process');
+
+//const usersArg=process.argv.slice(2);
 
 
-//evaluar si la ruta es absoluta o relatuiva 
+const path=process.argv;
 
-function absolutePath(ruta){
-
-const resultPath=path.isAbsolute(ruta);
-  return  resultPath;
-
-}
-
-//convertir mi ruta relativa absoluta 
-
-function convertedPath(ruta){
-
-  const convertedpath=path.resolve(ruta);
-    return  convertedpath;
-}
+console.log(process.argv);
 
 
-// saber si es un archivo o directorio 
-
-/*
-function fileExists(ruta){ 
-
-  try { 
-      if(fs.statSync(ruta).isFile()) {
-        return "es archivo";
-       }
-        
-      else if  (fs.statSync(ruta).isDirectory()) {
-        return "es directorio";
-       }
-       
-    } 
-    catch (err)
-    {
-        return "no existe";
-    }    
-     
-      }
-*/
-
-
- //recorrer un directorio los archivos dentro directorio 
-
- function readDirectory(ruta){ 
-  
-  let readDir=fs.readdirSync(ruta);
-  return readDir;
- } 
- 
-
-
-
- // evualuando   y juntando todas las funciones 
-
- /*const mdLinks=(ruta,options={}) => {
-
-   let arrayLinks;
-
-   if (absolutePath(ruta)) {
-     return arrayLinks=ruta;
-      
-   } else {
-    arrayLinks=convertedPath(ruta);
-   };
-
-return new Promise ( resolve, reject)=> {
-  if(options.validate){
-    
-  }
-}
-
- }
- */
+//$ md-links ./some/example.md --stats --validate
+//   0  1        2                3        4   
 
 
 
 
 
- console.log(mdLinks("function.js"));
-
-
-
-
-
-
-
-console.log(getDirectory("D:\\PROGRAMACION\\LIM015-md-links\\pruebas"));
-
-
+//mdlinks("D:\\PROGRAMACION\\LIM015-md-links\\pruebas",{ statAndValid: true }).then(result=>console.log(result)).catch(error=>console.log(error));
