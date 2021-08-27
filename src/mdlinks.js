@@ -24,3 +24,8 @@ const mdLinks = (path , options = {}) =>
 // resultado.then((resul) => {
 //   console.log(resul);
 // });
+
+// const resultado = mdLinks('./src/prueba/directorio');
+// console.log(resultado);
+
+module.exports = { mdLinks };
