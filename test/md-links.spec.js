@@ -6,7 +6,9 @@ const { existsRoute,
   joinFilewithPath, 
   readFile, 
   extracPathFilesMd,
-  extracProLinks } = require('../src/api.js');
+  extracProLinks,
+  getStatusLinks
+} = require('../src/api.js');
 
 describe('Validar si la ruta', () => {
   it('Debe retornar true si la ruta existe', () => {
@@ -99,5 +101,53 @@ describe('extrae href, texto y ruta', () => {
       }
     ]; 
     expect(extracProLinks('./src/prueba/directorio2')).toEqual(output);
+  });
+});
+
+describe('extrae los links y muestra sus status y propiedades', () => {  
+  it('Debe extraer href, texto, ruta estatus: ok y mensaje', () => {   
+    const input = [
+      {
+        href: 'https://jestjs.io/es-ES/docs/manual-mocks',
+        text: 'Moks',
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file5.md'
+      }     
+    ];
+
+    const output = [
+      {
+        href: 'https://jestjs.io/es-ES/docs/manual-mocks',
+        text: 'Moks',
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file5.md',      
+        status: 200,
+        message: 'Ok'
+      }
+    ];    
+    return expect(getStatusLinks(input)).resolves.toEqual(output);
+  });
+
+  it('Debe extraer href, texto, ruta estatus: fail y mensaje', () => {   
+    const input = [
+      {
+        href: '://openclassrooms.com/en/courses/4309531-descubre-las-funciones-en-javascript/5108986-diferencia-entre-expresion-y-sentencia',
+        text: 'open ClassRooms',
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\fileFail2.md'   
+      }  
+    ];    
+
+    const output = [
+      {
+        href: '://openclassrooms.com/en/courses/4309531-descubre-las-funciones-en-javascript/5108986-diferencia-entre-expresion-y-sentencia',
+        text: 'open ClassRooms',
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\fileFail2.md',  
+        status: 'Error en la peticiòn TypeError: Only absolute URLs are supported',
+        message: 'fail'
+      }
+    ];    
+
+    return getStatusLinks(input).then(data => {
+      expect(data).toEqual(output);
+    });
+    // return expect(getStatusLinks(input)).resolves.toEqual(output);
   });
 });

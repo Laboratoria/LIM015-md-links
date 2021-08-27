@@ -13,7 +13,7 @@ const existsRoute = (route) => fs.existsSync(route);
 // const convertAbsolute = (route) => path.resolve(route);
 
 /* valida si la tura es absoluta y la retorna, si es rrlativa la convierte a absoluta. */
-const routeValidation = (route) => (path.isAbsolute(route)) === true ? route : path.resolve(route);
+const routeValidation = (route) => path.isAbsolute(route) ? route : path.resolve(route);
 
 /* valida si es un directorio */
 const isDirectory = (route) => fs.statSync(route).isDirectory();
@@ -51,10 +51,6 @@ const extracPathFilesMd = (route) => {
   return arrayFilesMd;
 };
 
-// console.log(extracPathFilesMd('./src/prueba/directorio2'));
-
-// console.log(extracPathFilesMd('./src/prueba'));
-
 const regexAll = /\[([\w\s\d.()]+)\]\((((ftp|http|https):\/\/)[\w\d\s./?=#&_%~,\-.:]+)\)/g;
 const regxText = /\[([\w\s\d.()]+)\]/g;
 const regexLink = /\((((ftp|http|https):\/\/)[\w\d\s./?=#&_%~,\-.:]+)\)/g ;
@@ -79,11 +75,6 @@ const extracProLinks = (route) => {
   return arrayProLinks;
 };
 
-console.log(extracProLinks('./src/prueba/directorio2'));
-// console.log(extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba'));
-
-// const arrayLinks = extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos');
-
 const getStatusLinks = (arrayLinks) => {
   const array = arrayLinks.map((elemento) => 
     fetch(elemento.href)
@@ -101,25 +92,16 @@ const getStatusLinks = (arrayLinks) => {
           href: elemento.href,
           text: elemento.text,
           file: elemento.file,
-          status: error,
+          status: 'Error en la peticiòn ' + error,
           message: 'fail',
         };
         return (data);
       }));
-  return array;
+  return Promise.all(array);
 };
-
-// const arrayLin = extracProLinks('C:\\Users\\bethz\\Documents\\Laboratoria\\archivos');
-// getStatusLinks(arrayLin).forEach((ele) => {
-//   ele.then((resul) => {
-//     console.log(resul);
-//   });
-// });
 
 module.exports = {
   existsRoute,
-  // isAbsolute,
-  // convertAbsolute,
   routeValidation,
   isDirectory,
   isFile,
