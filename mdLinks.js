@@ -54,8 +54,6 @@ const mdlinks=(path,options= { })=>{
 
 
 
-module.exports ={ mdlinks};
-
 
 //mdlinks("D:\\PROGRAMACION\\LIM015-md-links\\pruebas").then(result=>console.log({result}));
 
@@ -64,3 +62,7 @@ module.exports ={ mdlinks};
 //mdlinks("D:\\PROGRAMACION\\LIM015-md-links\\pruebas",{ stats: true }).then(result=>console.log(result)).catch(error=>console.log(error));
 
 //mdlinks("D:\\PROGRAMACION\\LIM015-md-links\\pruebas",{ statAndValid: true }).then(result=>console.log(result)).catch(error=>console.log(error));
+
+
+
+module.exports = {mdlinks};
