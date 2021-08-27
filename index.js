@@ -4,7 +4,7 @@ const {
   existeRuta,
   buscarArchivosMd,
   validarLinks,
-  obtenerArchivosMDConSusLinks,
+  buscarLinksEnArchivo,
 } = require("./src/funciones");
 
 //const { yellow } = require("chalk");
@@ -23,18 +23,14 @@ function procesoVerificacion(ruta) {
   }
 
   let archivosMD = buscarArchivosMd(rutaFinal);
-
-  let arrayArchivosMd = obtenerArchivosMDConSusLinks(archivosMD);
-
-  for (let i = 0; i < arrayArchivosMd.length; i++) {
-    let archivoMd = arrayArchivosMd[i];
-
-    for (let j = 0; j < archivoMd.links.length; j++) {
-      let link = archivoMd.links[j];
-      console.log(link.link);
-      validarLinks(link.link);
-    }
-  }
+  let arrayLinks = buscarLinksEnArchivo(archivosMD);
+  //si no te piden validar devuelve arrayLinks dentro de una promesa
+  //si te piden validar devuelve el valor del metodo validarLinks
+  arrayLinks = validarLinks(arrayLinks);
+  
+  Promise.all(arrayLinks).then(values => {
+    console.log(values, 31);
+  });
 }
 
 procesoVerificacion(ruta);

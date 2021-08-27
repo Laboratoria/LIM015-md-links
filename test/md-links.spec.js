@@ -124,15 +124,15 @@ const {
 // });
   });
 
-  describe('obtenerArchivosMDConSusLinks', () => {
+  // describe('obtenerArchivosMDConSusLinks', () => {
 
-    it('Es una funcion', () => {
+  //   it('Es una funcion', () => {
      
-    expect(typeof obtenerArchivosMDConSusLinks).toBe('function');
+  //   expect(typeof obtenerArchivosMDConSusLinks).toBe('function');
 
-  });
+  // });
 
-  });
+  // });
 
 
 
