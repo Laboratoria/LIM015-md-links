@@ -8,17 +8,21 @@ const path = require('path');
 const  fs = require('fs');
 
 
+//evaluar que tipo de ruta es 
 
 const evaluatePath = (ruta) => {
     const typePath = path.isAbsolute(ruta);
     return typePath;
 };
 
+//transformar a ruta absoluta 
 const transformToAbsPath = (ruta) => {
-    const pathAbsolute = path.resolve(ruta).split();
-    return pathAbsolute[0];
+    const pathAbsolute = path.resolve(ruta);
+    return pathAbsolute;
     
 };
+
+
 
 
 const mdlinks=(path,options= { })=>{
@@ -29,13 +33,15 @@ const mdlinks=(path,options= { })=>{
         pathAbs=path;
     } else{
         pathAbs=transformToAbsPath(path);
+        
     }
+    //console.log(pathAbs);
+    
     //extraer los links validados 
     return new Promise((resolve,reject)=>{
 
       if(options && options.validate===true){
-          console.log("validacion");
-          //const objectData= [{href: 'https://es.wikipedia.org/wiki/Markdown', text: 'Markdown', route: 'D:\PROGRAMACION\LIM015-md-links\pruebas\carpeta1\carpeta1.md'}]
+        console.log("validacion");
         const objectData=extractLink(pathAbs);
         //console.log(objectData);
         linkValidate(objectData).then(result=>console.log(result)).catch(error=>console.log(error));
@@ -49,20 +55,28 @@ const mdlinks=(path,options= { })=>{
         console.log("sin validacion");
         resolve (extractLink(pathAbs));
       }
+      
 });
 };
 
 
+//D:\PROGRAMACION\LIM015-md-links\pruebas\carpeta2\carpeta2.md
+//D:\PROGRAMACION\LIM015-md-links\pruebas\carpeta2\carpeta2.md
 
 
-//mdlinks("D:\\PROGRAMACION\\LIM015-md-links\\pruebas").then(result=>console.log({result}));
+
+//mdlinks("pruebas\\carpeta2\\carpeta2.md").then(result=>console.log({result}));
+
+
+
+//ruta absoluta 
+
 
 //mdlinks("D:\\PROGRAMACION\\LIM015-md-links\\pruebas",{ validate: true }).then(result=>console.log(result)).catch(error=>console.log(error));
 
 //mdlinks("D:\\PROGRAMACION\\LIM015-md-links\\pruebas",{ stats: true }).then(result=>console.log(result)).catch(error=>console.log(error));
 
 //mdlinks("D:\\PROGRAMACION\\LIM015-md-links\\pruebas",{ statAndValid: true }).then(result=>console.log(result)).catch(error=>console.log(error));
-
 
 
 module.exports = {mdlinks};

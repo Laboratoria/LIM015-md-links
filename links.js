@@ -28,11 +28,12 @@ const isFile = (rutaAbs) => {
  //obtener los path  de los archivos dentro de un directorio
  
 const filesLinkMd =(rutaAbs)=> {
+  //console.log("aqui estoy");
 
 let arrayPaths =[];
 
 if(isFile(rutaAbs) && path.extname(rutaAbs)==='.md'){
-  arrayPaths=rutaAbs;
+  arrayPaths=[rutaAbs];
   return arrayPaths;
 }
 
@@ -44,13 +45,16 @@ else if(fs.statSync(rutaAbs).isDirectory()) {
         let pathJoin=path.join(rutaAbs,fileOrDirectory) ;
 
         if(isFile(pathJoin) && path.extname(pathJoin)==='.md') {
-            arrayPaths.push(pathJoin)
+
+            arrayPaths.push(pathJoin);
+            
            
         } else if (fs.statSync(pathJoin).isDirectory()){
         arrayPaths =arrayPaths.concat(filesLinkMd(pathJoin));
             
         }       
     })
+    //console.log(arrayPaths);
     return  arrayPaths;
   }
  
@@ -154,8 +158,12 @@ const validateLink= (link)=> {
  
 
 
-//const objectData=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
+//const objectData=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas\\carpeta2\\carpeta2.md");
+
+//const objectData=filesLinkMd("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
 //console.log(objectData);
+
+
 
 //linkValidate(objectData).then(result=>console.log(result)).catch(error=>console.log(error));
 
