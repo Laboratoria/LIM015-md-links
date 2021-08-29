@@ -1,15 +1,15 @@
 const functions = require ('./api.js');
- 
+
 const mdLinks = (path , options = {}) => 
   new Promise ((resolve, reject) => {
     if (!functions.existsRoute(path)) {
       reject('ruta no existe');
     } else {      
       const showObject = functions.extracProLinks(path);
-      if (options.validate === false) {        
+      if (!(options.validate)) {        
         resolve(showObject);
       } 
-      else if (options.validate === true) {
+      else {
         const statusLinks = functions.getStatusLinks(showObject);
         statusLinks.then((resul) => resolve(resul));
       }
@@ -29,3 +29,21 @@ const mdLinks = (path , options = {}) =>
 // console.log(resultado);
 
 module.exports = { mdLinks };
+
+/* *******************************************************************************************************
+const mdLinks = (path , options = {}) => 
+  new Promise ((resolve, reject) => {
+    if (!functions.existsRoute(path)) {
+      reject('ruta no existe');
+    } else {      
+      const showObject = functions.extracProLinks(path);
+      if (options.validate === false) {        
+        resolve(showObject);
+      } 
+      else if (options.validate === true) {
+        const statusLinks = functions.getStatusLinks(showObject);
+        statusLinks.then((resul) => resolve(resul));
+      }
+    }
+
+  }); */

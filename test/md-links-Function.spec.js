@@ -80,9 +80,12 @@ describe('extrae en un array rutas de archivos .md', () => {
   it('Debe un array con rutas de archivos .md', () => {   
     const output = [
       'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file5.md',
-      'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file6.md'
+      'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file6.md',
+      'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\file.md',
+      'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\fileFail.md',
+      'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\prueba1.md'
     ]; 
-    expect(extracPathFilesMd('./src/prueba/directorio2')).toEqual(output);
+    expect(extracPathFilesMd('./src/prueba')).toEqual(output);
   });
 });
 
@@ -110,40 +113,70 @@ describe('extrae los links y muestra sus status y propiedades', () => {
       {
         href: 'https://jestjs.io/es-ES/docs/manual-mocks',
         text: 'Moks',
-        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file5.md'
-      }     
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file5.md'       
+      }
     ];
 
     const output = [
       {
         href: 'https://jestjs.io/es-ES/docs/manual-mocks',
         text: 'Moks',
-        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file5.md',      
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file5.md',
         status: 200,
-        message: 'Ok'
+        message: 'OK'
       }
-    ];    
+    ];
     return expect(getStatusLinks(input)).resolves.toEqual(output);
+
+    // return getStatusLinks(input).then(data => {
+    //   expect(data).toEqual(output);
+    // });
   });
 
-  it('Debe extraer href, texto, ruta estatus: fail y mensaje', () => {   
+  it('Debe extraer href, texto, ruta estatus: fail y status diferente de 200', () => {   
     const input = [
       {
-        href: '://openclassrooms.com/en/courses/4309531-descubre-las-funciones-en-javascript/5108986-diferencia-entre-expresion-y-sentencia',
-        text: 'open ClassRooms',
-        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\fileFail2.md'   
-      }  
-    ];    
+        href: 'https://www.figma.com/blog/1',
+        text: 'figma',
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\fileFail.md'
+      }
+    ];
 
     const output = [
       {
-        href: '://openclassrooms.com/en/courses/4309531-descubre-las-funciones-en-javascript/5108986-diferencia-entre-expresion-y-sentencia',
-        text: 'open ClassRooms',
-        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\fileFail2.md',  
+        href: 'https://www.figma.com/blog/1',
+        text: 'figma',
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\fileFail.md',
+        status: 404,
+        message: 'fail'
+      }
+    ];
+    return expect(getStatusLinks(input)).resolves.toEqual(output);
+
+    // return getStatusLinks(input).then(data => {
+    //   expect(data).toEqual(output);
+    // });
+  });
+  
+  it('Debe extraer href, texto, ruta estatus: fail y mensaje de error', () => {   
+
+    const input = [
+      {
+        href: '://www.figma.com/blog/1',
+        text: 'figma',
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\fileFail.md'
+      }
+    ];
+
+    const output = [
+      {
+        href: '://www.figma.com/blog/1',
+        text: 'figma',
+        file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\fileFail.md',
         status: 'Error en la peticiòn TypeError: Only absolute URLs are supported',
         message: 'fail'
       }
-    ];    
+    ];
 
     return getStatusLinks(input).then(data => {
       expect(data).toEqual(output);

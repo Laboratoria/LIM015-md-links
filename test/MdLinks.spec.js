@@ -17,21 +17,21 @@ describe('test mdlinks', () => {
     return expect(mdLinks('./src/prueba/directorio2', { validate: false })).resolves.toEqual(output);
   });
 
-  it('si es true, deberia retornar un array con sus 5 propiedades.', () => {   
+  it('si es true, deberia retornar un array con sus 5 propiedades y mensaje ok, staus 200.', () => {   
     const output = [
       {
         href: 'https://jestjs.io/es-ES/docs/manual-mocks',
         text: 'Moks',
         file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file5.md',
         status: 200,
-        message: 'Ok'
+        message: 'OK'
       },
       {
         href: 'https://es.wikipedia.org/wiki/Markdown',
         text: 'Markdown',
         file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\directorio2\\file6.md',
         status: 200,
-        message: 'Ok'
+        message: 'OK'
       }
     ];    
     return expect(mdLinks('./src/prueba/directorio2', { validate: true })).resolves.toEqual(output);
@@ -39,8 +39,6 @@ describe('test mdlinks', () => {
 
   test('si la ruta no existe debe devolver el mensaje de error.', () => {
     const error  = 'ruta no existe';
-    return mdLinks('./src/prueba/directori', { validate: true }).catch((err) => {
-      expect(err).toEqual(error);
-    });
+    return expect(mdLinks('./src/prueba/directo')).rejects.toEqual(error);
   });
 });

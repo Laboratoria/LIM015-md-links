@@ -61,7 +61,7 @@ const extracProLinks = (route) => {
   extracPathFilesMd(route).forEach( (file) => {
     const readingFile = readFile(file);
     const links = readingFile.match(regexAll);
-    if ( readingFile !== 0 && regexAll.test(readingFile) === true) {
+    if ( readingFile.length !== 0 && regexAll.test(readingFile) === true) {
       links.forEach((link) => {
         const propertiesLinks = {
           href : link.match(regexLink).join().slice(1,-1),
@@ -75,6 +75,9 @@ const extracProLinks = (route) => {
   return arrayProLinks;
 };
 
+// const input = (extracProLinks('./src/prueba/fileFail.md'));
+// console.log(input);
+
 const getStatusLinks = (arrayLinks) => {
   const array = arrayLinks.map((elemento) => 
     fetch(elemento.href)
@@ -84,7 +87,7 @@ const getStatusLinks = (arrayLinks) => {
           text: elemento.text,
           file: elemento.file,
           status: res.status,
-          message: res.status >= 200 && res.status <= 399 ? 'Ok' : 'fail',
+          message: res.status >= 200 && res.status <= 399 ? 'OK' : 'fail',
         };
         return data;
       }).catch((error) => {
@@ -99,6 +102,13 @@ const getStatusLinks = (arrayLinks) => {
       }));
   return Promise.all(array);
 };
+
+const input = (extracProLinks('./src/prueba/fileFail.md'));
+// // console.log(input);
+const promiseOut = (getStatusLinks(input));
+// // // console.log(promiseOut);
+
+promiseOut.then( res => console.log(res));
 
 module.exports = {
   existsRoute,
