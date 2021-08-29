@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "md-links": "./cli.js"
+    "md-links": "./src/cli.js"
   },
   "repository": {
     "type": "git",

@@ -44,7 +44,7 @@ mdlinks(path,options).then(result=>console.log(result));
 
 
 
-//console.log("estas en cli");
+console.log("estas en cli");
 
 
 //mdlinks("pruebas\\general.md").then(result=>console.log({result}));
