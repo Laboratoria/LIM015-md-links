@@ -103,12 +103,12 @@ const getStatusLinks = (arrayLinks) => {
   return Promise.all(array);
 };
 
-const input = (extracProLinks('./src/prueba/fileFail.md'));
-// // console.log(input);
-const promiseOut = (getStatusLinks(input));
-// // // console.log(promiseOut);
+// const input = (extracProLinks('./src/prueba/fileFail.md'));
+// // // console.log(input);
+// const promiseOut = (getStatusLinks(input));
+// // // // console.log(promiseOut);
 
-promiseOut.then( res => console.log(res));
+// promiseOut.then( res => console.log(res));
 
 module.exports = {
   existsRoute,
