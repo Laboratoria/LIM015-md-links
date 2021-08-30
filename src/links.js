@@ -1,6 +1,5 @@
 const  path = require('path');
 const fs = require('fs');
-const marked = require('marked');
 const { rejects } = require('assert');
 const { resolve } = require('dns');
 const fetch = require('node-fetch')
@@ -28,12 +27,12 @@ const isFile = (rutaAbs) => {
  //obtener los path  de los archivos dentro de un directorio
  
 const filesLinkMd =(rutaAbs)=> {
-  //console.log("aqui estoy");
-
+  
 let arrayPaths =[];
 
 if(isFile(rutaAbs) && path.extname(rutaAbs)==='.md'){
   arrayPaths=[rutaAbs];
+  //console.log(arrayPaths);
   return arrayPaths;
 }
 
@@ -111,6 +110,7 @@ return objLinks;
 //obtener el arreglo de links con la opcion validate 
 
 
+
 const linkValidate=(objectData)=>{
   return new Promise ((resolve ,reject)=>{
   const statuslinks=objectData.map(link=>validateLink(link));
@@ -158,12 +158,10 @@ const validateLink= (link)=> {
  
 
 
-//const objectData=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas\\carpeta2\\carpeta2.md");
 
+//const objectData=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas\\carpeta2\\carpeta2.md");
 //const objectData=filesLinkMd("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
 //console.log(objectData);
-
-
 
 //linkValidate(objectData).then(result=>console.log(result)).catch(error=>console.log(error));
 
