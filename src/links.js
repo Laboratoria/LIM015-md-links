@@ -96,9 +96,10 @@ const extractLink =(rutaAbs)=> {
         //console.log(objLinks);
       });
   
-  }
-  else{
-    return "no existe ruta "
+  }else if(linksArr===null || !linksArr ){
+    console.log("error:no se encontraron enlaces");
+    return "no existen links";
+    
   }
   
 });
@@ -113,9 +114,11 @@ return objLinks;
 
 const linkValidate=(objectData)=>{
   return new Promise ((resolve ,reject)=>{
+    //console.log(objectData);
   const statuslinks=objectData.map(link=>validateLink(link));
     resolve(Promise.all(statuslinks))
     //resolve("estoy en linkvalidate");
+    
 
   });
 }

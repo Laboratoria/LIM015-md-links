@@ -11,7 +11,6 @@ const process = require('process');
 //$ md-links ./some/example.md --validate
  //console.log(process.argv);
 
-/*
 const path=(process.argv[2]);
 
 
@@ -35,14 +34,13 @@ if(process.argv[3]==="--validate" && !process.argv[4]){
 //console.log(options);
 
 
-mdlinks(path,options).then(result=>console.log(result));
-
-*/
-
-console.log("estas en cli");
+mdlinks(path,options).then(result=>console.log(result)).catch(error=>console.log(error));
 
 
-//mdlinks("pruebas\\general.md").then(result=>console.log({result}));
+//console.log("estas en cli");
+
+
+//mdlinks("pruebas\\general2.md").then(result=>console.log({result}));
 
 
 //mdlinks("D:\\PROGRAMACION\\LIM015-md-links\\pruebas",{ validate: true }).then(result=>console.log(result)).catch(error=>console.log(error));

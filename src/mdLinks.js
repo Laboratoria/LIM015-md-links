@@ -5,6 +5,7 @@ const  {brokenlinks,totalUniquelinks}= require('./stat.js');
 
 //const filesLinkMd = require('./links.js');
 const path = require('path');
+const { log } = require('console');
 
 
 //evaluar que tipo de ruta es 
@@ -50,23 +51,28 @@ const mdlinks=(path,options= { })=>{
         resolve(totalUniquelinks(pathAbs));
 
       }else if(options.statAndValid===true){
-        brokenlinks(pathAbs).then(result=>console.log(result));
+        brokenlinks(pathAbs).then(result=>console.log(result)).catch(error=>console.log(error));
+
+      }else if((pathAbs===[])){
+        reject("NO EXISTE RUTA y/O NO HAY LINKS DENTRO DEL ARCHIVO MD")
       }else{
         console.log("sin validacion");
         resolve (extractLink(pathAbs));
+        
       }
       
 });
 };
 
 
-//D:\PROGRAMACION\LIM015-md-links\pruebas\carpeta2\carpeta2.md
-//D:\PROGRAMACION\LIM015-md-links\pruebas\carpeta2\carpeta2.md
 
+//D:\PROGRAMACION\LIM015-md-links\pruebas\carpeta2\carpeta2.md
+//D:\PROGRAMACION\LIM015-md-links\pruebas\carpeta2\carpeta2.md
 
 
 //mdlinks("pruebas\\carpeta2\\carpeta2.md").then(result=>console.log({result}));
 
+//mdlinks("pruebas\\general.md").then(result=>console.log({result})).catch(error=>console-log(error));
 
 
 //ruta absoluta 
