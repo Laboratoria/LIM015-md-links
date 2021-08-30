@@ -1,16 +1,9 @@
-const {
-  esRutaAbsoluta,
-  transformarRutaRelativa,
-  existeRuta,
-  buscarArchivosMd,
-  validarLinks,
-  buscarLinksEnArchivo,
-} = require("./src/funciones");
+
 
 //const { yellow } = require("chalk");
-const ruta = process.argv[2];
+//const ruta = process.argv[2];
 
-function procesoVerificacion(ruta) {
+/*function procesoVerificacion(ruta) {
   let rutaFinal = ruta;
   if (!esRutaAbsoluta(ruta)) {
     rutaFinal = transformarRutaRelativa(ruta);
@@ -27,10 +20,9 @@ function procesoVerificacion(ruta) {
   //si no te piden validar devuelve arrayLinks dentro de una promesa
   //si te piden validar devuelve el valor del metodo validarLinks
   arrayLinks = validarLinks(arrayLinks);
-  
-  Promise.all(arrayLinks).then(values => {
+
+  Promise.all(arrayLinks).then((values) => {
     console.log(values, 31);
   });
-}
+}*/
 
-procesoVerificacion(ruta);
