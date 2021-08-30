@@ -9,14 +9,12 @@ const {
 
 mdLinks = function (path, opts) {
   return new Promise((resolve, reject) => {
-    let rutaFinal = ruta;
-    if (!esRutaAbsoluta(ruta)) {
-      rutaFinal = transformarRutaRelativa(ruta);
-      console.log(rutaFinal);
+    let rutaFinal = path;
+    if (!esRutaAbsoluta(rutaFinal)) {
+      rutaFinal = transformarRutaRelativa(rutaFinal);
     }
 
     if (!existeRuta(rutaFinal)) {
-      console.log("La Ruta No Existe");
       reject("Path doesnt exists: + " + rutaFinal);
     }
 

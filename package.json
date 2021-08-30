@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Comprobacion de links",
   "main": "index.js",
+  "bin": {
+    "md-links": "./src/md-links.js"
+  },
   "directories": {
     "test": "test"
   },
