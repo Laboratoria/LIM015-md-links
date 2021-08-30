@@ -1,4 +1,30 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "Comprobacion de links",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --verbose --coverage"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elipinto23/LIM015-md-links.git"
+  },
+  "author": "Elizabeth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elipinto23/LIM015-md-links/issues"
+  },
+  "homepage": "https://github.com/Elipinto23/LIM015-md-links#readme",
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6"
+  }
 }
