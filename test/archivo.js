@@ -1,6 +1,5 @@
 
-const {extractLink}= require('../src/links.js');
-
+const {extractLink,linkValidate}= require('../src/links.js');
 
 
 //console.log(extractLink(`${process.cwd()}\\test\\pruebaTest\\carpeta2`));
@@ -9,12 +8,13 @@ const {extractLink}= require('../src/links.js');
 
 //const objectData=extractLink ("D:\\PROGRAMACION\\LIM015-md-links\\test\\pruebasTest\\carpeta1\\carpeta1.md");
 
-const objectData=extractLink(`${process.cwd()}\\test\\pruebasTest\\carpeta1\\carpeta1.md`);
+//const objectData=extractLink(`${process.cwd()}\\test\\pruebasTest\\carpeta1\\carpeta1.md`);
 
-console.log(objectData);
+//linkValidate(objectData).then(result=>console.log(result)).catch(error=>console.log(error))
 
-//console.log(`${process.cwd()}`);
 
-//console.log(__dirname);
-//console.log(`${process.cwd()}\\test\\pruebasTest\\carpeta2`);
+const {mdlinks} = require('../src/mdLinks.js');
 
+
+
+mdlinks("test\\pruebasTest\\carpeta1\\carpeta1.md",{ stats: true }).then(result=>console.log({result})).catch(error=>console-log(error));
