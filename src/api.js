@@ -1,25 +1,63 @@
 const fs = require('fs'); // Load the File System module
 const path = require('path'); // provides utilities for working with file and directory paths
 
-/* ***** Function validate path***** */
+/* ***** Function validate path ***** */
 const validatePath = (route) => fs.existsSync(route);
 
 /* ***** Function absolute path // make absolute Path ***** */
 const absolutePath = (route) => (path.isAbsolute(route) ? route : path.resolve(route));
 
-/* ***** Check If Directory(folder) exists***** */
-const directory = (dir) => (fs.existsSync(dir) ? dir : 'Directory not found.');
+/* ***** Check If Path its a Directory ***** */
+const pathIsDir = (route) => fs.statSync(route).isDirectory();
 
-/* ***** Read Directory(folder) exists***** */
+/* ***** Read Directory(folder) exists ***** */
 const readDir = (route) => fs.readdirSync(route);
+
+/* ***** Read File exists ***** */
+// read the file and turn it into a string
+const readFile = (route) => fs.readFileSync(route).toString();
+
+/* ***** Check if file is a MD file ***** */
+// eslint-disable-next-line no-unneeded-ternary
+// const mdValidation = (route) => (path.extname(route) === '.md' ? readFile(route) : false);
+const mdValidation = (route) => (path.extname(route) === '.md' ? [route] : []);
+
+/* ***** Search Links in a MD file ***** */
+const searchMdFile = (route) => {
+  if (pathIsDir(route)) {
+    const dirArray = readDir(route);
+    return dirArray.reduce((data, file) => {
+      const filesInDir = path.join(route, file);
+      // filesInDir.slice(false);
+      return data.concat(mdValidation(filesInDir));
+    }, []);
+  }
+  // it can't be tested, and  I don´t know why :c
+  return (mdValidation(route));
+};
 
 module.exports = {
   validatePath,
   absolutePath,
-  directory,
+  pathIsDir,
   readDir,
+  mdValidation,
+  readFile,
+  // statusPath,
+  // pathExists,
+  searchMdFile,
+  // mdFileLinks,
 };
 
-// fs.statSync(path) method returns the instance of fs.Stats
-// stats.isFile() returns true if file path is File, otherwise returns false.
-// stats.isDirectory() returns true if file path is Directory, otherwise returns false.
+// determines if a path is a file
+// fs.statSync(route).isFile()
+
+/* ***** Check If Path(directory or folder) exists ***** */
+// const pathExists = (route) => (fs.existsSync(route) ? route : 'Path not found.');
+
+// read a directory and make an array with files in it
+// const arrayDirFile = (route) => readDir(route).map((element) => path.join(route, element));
+
+/* ***** Function validate path ***** */
+// object provides information about a file.
+// const statusPath = (route) => fs.statSync(route);
