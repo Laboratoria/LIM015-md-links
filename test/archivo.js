@@ -22,3 +22,4 @@ mdlinks("test\\pruebasTest\\carpeta1\\carpeta1.md",{ stats: true }).then(result=
 
 
 console.log("nura rama 2");
+

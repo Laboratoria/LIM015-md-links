@@ -148,10 +148,11 @@ Broken: 1
 
 ## Guía de uso e instalación de la librería
 
-Módulo instalable via `npm install AlexisPescoran/md-links`. Este módulo incluye un ejecutable como una interfaz que se puede importar con `require`.
+Módulo instalable via `npm install md-links-nino`. Este módulo incluye un ejecutable como una interfaz que se puede importar con `require`.
+![npm](./img/npm-md.JPG)
 
 ```sh
-1.- En el terminal de tu proyecto: npm install AlexisPescoran/md-links
+1.- En el terminal de tu proyecto: npm install md-links-nino
 2.- Puedes hacer importarlo mediante require (ver los ejemplos de arriba para más detalle)
 ```
 
