@@ -1,1 +1,0 @@
-<a id="post-all" href='https://www.npmjs.com/package/link-check'>primero</a>

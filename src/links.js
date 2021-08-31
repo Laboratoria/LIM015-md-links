@@ -162,9 +162,15 @@ const validateLink= (link)=> {
 
 
 
-//const objectData=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\pruebas\\carpeta2\\carpeta2.md");
-//const objectData=filesLinkMd("D:\\PROGRAMACION\\LIM015-md-links\\pruebas");
+
+//const objectData=extractLink("D:\\PROGRAMACION\\LIM015-md-links\\test\\pruebasTest\\carpeta2");
+
+
+//const objectData=extractLink ("D:\\PROGRAMACION\\LIM015-md-links\\test\\pruebasTest\\carpeta1\\carpeta1.md");
+
 //console.log(objectData);
+
+//console.log(__dirname)
 
 //linkValidate(objectData).then(result=>console.log(result)).catch(error=>console.log(error));
 
