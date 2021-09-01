@@ -40,7 +40,7 @@ const totalAndUnique = (objLinks) => {
   //     return acum;
   //   }, []);  
   const linksUnique = [...new Set(objLinks.map((item) => item.href))];
-  return `Total: ${totalLinks}  \nUnique: ${linksUnique.length}`;
+  return `Total: ${totalLinks}\nUnique: ${linksUnique.length}`;
 };
   
 // console.log(totalAndUnique(input2));
