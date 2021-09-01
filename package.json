@@ -1,13 +1,14 @@
 {
-  "name": "lim015-md-links",
-  "version": "1.0.0",
+  "name": "ana-aguilera-lim015-md-links",
+  "version": "1.0.1",
   "description": "MD Links Project",
   "main": "index.js",
+  "bin": {"mdLinks":"./union"},
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,13 @@
   "homepage": "https://github.com/nanita462/LIM015-md-links#readme",
   "devDependencies": {
     "jest": "^27.0.6"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "colors": "^1.4.0",
+    "inquirer": "^8.1.2",
+    "marked": "^2.1.3",
+    "node-fetch": "^2.6.1",
+    "table": "^6.7.1"
   }
 }
