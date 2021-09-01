@@ -1,33 +1,33 @@
-const input2 = [
-  {
-    href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/export',
-    text: 'Import Export',
-    file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\prueba1.md',
-    status: 200,
-    message: 'OK'
-  },
-  {
-    href: 'https://regexr.com/',
-    text: 'Regex',
-    file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\prueba1.md',
-    status: 200,
-    message: 'OK'
-  },
-  {
-    href: 'https://regexr.com/',
-    text: 'Regex',
-    file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\prueba1.md',
-    status: 200,
-    message: 'OK'
-  },
-  {
-    href: 'https://www.figma.com/blog/1',
-    text: 'figma',
-    file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\prueba1.md',
-    status: 404,
-    message: 'fail'
-  }
-];
+// const input2 = [
+//   {
+//     href: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Statements/export',
+//     text: 'Import Export',
+//     file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\prueba1.md',
+//     status: 200,
+//     message: 'OK'
+//   },
+//   {
+//     href: 'https://regexr.com/',
+//     text: 'Regex',
+//     file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\prueba1.md',
+//     status: 200,
+//     message: 'OK'
+//   },
+//   {
+//     href: 'https://regexr.com/',
+//     text: 'Regex',
+//     file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\prueba1.md',
+//     status: 200,
+//     message: 'OK'
+//   },
+//   {
+//     href: 'https://www.figma.com/blog/1',
+//     text: 'figma',
+//     file: 'C:\\Users\\bethz\\Documents\\Laboratoria\\md-links\\LIM015-md-links\\src\\prueba\\prueba1.md',
+//     status: 404,
+//     message: 'fail'
+//   }
+// ];
   
 // const arrayLinks = (objLinks) => objLinks.map((item) => item.href);
   
@@ -43,7 +43,7 @@ const totalAndUnique = (objLinks) => {
   return `Total: ${totalLinks}  \nUnique: ${linksUnique.length}`;
 };
   
-console.log(totalAndUnique(input2));
+// console.log(totalAndUnique(input2));
   
 const totalLinksBroken = (objLinks) => {
   // const arrayLinksMnsj = objLinks.map((item) => item.message);    
@@ -51,7 +51,7 @@ const totalLinksBroken = (objLinks) => {
   return `Broken: ${broken}`;
 };
   
-console.log(totalLinksBroken(input2));
+// console.log(totalLinksBroken(input2));
 
 module.exports = {
   totalAndUnique,
