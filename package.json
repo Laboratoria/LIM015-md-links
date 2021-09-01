@@ -2,13 +2,17 @@
   "name": "ana-aguilera-lim015-md-links",
   "version": "1.0.1",
   "description": "MD Links Project",
-  "main": "index.js",
-  "bin": {"mdLinks":"./union"},
+  "main": "src/index.js",
   "directories": {
-    "test": "test"
+  "test": "test"
   },
+
+  "bin": {"mdLinks":"src/union.js"},
+
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "start": "node src/mdLinks.js"
+    
   },
   "repository": {
     "type": "git",

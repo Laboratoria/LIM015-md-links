@@ -6,9 +6,9 @@ const {
   findLinks,
   rutaFija,
   
-} = require("./src/funciones");
+} = require("./funciones");
 
-const { validate } = require("./src/fetch");
+const { validate } = require("./fetch");
 
 
 function mdLinks(path, options) {
@@ -22,7 +22,7 @@ function mdLinks(path, options) {
           
          if (filesReader.length != []) {
             if (options.validate) {
-              console.log(filesReader)
+              
               resolve(
                 validate(filesReader)
                   .then((res) => res)
@@ -49,7 +49,7 @@ function mdLinks(path, options) {
 }
 
 
-mdLinks("../test",{validate:true}).then(res=>(console.log(res)));
+//mdLinks("../test",{validate:true}).then(res=>(console.log(res)));
 
 
 

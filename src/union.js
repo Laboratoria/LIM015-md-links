@@ -2,7 +2,7 @@
 
 const colors = require('colors');
 const { mdLinks } = require("./index");
-const {  broke, unique } = require("./src/cli.js");
+const {  broke, unique } = require("./cli");
 const chalk = require("chalk");
 const path = require("path")
 
