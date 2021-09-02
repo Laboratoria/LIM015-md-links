@@ -84,7 +84,7 @@ const getStatusLinks = (arrayLinks) => {
       .then((res) => {
         const data = {
           href: elemento.href,
-          text: elemento.text,
+          text: (elemento.text.slice(0, 50)),
           file: elemento.file,
           status: res.status,
           message: res.status >= 200 && res.status <= 399 ? 'OK' : 'fail',
@@ -93,7 +93,7 @@ const getStatusLinks = (arrayLinks) => {
       }).catch((error) => {
         const data = {
           href: elemento.href,
-          text: elemento.text,
+          text: (elemento.text.slice(0, 50)),
           file: elemento.file,
           status: 'Error en la peticiòn ' + error,
           message: 'fail',
@@ -104,7 +104,7 @@ const getStatusLinks = (arrayLinks) => {
 };
 
 // const input = (extracProLinks('./src/prueba/fileFail.md'));
-// // // console.log(input);
+// console.log(input);
 // const promiseOut = (getStatusLinks(input));
 // // // // console.log(promiseOut);
 
