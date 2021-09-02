@@ -1,0 +1,1 @@
+[Moks](https://jestjs.io/es-ES/docs/manual-mocks)
