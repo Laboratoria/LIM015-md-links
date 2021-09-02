@@ -1,5 +1,6 @@
 const {
   validatePath,
+  pathExists,
   absolutePath,
   pathIsDir,
   readDir,
@@ -13,6 +14,18 @@ const {
 describe('Validate path', () => {
   it('should validate path', () => {
     expect(validatePath('../LIM015-md-links')).toBe(true);
+  });
+});
+
+/* ***** Test Directory path exists ***** */
+describe('If directory exists', () => {
+  it('should determinate if directory exists', () => {
+    expect(pathExists('../LIM015-md-links')).toBe('../LIM015-md-links');
+  });
+});
+describe('If directory exists', () => {
+  it('should determinate if directory does not exists', () => {
+    expect(pathExists('/Documents/GitHub/LIM015-md-links')).toBe('Path not found.');
   });
 });
 
@@ -59,14 +72,6 @@ describe('Directory Content', () => {
   });
 });
 
-/* ***** Test read file content ***** */
-describe('File Content', () => {
-  it('should read file content', () => {
-    const result = '- [Sitio oficial de npm (en inglés)](https://www.npmjs.com/)';
-    expect(readFile('../LIM015-md-links/Testing_functions/testing_md.md')).toEqual(result);
-  });
-});
-
 /* ***** Test file is a MD file ***** */
 describe('Md file', () => {
   it('should check if a file is a Md file', () => {
@@ -79,13 +84,15 @@ describe('Md file', () => {
   });
 });
 
-/* ***** Test search Md files ***** */
-describe('MD files', () => {
-  it('should return Md files path', () => {
-    const result = ['..\\LIM015-md-links\\README.md'];
-    expect(searchMdFile('../LIM015-md-links')).toEqual(result);
+/* ***** Test read file content ***** */
+describe('File Content', () => {
+  it('should read file content', () => {
+    const result = '- [Sitio oficial de npm (en inglés)](https://www.npmjs.com/)';
+    expect(readFile('../LIM015-md-links/Testing_functions/testing_md.md')).toEqual(result);
   });
 });
+
+/* ***** Test search Md files ***** */
 describe('MD files', () => {
   it('should return Md files from a directory', () => {
     const result = [
@@ -93,5 +100,17 @@ describe('MD files', () => {
       '..\\LIM015-md-links\\Testing_functions\\test_md.md',
     ];
     expect(searchMdFile('../LIM015-md-links/Testing_functions')).toEqual(result);
+  });
+});
+describe('MD files', () => {
+  it('should return Md files path', () => {
+    const result = ['../LIM015-md-links/README.md'];
+    expect(searchMdFile('../LIM015-md-links/README.md')).toEqual(result);
+  });
+});
+describe('MD files', () => {
+  it('should return Md files path', () => {
+    const result = [];
+    expect(searchMdFile('../LIM015-md-links/src/api.js')).toEqual(result);
   });
 });

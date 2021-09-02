@@ -7,15 +7,16 @@
 // const { readFile } = require('./src/api.js');
 // const { mdValidation } = require('./src/api.js');
 // const { statusPath } = require('./src/api.js');
-// const { pathIsDir } = require('./src/api.js');
+// const { pathIsDir, pathIsFile } = require('./src/api.js');
 const { searchMdFile } = require('./src/api.js');
+// const { pathExists } = require('./src/api.js');
 
 /* ***** Test files are conected ***** */
 // console.log('Hello World');
 
 /* ***** Test how to works functions ***** */
 // console.log(validatePath('../LIM015-md-links'));
-// console.log(absolutePath('/Documents/GitHub/LIM015-md-links'));
+// console.log(absolutePath('./LIM015-md-links'));
 // console.log(directory('../LIM015-md-links/coverage/lcov-report'));
 // console.log(directory('../coverage'));
 // console.log(readDir('../LIM015-md-links'));
@@ -26,11 +27,16 @@ const { searchMdFile } = require('./src/api.js');
 // console.log(statusPath('../LIM015-md-links/Testing_functions/testing_md.md'));
 // console.log(statusPath('../LIM015-md-links/src/api.js'));
 // console.log(statusPath('../LIM015-md-links/README.md'));
-// ******* console.log(searchRouteMD('../LIM015-md-links'));
 // console.log(pathIsDir('../LIM015-md-links'));
 // console.log(pathIsDir('../LIM015-md-links/README.md'));
-console.log(searchMdFile('../LIM015-md-links/Testing_functions'));
-console.log(searchMdFile('../LIM015-md-links'));
+// console.log(pathIsFile('../LIM015-md-links'));
+// console.log(pathIsFile('../LIM015-md-links/README.md'));
+// console.log(searchMdFile('../LIM015-md-links/Testing_functions'));
+// console.log(searchMdFile('../LIM015-md-links/Testing_functions/testing_md.md'));
+// console.log(searchMdFile('../LIM015-md-links'));
+// console.log(searchMdFile('../LIM015-md-links/README.md'));
+console.log(searchMdFile('../LIM015-md-links/src/api.js'));
+// console.log(searchMdFile('M015-md-links/Tesg_functions'));
 
 /* ***** Practice promises ***** */
 // const promise = new Promise((resolve, reject) => {
