@@ -1,15 +1,15 @@
 /* ***** Functions from api.js ***** */
 // const { validatePath } = require('./src/api.js');
 // const { absolutePath } = require('./src/api.js');
-// const { directory } = require('./src/api.js');
 // const { readDir } = require('./src/api.js');
 // const { arrayDirFile } = require('./src/api.js');
 // const { readFile } = require('./src/api.js');
 // const { mdValidation } = require('./src/api.js');
 // const { statusPath } = require('./src/api.js');
 // const { pathIsDir, pathIsFile } = require('./src/api.js');
-const { searchMdFile } = require('./src/api.js');
+// const { searchMdFile } = require('./src/api.js');
 // const { pathExists } = require('./src/api.js');
+const { getLinks } = require('./src/api.js');
 
 /* ***** Test files are conected ***** */
 // console.log('Hello World');
@@ -35,8 +35,12 @@ const { searchMdFile } = require('./src/api.js');
 // console.log(searchMdFile('../LIM015-md-links/Testing_functions/testing_md.md'));
 // console.log(searchMdFile('../LIM015-md-links'));
 // console.log(searchMdFile('../LIM015-md-links/README.md'));
-console.log(searchMdFile('../LIM015-md-links/src/api.js'));
+// console.log(searchMdFile('../LIM015-md-links/src/api.js'));
 // console.log(searchMdFile('M015-md-links/Tesg_functions'));
+// console.log(getLinks('../LIM015-md-links/Testing_functions/testing_md.md'));
+// console.log(getLinks('../LIM015-md-links/Testing_functions/test_md.md'));
+console.log(getLinks('../LIM015-md-links/Testing_functions/emptyMD.md'));
+// console.log(getLinks('../LIM015-md-links/README.md'));
 
 /* ***** Practice promises ***** */
 // const promise = new Promise((resolve, reject) => {

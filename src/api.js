@@ -37,6 +37,30 @@ const searchMdFile = (route) => {
   return (mdValidation(route));
 };
 
+/* ***** Search Links in  a MD file ***** */
+const regEx = /!*\[(.+?)\]\((https?.+?)\)/gi;
+const regExText = /\[[^\s]+(.+?)\]/gi;
+const regExLink = /\((https?.+?)\)/gi;
+
+const getLinks = (route) => {
+  const arrayLinks = [];
+  searchMdFile(route).forEach((file) => {
+    const readingFile = readFile(file);
+    const links = readingFile.match(regEx);
+    if (readingFile.length !== 0 && regEx.test(readingFile) === true) {
+      links.forEach((link) => {
+        const propertiesLinks = {
+          href: link.match(regExLink).join().slice(1, -1),
+          text: link.match(regExText).join().slice(1, -1),
+          file,
+        };
+        arrayLinks.push(propertiesLinks);
+      });
+    }
+  });
+  return arrayLinks;
+};
+
 module.exports = {
   validatePath,
   pathExists,
@@ -46,7 +70,7 @@ module.exports = {
   mdValidation,
   readFile,
   searchMdFile,
-  // mdFileLinks,
+  getLinks,
 };
 
 /* ***** determines if a path is a file ***** */

@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/BitzyG/LIM015-md-links#readme",
   "dependencies": {
+    "chalk": "^4.1.2",
     "jest": "^27.0.6"
   },
   "devDependencies": {
