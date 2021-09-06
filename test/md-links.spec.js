@@ -1,9 +1,10 @@
 //const {mdLinks} = require('../index');
-const{ pathExistFun, pathIsAbsolute, pathResolveAbsolute, pathIsFile} = require('../functions')
+const{ pathExistFun, pathIsAbsolute, pathResolveAbsolute, pathIsFile, listOfFiles,  fileIsMd,} = require('../functions')
 
 const pathSpec = 'text.txt';
-const pathDir = './prueba/'
-const arrayList = [ 'firstFile', 'indexPrueba.js', 'read.txt', 'rutaNotas.md' ];
+const pathDir = 'prueba';
+const arrayList = ['cuaderno.txt', 'readme.md', 'app.js', 'biblioteca.md', 'oficina.txt', 'indexPrueba.js', 'read.txt', 'rutaNotas.md'];
+const filesMd = [ 'readme.md', 'biblioteca.md', 'rutaNotas.md' ]
 /*describe('mdLinks', () => {
 
   it('should...', () => {
@@ -44,18 +45,25 @@ describe('pathIsFile', () => {
   it('should be a function', () => {
     expect(typeof pathIsFile).toBe('function');
   });
-  test('should show a file list ', () => {
-    expect(pathIsFile(pathSpec)).toBe(true); //toStrictEqual
-    expect(pathIsFile(pathDir)).toBe(false); //toStrictEqual
+  test('should show a file  ', () => {
+    expect(pathIsFile(pathSpec)).toBe(true); 
   });
 });
 
-/*describe('pathIsDirectory', () => {
+describe('listOfFiles', () => {
   it('should be a function', () => {
-    expect(typeof pathIsFile).toBe('function');
+    expect(typeof listOfFiles).toBe('function');
   });
   test('should show a file list ', () => {
-    expect(pathIsDirectory(pathSpec)).toStrictEqual(true); //toStrictEqual
-    expect(pathIsFile(pathSpec)).toStrictEqual(true); //toStrictEqual
+    expect(listOfFiles(pathDir)).toStrictEqual(arrayList); //toStrictEqual
   });
-});*/
+});
+
+describe('fileIsMd', () => {
+  it('should be a function', () => {
+    expect(typeof fileIsMd).toBe('function');
+  });
+  test('should show a markdown file list ', () => {
+    expect(fileIsMd(pathDir)).toStrictEqual(filesMd); 
+  });
+});

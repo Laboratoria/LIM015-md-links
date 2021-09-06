@@ -27,92 +27,67 @@ const pathExistFun = (pathPrueba) => {
 const pathResolveAbsolute = (pathPrueba) => {
     try{
        const pathToAbs = path.resolve(pathPrueba); 
-     //
-        console.log(`pathToAbs ${pathToAbs}`);
+         console.log(`pathToAbs ${pathToAbs}`);
        return pathToAbs;
     }catch (e) {
         console.log(e.message)
     }
 }
-pathResolveAbsolute(pathTest);
+//pathResolveAbsolute(pathTest);
 
 const pathIsFile = (pathPrueba) => {
     const readFile = fs.statSync(pathPrueba)
-    console.log(readFile.isFile())
+    //console.log(readFile.isFile())
     return  readFile.isFile()
 }
-pathIsFile(pathTest)
+//pathIsFile(pathTest)
 
-const pathIsDirectory = (pathPrueba) => {
+const listOfFiles = (pathPrueba) => {
     const directoryContent = fs.readdirSync(pathPrueba)
-        //console.log(directoryContent);
-        const containerDir =[];
-        directoryContent.forEach(file => {
-        containerDir.push(file)
-         /* if (path.extname(file) == ".md") // CONOCIENDO EL TIPO DE EXTENSIÓN //
-        console.log(file)*/
-   })
-   console.log(containerDir)
-   return containerDir
-   
-}
-//pathIsDirectory(pathTest)
-// [ 'firstFile', 'indexPrueba.js', 'read.txt', 'rutaNotas.md' ]
-
-const fileExtention = (pathPrueba)=>{
-
-    const pathArrayDir =pathIsDirectory(pathPrueba); //[ 'firstFile', 'indexPrueba.js', 'read.txt', 'rutaNotas.md' ]
-    const containerExt =[];
-    for(let i=0; i< pathArrayDir.length; i++){
-        console.log(pathArrayDir[i]) 
-    const extension = path.extname(pathArrayDir[i])
-        if (extension == '.md'){
-            containerExt.push(pathArrayDir[i])
-        //}else{//extention !== '.md'
-          //  const extNoMd = [];
-          //  extNoMd.push(pathArrayDir[i])
-           // console.log(extNoMd)
-       //console.log('it does a file but it does not a markdown')
-       // return 'it does a file but it does not a markdown'
+    const containerFiles = directoryContent.map(file => {
+        if(path.extname(file) == ''){
+            const pathPrueba2 = path.join(pathPrueba, file)
+            return listOfFiles(pathPrueba2)
+        }else{
+            return file;
         }
-    }
-   //console.log(containerExt)
-   //return containerExt
+    })
+    const joiningArrays = (containerFiles)=> {
+        return containerFiles.reduce((acc, val) => Array.isArray(val) ? acc.concat(joiningArrays(val)) : acc.concat(val), []);
+   }
+  //console.log(joiningArrays(containerFiles))
+return joiningArrays(containerFiles);
 }
-//fileExtention(pathTest)
+//listOfFiles(pathTest)
+//console.log(listOfFiles(pathTest));
+//[ 'cuaderno.txt', 'readme.md', 'app.js', 'biblioteca.md', 'oficina.txt', 'indexPrueba.js', 'read.txt', 'rutaNotas.md' ]
 
 
-const pathToRead = (path)=> {
-    try{
-        //if (fs.statSync(path).isFile()) {
-        fs.readFile(path,'utf8', (err, data) => {
-            console.log(`reading file: `);
-            console.log(data);
-        })
-    } catch (err) {
-        console.log(err.message);
-    }
+const fileIsMd= (pathPrueba)=>{
+    const pathArrayFiles = listOfFiles(pathPrueba); 
+    //['cuaderno.txt', 'readme.md', 'app.js', 'biblioteca.md', 'oficina.txt', 'indexPrueba.js', 'read.txt', 'rutaNotas.md']
+    const containerMd = pathArrayFiles.filter((item)=>{
+        if(path.extname(item) === '.md'){
+            return true; // '.md'
+        }
+    })
+//console.log(containerMd)
+return containerMd
 }
-     //} else {
-function directoyToRead (path){
-    try{
-        fs.readdir(path,'utf8',(err, data) => {
-        console.log(`reading directory: `);
-        
-        console.log(data)
-        });
-    } catch (err) {
-        console.log(err.message);
-    }
-}
+//fileIsMd(pathTest)
+//console.log(fileIsMd(pathTest));
+//[ 'readme.md', 'biblioteca.md', 'rutaNotas.md' ]
+
+
 
 module.exports ={
     pathExistFun,
     pathIsAbsolute,
     pathResolveAbsolute,
     pathIsFile,
-    pathIsDirectory,
-    fileExtention
+    listOfFiles,
+    fileIsMd,
+    
     
 }
 //}*/
