@@ -1,36 +1,33 @@
-/* ***** Functions from api.js ***** */
-// const { validatePath } = require('./src/api.js');
-// const { absolutePath } = require('./src/api.js');
-// const { directory } = require('./src/api.js');
-// const { readDir } = require('./src/api.js');
-// const { arrayDirFile } = require('./src/api.js');
-// const { readFile } = require('./src/api.js');
-// const { mdValidation } = require('./src/api.js');
-// const { statusPath } = require('./src/api.js');
-// const { pathIsDir } = require('./src/api.js');
-const { searchMdFile } = require('./src/api.js');
+const { Promise } = require('node-fetch');
+const fnNode = require('./src/api.js');
 
+const mdLink = (path, option) => new Promise((response, reject) => {
+  const absolutePath = fnNode.absolutePath(path);
+  if (fnNode.pathExists(absolutePath)) {
+    const getLinks = fnNode.getLinks(absolutePath);
+    if (getLinks.length === 0) {
+      reject(new Error('something bad happened, this route does not have links :c'));
+    } else if (option.validate === true) {
+      const linkStatus = getLinks.map((link) => fnNode.getLinks(link));
+      response(Promise.all(linkStatus));
+    } else {
+      response(fnNode.getLinks(absolutePath));
+    }
+  } else {
+    reject(new Error('path no exist'));
+  }
+  return Promise;
+});
+
+module.exports = {
+  mdLink,
+};
 /* ***** Test files are conected ***** */
 // console.log('Hello World');
 
-/* ***** Test how to works functions ***** */
-// console.log(validatePath('../LIM015-md-links'));
-// console.log(absolutePath('/Documents/GitHub/LIM015-md-links'));
-// console.log(directory('../LIM015-md-links/coverage/lcov-report'));
-// console.log(directory('../coverage'));
-// console.log(readDir('../LIM015-md-links'));
-// console.log(readFile('../LIM015-md-links/Testing_functions/testing_md.md'));
-// console.log(mdValidation('../LIM015-md-links/Testing_functions/testing_md.md'));
-// console.log(mdValidation('../LIM015-md-links/src/api.js'));
-// console.log(arrayDirFile('../LIM015-md-links'));
-// console.log(statusPath('../LIM015-md-links/Testing_functions/testing_md.md'));
-// console.log(statusPath('../LIM015-md-links/src/api.js'));
-// console.log(statusPath('../LIM015-md-links/README.md'));
-// ******* console.log(searchRouteMD('../LIM015-md-links'));
-// console.log(pathIsDir('../LIM015-md-links'));
-// console.log(pathIsDir('../LIM015-md-links/README.md'));
-console.log(searchMdFile('../LIM015-md-links/Testing_functions'));
-console.log(searchMdFile('../LIM015-md-links'));
+// linkStatus('../LIM015-md-links/Testing_functions/testing_md.md').then((statusLink) => {
+//   console.log(statusLink);
+// });
 
 /* ***** Practice promises ***** */
 // const promise = new Promise((resolve, reject) => {
