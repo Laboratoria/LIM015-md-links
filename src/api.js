@@ -1,5 +1,6 @@
 const fs = require('fs'); // Load the File System module
 const path = require('path'); // provides utilities for working with file and directory paths
+const fetch = require('node-fetch'); // allows you to asynchronously request for a resource.
 
 /* ***** Function validate path ***** */
 const validatePath = (route) => fs.existsSync(route);
@@ -49,10 +50,14 @@ const getLinks = (route) => {
     const links = readingFile.match(regEx);
     if (readingFile.length !== 0 && regEx.test(readingFile) === true) {
       links.forEach((link) => {
+        const hrefLink = link.match(regExLink).join().slice(1, -1);
+        const textLink = link.match(regExText).join().slice(1, -1);
         const propertiesLinks = {
-          href: link.match(regExLink).join().slice(1, -1),
-          text: link.match(regExText).join().slice(1, -1),
+          href: hrefLink,
+          text: textLink,
           file,
+          // status: link.status,
+          // Response: link.status > 199 && link.status < 400 ? 'ok' : 'fail',
         };
         arrayLinks.push(propertiesLinks);
       });
@@ -60,6 +65,19 @@ const getLinks = (route) => {
   });
   return arrayLinks;
 };
+
+const linkStatus = (links) => Promise.all(links.map(((link) => fetch(link.href)
+  .then((response) => ({
+    ...link,
+    status: response.status,
+    ok: response.ok,
+  }))
+  .catch(() => ({
+    ...link,
+    status: 'noStatus',
+    ok: false,
+  }))
+))).then((statusLinks) => statusLinks);
 
 module.exports = {
   validatePath,
@@ -71,6 +89,7 @@ module.exports = {
   readFile,
   searchMdFile,
   getLinks,
+  linkStatus,
 };
 
 /* ***** determines if a path is a file ***** */
