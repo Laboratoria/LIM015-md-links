@@ -1,4 +1,4 @@
-const mdLinks = require('../');
+const mdLinks = require('../src/index.js');
 
 
 describe('mdLinks', () => {
@@ -8,3 +8,4 @@ describe('mdLinks', () => {
   });
 
 });
+
