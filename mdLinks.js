@@ -41,7 +41,7 @@ const mdLinks = (path0) => {
 console.log(mdLinks(pathTest));
 mdLinks(pathTest);
 
-/* const mdLinks2 = (path0) => {
+const mdLinks2 = (path0) => {
     const promise = new Promise((resolve, reject) => {
       if (pathExistFun(path0)){
         return getLinks(fileIsMd(pathIsAbsolute(path0))) // == true
@@ -55,7 +55,7 @@ mdLinks(pathTest);
        
     });
     return promise;
-} */
+} 
  /*  console.log(mdLinks2(pathTest));
   mdLinks2(pathTest); */
 
