@@ -1,10 +1,17 @@
 //const {mdLinks} = require('../index');
-const{ pathExistFun, pathIsAbsolute, pathResolveAbsolute, pathIsFile, listOfFiles,  fileIsMd,} = require('../functions')
+
+//const { text } = require('express');
+const{ pathExistFun, pathIsAbsolute, pathResolveAbsolute, pathIsFile, listOfFiles,  fileIsMd, getLinks} = require('../functions')
 
 const pathSpec = 'text.txt';
-const pathDir = 'prueba';
+const pathDir = 'prueba'; 
+const routeLinks = 'prueba\\rutaNotas.md';
 const arrayList = ['cuaderno.txt', 'readme.md', 'app.js', 'biblioteca.md', 'oficina.txt', 'indexPrueba.js', 'read.txt', 'rutaNotas.md'];
 const filesMd = [ 'readme.md', 'biblioteca.md', 'rutaNotas.md' ]
+const containerLink =[
+ { route: 'prueba\\rutaNotas.md',  text: 'Promise - MDN',  link: 'https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Promise'  },
+ { route: 'prueba\\rutaNotas.md',  text: 'How to Write a JavaScript Promise - freecodecamp (en inglés)',  link: 'https://www.freecodecamp.org/news/how-to-write-a-javascript-promise-4ed8d44292b8/'  }
+];
 /*describe('mdLinks', () => {
 
   it('should...', () => {
@@ -65,5 +72,13 @@ describe('fileIsMd', () => {
   });
   test('should show a markdown file list ', () => {
     expect(fileIsMd(pathDir)).toStrictEqual(filesMd); 
+  });
+});
+describe('getLinks', () => {
+  it('should be a function', () => {
+    expect(typeof getLinks).toBe('function');
+  });
+  test('should show a object ', () => {
+    expect(getLinks(routeLinks)).toStrictEqual(containerLink); 
   });
 });
