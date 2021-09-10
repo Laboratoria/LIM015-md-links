@@ -4,7 +4,8 @@ const marked = require('marked');
 
 // *Confirmar si la ruta existe*
 
-const pathExist = isAPath => (fs.existsSync(isAPath));
+const pathExist = (isAPath) =>
+  fs.existsSync(isAPath) ? path.normalize(path.resolve(isAPath)) : "La ruta no existe";
 
 // console.log(pathExist('src/indexs.js'));
 // console.log(pathExist('src/index.js'));
@@ -21,12 +22,14 @@ const isADirectory = isAPath => fs.lstatSync(isAPath).isDirectory();
 
 const isAFile = isAPath => fs.lstatSync(isAPath).isFile();
 
+// console.log(isAFile('Pruebaa/archivo.md'));
+// console.log(isAFile('Pruebaa'));
+
 // *Verificar si es una ruta absoluta y resolverlo*
 
 const isAbsolute = isAPath => (path.isAbsolute(isAPath) ? isAPath : path.resolve(isAPath))
 
-
-// console.log(path.isAbsolute('/Pruebaa/archivo.md'));
+// console.log(isAbsolute('archivo.md'));
 
 // *Para leer un archivo de un directorio*
 
@@ -39,12 +42,13 @@ const readAllFiles = (isAPath) => fs.readFileSync(isAPath, 'utf8');
 const isMd = (isAPath) => path.extname(isAPath) === '.md'
 
 // console.log(isMd('./Pruebaa/archivo.md'));
+// console.log(isMd('./Pruebaa/text.txt'));
 
 // path.extname('index.js');
 
 // console.log(path.extname('./Pruebaa/text.txt'));
 
-// console.log(fs.readdirSync('./Pruebaa', 'utf8'));
+// console.log(fs.readdirSync('Pruebaa', 'utf8'));
 
 
 
@@ -54,17 +58,18 @@ const searchFileMd = (file) => {
     const route = isAbsolute(file);
     let arrayFileMd = [];
 
-    if(isAFile(route)) {
+    if(pathExist(route) && isAFile(route)) {
         if(isMd(route)) {
             arrayFileMd.push(route)
         }
     } else {
         const listOfFiles = fs.readdirSync(route);
         listOfFiles.forEach((files) => {
-            arrayFileMd = arrayFileMd.concat(searchFileMd(path.join(route, files)))
+            arrayFileMd = arrayFileMd.concat(searchFileMd(path.join(route, files)));
+            // console.log(files);
+            // console.log(route);
         });
     }
-
     return arrayFileMd;
 }
 
@@ -92,9 +97,16 @@ const readLinksMd = (file) => {
     return arrayLinksMd;
 };
 
-console.log(readLinksMd('./Pruebaa/'));
+// console.log(readLinksMd('./Pruebaa/'));
+
+// console.log(process.cwd())  (devuelve el directorio de trabajo actual)
 
 module.exports = {
     searchFileMd,
-    isAbsolute
+    isAbsolute,  /*ya esta el test */
+    pathExist,
+    isAFile,      /*ya esta el test */
+    readAllFiles,
+    isMd,
+    readLinksMd
 }
