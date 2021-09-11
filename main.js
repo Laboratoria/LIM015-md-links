@@ -1,18 +1,20 @@
 const { Promise } = require('node-fetch');
 const fnNode = require('./src/api.js');
 
-const mdLink = (path, option) => new Promise((response, reject) => {
+const mdLink = (path, option = {}) => new Promise((response, reject) => {
+  // console.log('hola');
   const absolutePath = fnNode.absolutePath(path);
   if (fnNode.pathExists(absolutePath)) {
     const getLinks = fnNode.getLinks(absolutePath);
+    fnNode.getStatus(getLinks);
     if (getLinks.length === 0) {
-      reject(new Error('something bad happened, this route does not have links :c'));
-    } else if (option.validate === true) {
-      const linkStatus = getLinks.map((link) => fnNode.getLinks(link));
+      reject(new Error('Something bad happened, this route does not have links :c'));
+    } else if (option === true) {
+      const linkStatus = getLinks.map((link) => fnNode.getStatus(link));
       response(Promise.all(linkStatus));
-    } else {
-      response(fnNode.getLinks(absolutePath));
-    }
+    } // else {
+    //   response(fnNode.getLinks(absolutePath));
+    // }
   } else {
     reject(new Error('path no exist'));
   }
@@ -42,3 +44,8 @@ module.exports = {
 //   resolve(console.log(123)); // dar inmediatamente el resultado: 123
 //   reject(Error);
 // });
+// const { getLinks } = require('./src/api.js');
+
+// console.log(fnNode.getLinks('../LIM015-md-links/Testing_functions/testing_md.md'));
+// console.log(fnNode.getStatus('../LIM015-md-links/Testing_functions/testing_md.md'));
+// $ node main.js

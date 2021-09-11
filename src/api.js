@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const fs = require('fs'); // Load the File System module
 const path = require('path'); // provides utilities for working with file and directory paths
 const fetch = require('node-fetch'); // allows you to asynchronously request for a resource.
@@ -24,7 +25,19 @@ const mdValidation = (route) => (path.extname(route) === '.md' ? [route] : []);
 
 /* ***** Read File exists ***** */
 // read the file and turn it into a string
-const readFile = (route) => fs.readFileSync(route).toString();
+// const readFile = (route) => fs.readFileSync(route).toString();
+// const readFile = (file) => {
+//   try {
+//     return fs.readFileSync(file, 'utf8' , (err, data) => {
+//       if (err) {
+//         return err;
+//       }
+//         return data;
+//     });
+//   }catch (e) {
+//     return e;
+//   }
+// }
 
 /* ***** Search a MD file in a Directory ***** */
 const searchMdFile = (route) => {
@@ -46,7 +59,8 @@ const regExLink = /\((https?.+?)\)/gi;
 const getLinks = (route) => {
   const arrayLinks = [];
   searchMdFile(route).forEach((file) => {
-    const readingFile = readFile(file);
+    // const readingFile = readFile(file);
+    const readingFile = fs.readFileSync(route, 'utf-8');
     const links = readingFile.match(regEx);
     if (readingFile.length !== 0 && regEx.test(readingFile) === true) {
       links.forEach((link) => {
@@ -66,18 +80,27 @@ const getLinks = (route) => {
   return arrayLinks;
 };
 
-const linkStatus = (links) => Promise.all(links.map(((link) => fetch(link.href)
-  .then((response) => ({
-    ...link,
-    status: response.status,
-    ok: response.ok,
-  }))
-  .catch(() => ({
-    ...link,
-    status: 'noStatus',
-    ok: false,
-  }))
-))).then((statusLinks) => statusLinks);
+const getStatus = (arrayLink) => {
+  // console.log('Function getStatus');
+  // const linkRef = arrayLink.split(',');
+  // console.log(linkRef);
+  arrayLink.map((ref) => fetch(ref)
+    .then(((response) => {
+      ref.status = response.status;
+      ref.mesagge = response.status === 200 ? 'Ok' : 'fail';
+      console.log(ref);
+    }))
+    .catch((error) => {
+      // console.log(error.message);
+      // error.message = 'Fail';
+      // throw new Error(error.toString());
+      const err = new Error('Fail');
+      console.log(err);
+      // console.error(error.code);
+      // error.Status = error.status;
+      // error.Mesagge = err;
+    }));
+};
 
 module.exports = {
   validatePath,
@@ -86,10 +109,10 @@ module.exports = {
   pathIsDir,
   readDir,
   mdValidation,
-  readFile,
+  // readFile,
   searchMdFile,
   getLinks,
-  linkStatus,
+  getStatus,
 };
 
 /* ***** determines if a path is a file ***** */
