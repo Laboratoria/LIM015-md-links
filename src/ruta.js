@@ -1,15 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
+const fetch = require('node-fetch');
 
 // *Confirmar si la ruta existe*
 
 const pathExist = (isAPath) =>
-  fs.existsSync(isAPath) ? path.normalize(path.resolve(isAPath)) : "La ruta no existe";
+  fs.existsSync(isAPath) ? path.normalize(path.resolve(isAPath)) : 'La ruta no existe';
 
 // console.log(pathExist('src/indexs.js'));
 // console.log(pathExist('src/index.js'));
-
 
 // *Comprobar si la ruta un directorio*
 
@@ -96,6 +96,10 @@ const readLinksMd = (file) => {
     });
     return arrayLinksMd;
 };
+
+// const validateLink = () => {
+
+// }
 
 // console.log(readLinksMd('./Pruebaa/'));
 

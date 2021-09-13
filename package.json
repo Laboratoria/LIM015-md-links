@@ -25,7 +25,8 @@
   "homepage": "https://github.com/RocioSulca/LIM015-md-links#readme",
   "dependencies": {
     "jest": "^27.0.6",
-    "marked": "^3.0.2"
+    "marked": "^3.0.2",
+    "node-fetch": "^2.6.1"
   },
   "bin": {
     "md-links": "src/index.js"

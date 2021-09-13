@@ -44,7 +44,6 @@ describe('Lee archivos de directorio', () => {
   it('Deberia ser una funcion', () => {
     expect(typeof readAllFiles). toBe('function');
   });
-  // const rout = 'C:\Users\Rocio Sulca\Desktop\laboratoria\LIM015-md-links\Pruebaa\archivo.md'
 
   it('Deberia retornar los archivos del directorio', () => {
     expect(readAllFiles('./Pruebaa/archivo.md')).toBe('');
