@@ -97,11 +97,34 @@ const readLinksMd = (file) => {
     return arrayLinksMd;
 };
 
-// const validateLink = () => {
-
-// }
-
 // console.log(readLinksMd('./Pruebaa/'));
+
+const validateLink = (links) => fetch(links.href)
+    // const readMdLinks = readLinksMd(route);
+    // const promiseArray = readMdLinks.map((links) => fetch(links.href)
+    .then((response) => {
+        if(response.status >= 200 && response.status < 400) {
+            return {
+                ...links,
+                status: response.status,
+                statusText: response.statusText
+            };
+        }
+        return {
+            ...links,
+            status: response.status,
+            statusText: 'FAIL'
+        };
+    }) 
+    .catch(() => {
+        return {
+            ...links,
+            status: 'ERR',
+            statusText: 'FAIL'
+        };                                                                      
+    })
+
+console.log(validateLink('https://curriculum.laboratoria.la/es/topics/javascript/04-arrays'));
 
 // console.log(process.cwd())  (devuelve el directorio de trabajo actual)
 
