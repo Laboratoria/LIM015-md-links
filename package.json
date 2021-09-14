@@ -1,4 +1,33 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "Esta es una libreria md-Links",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mysticBel/LIM015-md-links.git"
+  },
+  "keywords": [
+    "md-links"
+  ],
+  "author": "Maribel Maza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mysticBel/LIM015-md-links/issues"
+  },
+  "homepage": "https://github.com/mysticBel/LIM015-md-links#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "chalk": "^4.1.2",
+    "figlet": "^1.5.0",
+    "inquirer": "^8.1.2",
+    "jest": "^27.0.6",
+    "require": "^2.4.20"
+  }
 }
