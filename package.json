@@ -1,4 +1,33 @@
 {
   "name": "md-links",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "La función mdLinks te permitira verificar si existen archivos markdown y te devolverá un status acorde a la resolución de la promesa",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --verbose --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andu15/LIM015-md-links.git"
+  },
+  "author": "Andrea Blanco",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Andu15/LIM015-md-links/issues"
+  },
+  "homepage": "https://github.com/Andu15/LIM015-md-links#readme",
+  "devDependencies": {
+    "jest": "^27.1.1"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2"
+  },
+  "keywords": [
+    "markdown",
+    "promises"
+  ]
 }
