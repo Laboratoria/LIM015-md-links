@@ -1,15 +1,26 @@
-const { mdLink } = require('./main.js');
-// const { getStatus } = require('./src/api.js');
+// const { promise } = require('node-fetch');
+const fnNode = require('./src/api.js');
 
-const route = process.argv[2];
+const mdLink = (path, option = {}) => new Promise((resolve, reject) => {
+  // console.log('hola');
+  const absolutePath = fnNode.absolutePath(path);
+  if (fnNode.pathExists(absolutePath)) {
+    const arrLinks = fnNode.getLinks(absolutePath);
+    // fnNode.getStatus(getLinks);
+    if (arrLinks.length === 0) {
+      reject(new Error('Something bad happened, this route does not have links :c'));
+    } else if (option.validate === true) {
+      const linkStatus = fnNode.getStatus(arrLinks);
+      resolve(linkStatus);
+    } // else {
+    //   response(fnNode.getLinks(absolutePath));
+    // }
+  } else {
+    reject(new Error('path no exist'));
+  }
+  return Promise;
+});
 
-mdLink(route, { validate: false })
-  .then((response) => {
-    getStatus(response);
-    // console.log(response);
-  }).catch((error) => { console.log(error.message); });
-
-// mdLink(route, { validate: false })
-// .then((response) => {
-//   console.log(response);
-// }).catch((error) => { console.log(error); });
+module.exports = {
+  mdLink,
+};

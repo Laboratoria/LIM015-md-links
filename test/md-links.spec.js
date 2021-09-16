@@ -1,3 +1,7 @@
+/* eslint-disable max-len */
+// const fetch = require('node-fetch'); // allows you to asynchronously request for a resource.
+const fetch = require('../__mocks__/mock_fetch.js');
+
 const {
   validatePath,
   pathExists,
@@ -8,7 +12,21 @@ const {
   // readFile,
   searchMdFile,
   getLinks,
+  getStatus,
 } = require('../src/api.js');
+
+const data = [
+  {
+    href: 'https://www.npmjs.com/',
+    text: 'Sitio oficial de npm (en inglés)',
+    file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
+  },
+  {
+    href: 'https://www.nmjs.com/',
+    text: 'Sitio oficial roto (en inglés)',
+    file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
+  },
+];
 
 /* ***** Test validate path ***** */
 describe('Validate path', () => {
@@ -55,7 +73,7 @@ describe('Directory Content', () => {
       'node_modules', 'package-lock.json',
       'package.json', 'README.md',
       'src', 'test',
-      'testing_functions',
+      'testing_functions', '__mocks__',
     ];
     expect(readDir('../LIM015-md-links')).toEqual(result);
   });
@@ -70,17 +88,6 @@ describe('Md file', () => {
     expect(mdValidation('../LIM015-md-links/src/api.js')).toStrictEqual([]);
   });
 });
-
-/* ***** Test read file content ***** */
-// describe('File Content', () => {
-//   it('should read file content', () => {
-//     const result = `
-//     - [Sitio oficial de npm (en inglés)](https://www.npmjs.com/)
-// - [Sitio oficial roto (en inglés)](https://www.nmjs.com/)
-//   `;
-//     expect(readFile('../LIM015-md-links/Testing_functions/testing_md.md')).toStrictEqual(result);
-//   });
-// });
 
 /* ***** Test search Md files ***** */
 describe('MD files from directory', () => {
@@ -124,3 +131,75 @@ describe('Links from MD files', () => {
     expect(getLinks('../LIM015-md-links/Testing_functions/emptyMD.md')).toEqual(result);
   });
 });
+
+describe('fetch data', () => {
+  it('should fetch data', () => {
+    const output = [
+      {
+        href: 'https://www.npmjs.com/',
+        text: 'Sitio oficial de npm (en inglés)',
+        file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
+        status: 200,
+        mesagge: 'Ok',
+      },
+      {
+        href: 'https://www.nmjs.com/',
+        file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
+        mesagge: 'request to https://www.nmjs.com/ failed, reason: getaddrinfo ENOTFOUND www.nmjs.com',
+        status: undefined,
+        text: 'Sitio oficial roto (en inglés)',
+      },
+    ];
+    fetch.mockResolvedValue(data);
+    return getStatus(data).then((e) => {
+      expect(e).toEqual(output);
+    });
+    // .then((response) => expect(response).tobe(output))
+    // .catch((error) => error));
+  });
+});
+
+/* ***** Test read file content ***** */
+// describe('File Content', () => {
+//   it('should read file content', () => {
+//     const result = `
+//     - [Sitio oficial de npm (en inglés)](https://www.npmjs.com/)
+// - [Sitio oficial roto (en inglés)](https://www.nmjs.com/)
+//   `;
+//     expect(readFile('../LIM015-md-links/Testing_functions/testing_md.md')).toStrictEqual(result);
+//   });
+// });
+
+/* ***** Test get links status from Md files ***** */
+/*
+describe('Links from MD files', () => {
+  it('should return status links from Md files', () => {
+    const output = [
+      {
+        href: 'https://www.npmjs.com/',
+        text: 'Sitio oficial de npm (en inglés)',
+        file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
+        status: 200,
+        mesagge: 'Ok',
+      },
+      {
+        href: 'https://www.nmjs.com/',
+        file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
+        mesagge: 'Fail',
+        status: 'request to https://www.nmjs.com/ failed, reason: getaddrinfo ENOTFOUND www.nmjs.com',
+        text: 'Sitio oficial roto (en inglés)',
+      },
+    ];
+    // console.log(getStatus(input).resolves.tobe(output)); NO SIRVE RESOLVES(UNDEFINEd)
+    // console.log(output);
+    // expect(getStatus(data)
+    //   .then((response) => expect(response).tobe(output))
+    //   .catch((error) => error));
+    expect(fetch.mockResolvedValue(data)
+      .then((response) => expect(getLinks(response)).tobe(output))
+      .catch((error) => error));
+    // expect(getStatus(input)).resolves.toBe(output);
+    // return output.then(getStatus(input).toEqual(output));
+  });
+});
+*/
