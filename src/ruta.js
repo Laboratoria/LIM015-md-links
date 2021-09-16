@@ -5,8 +5,8 @@ const fetch = require('node-fetch');
 
 // *Confirmar si la ruta existe*
 
-const pathExist = (isAPath) =>
-  fs.existsSync(isAPath) ? path.normalize(path.resolve(isAPath)) : 'La ruta no existe';
+const pathExist = (isAPath) => fs.existsSync(isAPath) 
+  //? path.normalize(path.resolve(isAPath)) : 'La ruta no existe';
 
 // console.log(pathExist('src/indexs.js'));
 // console.log(pathExist('src/index.js'));
@@ -29,7 +29,7 @@ const isAFile = isAPath => fs.lstatSync(isAPath).isFile();
 
 const isAbsolute = isAPath => (path.isAbsolute(isAPath) ? isAPath : path.resolve(isAPath))
 
-// console.log(isAbsolute('archivo.md'));
+// console.log(isAbsolute('Pruebaa'));
 
 // *Para leer un archivo de un directorio*
 
@@ -51,21 +51,22 @@ const isMd = (isAPath) => path.extname(isAPath) === '.md'
 // console.log(fs.readdirSync('Pruebaa', 'utf8'));
 
 
-
 // *Funcion para extraer archivos md y guardarlo en un array*
 
-const searchFileMd = (file) => {
-    const route = isAbsolute(file);
+const searchFileMd = (route) => {
+    // const route = isAbsolute(file);
+    // console.log(route);
     let arrayFileMd = [];
 
-    if(pathExist(route) && isAFile(route)) {
+    if( isAFile(route)) {
         if(isMd(route)) {
             arrayFileMd.push(route)
         }
     } else {
         const listOfFiles = fs.readdirSync(route);
-        listOfFiles.forEach((files) => {
-            arrayFileMd = arrayFileMd.concat(searchFileMd(path.join(route, files)));
+        listOfFiles.forEach((file) => {
+            const pathFile = path.join(route, file);
+            arrayFileMd = arrayFileMd.concat(searchFileMd(pathFile));
             // console.log(files);
             // console.log(route);
         });
@@ -78,6 +79,7 @@ const searchFileMd = (file) => {
 // *Funcion para recorrer los links de los archivos md*
 
 const readLinksMd = (file) => {
+    console.log(file);
     const arrayLinksMd = [];
     const arrFile = searchFileMd(file);
     arrFile.forEach((pathFile) => {
@@ -122,18 +124,23 @@ const validateLink = (links) => fetch(links.href)
             status: 'ERR',
             statusText: 'FAIL'
         };                                                                      
-    })
+    });
 
-console.log(validateLink('https://curriculum.laboratoria.la/es/topics/javascript/04-arrays'));
+    // validateLink('https://curriculum.laboratoria.la/es/topics/javascript/04-arrays').then(resolve => {
+    //     console.log(resolve);
+    //   }).catch(reject => console.log(reject));
+
+// console.log(validateLink('https://curriculum.laboratoria.la/es/topics/javascript/04-arrays'));
 
 // console.log(process.cwd())  (devuelve el directorio de trabajo actual)
 
 module.exports = {
     searchFileMd,
-    isAbsolute,  /*ya esta el test */
-    pathExist,
-    isAFile,      /*ya esta el test */
-    readAllFiles,
-    isMd,
-    readLinksMd
+    isAbsolute,    /*ya esta el test */
+    pathExist,     /*ya esta el test */
+    isAFile,       /*ya esta el test */
+    readAllFiles,  /*ya esta el test */
+    isMd,          /*ya esta el test */
+    readLinksMd,
+    validateLink
 }
