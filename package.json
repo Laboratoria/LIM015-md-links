@@ -21,6 +21,9 @@
   },
   "homepage": "https://github.com/Andu15/LIM015-md-links#readme",
   "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
     "jest": "^27.1.1"
   },
   "dependencies": {
@@ -28,6 +31,7 @@
   },
   "keywords": [
     "markdown",
-    "promises"
+    "promises",
+    "nodejs"
   ]
 }
