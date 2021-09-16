@@ -68,21 +68,22 @@ const getLinks = (route) => {
 const getStatus = (arrayLink) => {
   const arrStatus = arrayLink.map((ref) => fetch(ref)
     .then(((response) => {
+      const responseStatus = response.status === 200 ? 'Ok' : 'fail';
       const data = {
-        href: ref.href,
-        text: (ref.text.slice(0, 50)),
         file: ref.file,
+        href: ref.href,
+        message: responseStatus,
+        text: (ref.text.slice(0, 50)),
         status: response.status,
-        message: response.status === 200 ? 'Ok' : 'fail',
       };
       return data;
     }))
     .catch((error) => {
       const data = {
         href: ref.href,
-        status: error.status,
+        status: 'No status',
         file: ref.file,
-        message: error.message,
+        message: `Fail ${error.message}`,
       };
 
       return data;

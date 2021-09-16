@@ -12,9 +12,7 @@ const mdLink = (path, option = {}) => new Promise((resolve, reject) => {
     } else if (option.validate === true) {
       const linkStatus = fnNode.getStatus(arrLinks);
       resolve(linkStatus);
-    } // else {
-    //   response(fnNode.getLinks(absolutePath));
-    // }
+    }
   } else {
     reject(new Error('path no exist'));
   }

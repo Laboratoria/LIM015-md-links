@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 // const fetch = require('node-fetch'); // allows you to asynchronously request for a resource.
 const fetch = require('../__mocks__/mock_fetch.js');
-
 const {
   validatePath,
   pathExists,
@@ -15,12 +14,15 @@ const {
   getStatus,
 } = require('../src/api.js');
 
+/* ***** Const mock data ***** */
 const data = [
   {
     href: 'https://www.npmjs.com/',
     text: 'Sitio oficial de npm (en inglés)',
     file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
   },
+];
+const dataError = [
   {
     href: 'https://www.nmjs.com/',
     text: 'Sitio oficial roto (en inglés)',
@@ -136,26 +138,33 @@ describe('fetch data', () => {
   it('should fetch data', () => {
     const output = [
       {
+        file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
         href: 'https://www.npmjs.com/',
-        text: 'Sitio oficial de npm (en inglés)',
-        file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
+        message: 'Ok',
         status: 200,
-        mesagge: 'Ok',
-      },
-      {
-        href: 'https://www.nmjs.com/',
-        file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
-        mesagge: 'request to https://www.nmjs.com/ failed, reason: getaddrinfo ENOTFOUND www.nmjs.com',
-        status: undefined,
-        text: 'Sitio oficial roto (en inglés)',
+        text: 'Sitio oficial de npm (en inglés)',
       },
     ];
     fetch.mockResolvedValue(data);
     return getStatus(data).then((e) => {
       expect(e).toEqual(output);
     });
-    // .then((response) => expect(response).tobe(output))
-    // .catch((error) => error));
+  });
+  it('fetch data error', () => {
+    const outputError = [
+      {
+        href: 'https://www.nmjs.com/',
+        file: 'C:\\Users\\Estudiante\\Documents\\GitHub\\LIM015-md-links\\testing_functions\\testing_md.md',
+        // mesagge: 'request to https://www.nmjs.com/ failed, reason: getaddrinfo ENOTFOUND www.nmjs.com',
+        status: 'No status',
+        // message: 'request to https://www.nmjs.com/ failed, reason: getaddrinfo ENOTFOUND www.nmjs.com',
+        message: 'Fail request to https://www.nmjs.com/ failed, reason: getaddrinfo ENOTFOUND www.nmjs.com',
+      },
+    ];
+    fetch.mockResolvedValue(dataError);
+    return getStatus(dataError).then((e) => {
+      expect(e).toEqual(outputError);
+    });
   });
 });
 
