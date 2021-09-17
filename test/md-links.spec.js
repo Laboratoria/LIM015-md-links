@@ -1,12 +1,12 @@
 // const mdLinks = require('../javascript/index.js');
 const path = require('../javascript/path');
 
-describe('route', () => {
+describe('getPath', () => {
   it('Debería ser una función', () => {
-    expect(typeof path.route).toBe('function');
+    expect(typeof path.getPath).toBe('function');
   });
   it('Debería retornar la misma ruta', () => {
-    expect(path.route('/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/index.js')).toBe('/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/index.js');
+    expect(path.getPath('/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/index.js')).toBe('/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/index.js');
   });
 });
 
@@ -31,5 +31,17 @@ describe('pathAbsolute', () => {
   });
   it('Debería ser true para ruta absoluta', () => {
     expect(path.pathAbsolute('/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/READMELAB.md')).toBeTruthy();
+  });
+});
+
+describe('pathIsDirectory', () => {
+  it('Debería ser una funcion', () => {
+    expect(typeof path.pathIsDirectory).toBe('function');
+  });
+  it('Debería ser true para un directorio', () => {
+    expect(path.pathIsDirectory('javascript')).toBeTruthy();
+  });
+  it('Debería ser false para un archivo', () => {
+    expect(path.pathIsDirectory('lib/prueba.txt')).toBeFalsy();
   });
 });
