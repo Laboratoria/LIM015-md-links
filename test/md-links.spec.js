@@ -27,10 +27,19 @@ describe('pathAbsolute', () => {
     expect(typeof path.pathAbsolute).toBe('function');
   });
   it('Debería retornar una ruta absoluta', () => {
-    expect(path.pathAbsolute('lib/READMELAB.md')).toBe('/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/READMELAB.md');
+    expect(path.pathAbsolute('lib/READMELAB.md')).toBeFalsy();
   });
   it('Debería ser true para ruta absoluta', () => {
     expect(path.pathAbsolute('/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/READMELAB.md')).toBeTruthy();
+  });
+});
+
+describe('relativeToAbsolutePath', () => {
+  it('Debería ser una función', () => {
+    expect(typeof path.relativeToAbsolutePath).toBe('function');
+  });
+  it('Debería retornar ruta absoluta', () => {
+    expect(path.relativeToAbsolutePath('lib/prueba.txt')).toBe('/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/prueba.txt');
   });
 });
 
@@ -43,5 +52,27 @@ describe('pathIsDirectory', () => {
   });
   it('Debería ser false para un archivo', () => {
     expect(path.pathIsDirectory('lib/prueba.txt')).toBeFalsy();
+  });
+});
+
+describe('readDirectory', () => {
+  it('Debería ser una función', () => {
+    expect(typeof path.readDirectory).toBe('function');
+  });
+  it('Debería mostrar todos los archivos', () => {
+    expect(path.readDirectory('lib')).toEqual([ 'READMELAB.md', 'prueba.txt' ]);
+  });
+});
+
+// DETENTE! AQUI LEER README!
+describe('extIsMd', () => {
+  it('Debería ser una función', () => {
+    expect(typeof path.extIsMd).toBe('function');
+  });
+  it('Debería ser true para .md', () => {
+    expect(path.extIsMd('lib/prueba.txt')).toBeFalsy();
+  });
+  it('Debería ser true para .md', () => {
+    expect(path.extIsMd('lib/READMELAB.md')).toBeTruthy();
   });
 });
