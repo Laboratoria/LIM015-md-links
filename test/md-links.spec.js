@@ -1,5 +1,5 @@
 // const mdLinks = require('../javascript/index.js');
-const path = require('../javascript/path');
+const path = require('../src/path');
 
 describe('getPath', () => {
   it('Debería ser una función', () => {
@@ -48,7 +48,7 @@ describe('pathIsDirectory', () => {
     expect(typeof path.pathIsDirectory).toBe('function');
   });
   it('Debería ser true para un directorio', () => {
-    expect(path.pathIsDirectory('javascript')).toBeTruthy();
+    expect(path.pathIsDirectory('lib')).toBeTruthy();
   });
   it('Debería ser false para un archivo', () => {
     expect(path.pathIsDirectory('lib/prueba.txt')).toBeFalsy();
