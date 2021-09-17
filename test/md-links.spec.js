@@ -64,7 +64,6 @@ describe('readDirectory', () => {
   });
 });
 
-// DETENTE! AQUI LEER README!
 describe('extIsMd', () => {
   it('Debería ser una función', () => {
     expect(typeof path.extIsMd).toBe('function');
@@ -74,5 +73,14 @@ describe('extIsMd', () => {
   });
   it('Debería ser true para .md', () => {
     expect(path.extIsMd('lib/READMELAB.md')).toBeTruthy();
+  });
+});
+
+describe('readFile', () => {
+  it('Debería ser una función', () => {
+    expect(typeof path.readFile).toBe('function');
+  });
+  it('Debería leer el contenido de un archivo', () => {
+    expect(path.readFile('lib/prueba.txt')).toBe('Este es un archivo de prueba');
   });
 });

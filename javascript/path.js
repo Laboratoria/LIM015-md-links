@@ -31,13 +31,15 @@ function readDirectory(route) {
   return fs.readdirSync(route);
 }
 
-// DETENTE! AQUI LEER README!
 // analizar si es un archivo con extension md
 function extIsMd(route) {
   return path.extname(route) === '.md' ? true : false;
 }
 
-// leer el contenido de un archivo .md
+// leer el contenido de un archivo
+function readFile(route) {
+  return fs.readFileSync(route).toString();
+  }
 
 // console.log(path.extname('lib/READMELAB.txt'));
 
@@ -49,4 +51,5 @@ module.exports = {
   pathIsDirectory,
   readDirectory,
   extIsMd,
+  readFile,
 };
