@@ -1,9 +1,44 @@
-const {mdlinks}= require("./md-links.js");
-const {md}= require("./md-links.js")
-//Process es un objeto global de node // 
-//process.argv es una propiedad que devuelve un arreglo con lo que escribes (puede ser lo) en la terminal 
-//El metodo .slice copiaba una parte del arreglo segun lo que le pidamos que copie por su indice 
-const rutadelUsuario = process.argv.slice(2);
-mdlinks(rutadelUsuario)
+#!/usr/bin/env node
 
-md(rutadelUsuario)
+const chalk = require('chalk');
+const { mdLinks } = require('./index');
+
+const {
+  linksStats, linksRotos, mensajeHelp, rutaSinLinks, rutaNoExiste,
+} = require('./cli-fn');
+
+const rutadelUsuario = process.argv[2];
+const option = process.argv.slice(2);
+const validate = option.includes('--v' || '--validate');
+const stats = option.includes('--s' || '--stats');
+if (option.length === 1) {
+  mdLinks(rutadelUsuario, { validate })
+    .then((resolve) => console.log(resolve))
+    .catch((reject) => {
+      if (reject === 'Ruta no existe') {
+        console.log(rutaNoExiste);
+      } else {
+        console.log('hola1', rutaSinLinks);
+      }
+    });
+} else if (validate) {
+  mdLinks(rutadelUsuario, { validate })
+    .then((res) => console.log(res))
+    .catch((e) => console.log(rutaSinLinks, e));
+} else if (stats) {
+  mdLinks(rutadelUsuario, { validate })
+    .then((res) => console.table(chalk.greenBright(linksStats(res))))
+    .catch((e) => console.log(rutaSinLinks, e));
+} else if (validate && stats) {
+  console.log('hola');
+  mdLinks(rutadelUsuario, { validate })
+    .then((res) => {
+      console.table(chalk.green(linksStats(res)));
+      console.table(chalk.red(linksRotos(res)));
+    })
+    .catch((e) => console.log(rutaSinLinks, e));
+} else {
+  mdLinks(rutadelUsuario, { validate })
+    .then(console.log(mensajeHelp))
+    .catch((e) => console.log(rutaSinLinks, e));
+}
