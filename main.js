@@ -1,4 +1,4 @@
-const { mdLink } = require('./index.js');
+const { mdLink } = require('./src/index.js');
 // const { getStatus } = require('./src/api.js');
 
 const route = process.argv[2];

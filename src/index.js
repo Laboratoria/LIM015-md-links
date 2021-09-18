@@ -1,12 +1,10 @@
 // const { promise } = require('node-fetch');
-const fnNode = require('./src/api.js');
+const fnNode = require('./api.js');
 
 const mdLink = (path, option = {}) => new Promise((resolve, reject) => {
-  // console.log('hola');
   const absolutePath = fnNode.absolutePath(path);
   if (fnNode.pathExists(absolutePath)) {
     const arrLinks = fnNode.getLinks(absolutePath);
-    // fnNode.getStatus(getLinks);
     if (arrLinks.length === 0) {
       reject(new Error('Something bad happened, this route does not have links :c'));
     } else if (option.validate === true) {
