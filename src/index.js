@@ -14,7 +14,8 @@ const mdLinks = (path, options) =>
                 const searchMdFile = methods.searchFileMd(absolute);
                 // const readMdLinks = methods.readLinksMd(searchMdFile);
                 // console.log(searchMdFile, 'hola');
-                const arrayLinks = searchMdFile.map((elem) => {
+        // REVISAAAAAR        
+                searchMdFile.map((elem) => {
                     return methods.readLinksMd(elem);
                     // console.log(elem, 'elemento');
                 });
