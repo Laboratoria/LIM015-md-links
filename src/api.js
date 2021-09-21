@@ -20,8 +20,6 @@ const pathIsDir = (route) => fs.statSync(route).isDirectory();
 const readDir = (route) => fs.readdirSync(route);
 
 /* ***** Check if file is a MD file ***** */
-// eslint-disable-next-line no-unneeded-ternary
-// const mdValidation = (route) => (path.extname(route) === '.md' ? readFile(route) : false);
 const mdValidation = (route) => (path.extname(route) === '.md' ? [route] : []);
 
 /* ***** Search a MD file in a Directory ***** */
@@ -85,7 +83,6 @@ const getStatus = (arrayLink) => {
         file: ref.file,
         message: `Fail ${error.message}`,
       };
-
       return data;
     }));
   return Promise.all(arrStatus);
@@ -103,66 +100,3 @@ module.exports = {
   getLinks,
   getStatus,
 };
-
-/* ***** determines if a path is a file ***** */
-// const pathIsFile = fs.statSync(route).isFile()
-
-/* ***** Read File exists ***** */
-/* read the file and turn it into a string
-const readFile = (route) => fs.readFileSync(route).toString();
-const readFile = (file) => {
-  try {
-    return fs.readFileSync(file, 'utf8' , (err, data) => {
-      if (err) {
-        return err;
-      }
-        return data;
-    });
-  }catch (e) {
-    return e;
-  }
-} */
-
-// const pathIsFile = (route) => fs.statSync(route).isFile();
-
-/* ***** Check If Path(directory or folder) exists ***** */
-// const pathExists = (route) => (fs.existsSync(route) ? route : 'Path not found.');
-
-/* ***** Function validate path ***** */
-// object provides information about a file.
-// const statusPath = (route) => fs.statSync(route);
-
-/* ***** Read a directory and make an array with files in it  ***** */
-// const arrayDirFile = (route) => readDir(route).map((element) => path.join(route, element));
-
-/* Prueba function getStatus
-const getStatus = (arrayLink) => {
-  const arrStatus = arrayLink.map((ref) => fetch(ref)
-    .then(((response) => {
-      const data = {
-        href: ref.href,
-        text: (ref.text.slice(0, 50)),
-        file: ref.file,
-        status: response.status,
-        message: response.status === 200 ? 'Ok' : 'fail',
-      };
-      // ref.status = response.status;
-      // ref.mesagge = response.status === 200 ? 'Ok' : 'fail';
-      // console.log(ref);
-      return data;
-    }))
-    .catch((error) => {
-      const data = {
-        href: ref.href,
-        status: error.message,
-        file: ref.file,
-        // message: 'Fail',
-      };
-      // ref.status = error.message;
-      // ref.mesagge = 'Fail';
-      // console.log(ref);
-      return data;
-    }));
-  return Promise.all(arrStatus);
-};
-*/

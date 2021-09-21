@@ -3,7 +3,7 @@
 const statsLinks = (links) => {
   const linksTotal = links.map((item) => item.href);
   const uniqueLink = new Set(linksTotal);
-  return `Total  : ${linksTotal.length} \n Unique : ${uniqueLink.size}`;
+  return `Total  : ${linksTotal.length} \nUnique : ${uniqueLink.size}`;
 };
 
 const broken = (links) => {
