@@ -1,6 +1,6 @@
 const path = require('path');
 const mdLinks = require('../src/index.js');
-const {isAbsolute, isAFile, readAllFiles, isMd, pathExist} = require("../src/ruta.js");
+const {isAbsolute, isAFile, readAllFiles, isMd, pathExist, searchFileMd} = require("../src/ruta.js");
 
 
 describe('mdLinks', () => {
@@ -70,3 +70,14 @@ describe('Verifica si la ruta es valida', () => {
   });
 });
 
+
+it('Extrae archivos md y los guarda en un array', () => {
+  it('Deberia ser una funcion', () => {
+    expect(typeof searchFileMd).toBe('function');
+  });
+  
+
+  it('Deberia guardarlos en un array', () => {
+    
+  })
+})

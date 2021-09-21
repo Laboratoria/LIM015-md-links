@@ -134,6 +134,25 @@ const validateLink = (links) => fetch(links.href)
 
 // console.log(process.cwd())  (devuelve el directorio de trabajo actual)
 
+// STATS
+
+// Funcion de enlaces unicos
+const uniqueLink = (arrayLink) => {
+    const uniquesLinks = new Set(arrayLink.map((link) => link.href));
+    return uniquesLinks.size;
+};
+
+// Funcion de enlaces rotos
+const brokenLink = (arrayLink) => {
+    const brokenLinks = arrayLink.filter((link) => link.statusText === 'FAIL')
+    return brokenLinks.length;
+};
+
+const totalLink  = (arrayLink) => {
+    const totalElementosArray = arrayLink.map(link => link.href);
+    return totalElementosArray.length;
+}
+
 module.exports = {
     searchFileMd,
     isAbsolute,    /*ya esta el test */
@@ -142,5 +161,8 @@ module.exports = {
     readAllFiles,  /*ya esta el test */
     isMd,          /*ya esta el test */
     readLinksMd,
-    validateLink
+    validateLink,
+    uniqueLink,
+    brokenLink,
+    totalLink
 }
