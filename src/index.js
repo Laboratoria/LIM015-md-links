@@ -14,7 +14,6 @@ const mdLink = (path, option = {}) => new Promise((resolve, reject) => {
   } else {
     reject(new Error('path no exist'));
   }
-  return Promise;
 });
 
 module.exports = {

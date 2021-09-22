@@ -1,4 +1,3 @@
-// const colorText = require('chalk');
 /* ********* Stats functions ********** */
 const statsLinks = (links) => {
   const linksTotal = links.map((item) => item.href);
@@ -6,8 +5,9 @@ const statsLinks = (links) => {
   return `Total  : ${linksTotal.length} \nUnique : ${uniqueLink.size}`;
 };
 
+const errorStatus = 'Fail request to https://www.nmjs.com/ failed, reason: getaddrinfo ENOTFOUND www.nmjs.com';
 const broken = (links) => {
-  const brokenLinks = Array.from(links).filter((element) => element.status >= 400);
+  const brokenLinks = Array.from(links).filter((element) => element.message === errorStatus);
   const stats = `Broken: ${brokenLinks.length}`;
   return stats;
 };

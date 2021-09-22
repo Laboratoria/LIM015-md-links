@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /* eslint-disable max-len */
 const colorText = require('chalk');
-const { mdLink } = require('../main.js'); // viene de main.js (entra a help y trae validate pero no entra con validate)
-// const { mdLink } = require('./index.js'); // viene de index.js (entra a help, pero no a validate)
+// const { mdLink } = require('../main.js'); // viene de main.js (entra a help y trae validate pero no entra con validate)
+const { mdLink } = require('./index.js'); // viene de index.js (entra a help, pero no a validate)
 
 const {
   statsLinks,
@@ -17,25 +17,56 @@ const options = process.argv.slice(2);
 // console.log(process.argv);
 const hasValidate = options.includes('--validate');
 const hasStats = options.includes('--stats');
-const hasHelp = options.includes('--help')/* || pathOrHelp === '--help' */;
+const hasHelp = options.includes('--help') || pathOrHelp === '--help';
 
 if (hasHelp) {
   console.log(colorText.yellow(help));
 } else {
-  mdLink(pathOrHelp, { validate: hasValidate })
+  mdLink(pathOrHelp, { validate: true })
     .then((response) => {
-      if (hasStats) {
-        statsLinks(response);
+      if (hasValidate && !hasStats) {
+        console.log(response);
       }
-    })
-    .catch((reject) => {
-      if (reject === 'Something bad happened, this route does not have links :c') {
+      if (hasStats && !hasValidate) {
+        console.log(statsLinks(response));
+        // console.log(response);
+      }
+      if ((hasStats && hasValidate) || (hasValidate && hasStats)) {
+        console.log(colorText.green(statsLinks(response)));
+        console.log(colorText.red(broken(response)));
+        // console.log(response);
+      }
+    }).catch((error) => {
+      // console.log(error.message);
+      if (error.message === 'Something bad happened, this route does not have links :c') {
         console.log(colorText.red(errorNoLinks));
       } else {
         console.log(colorText.red(errorPath));
       }
     });
 }
+// if ((hasStats && hasValidate)/* || (hasValidate && hasStats ) */) {
+//   mdLink(pathOrHelp, { validate: true })
+//     .then((response) => {
+//       console.log(colorText.green(statsLinks(response)));
+//       console.log(colorText.red(broken(response)));
+//     }).catch((error) => {
+//     // console.log(error.message);
+//       if (error.message === 'Something bad happened, this route does not have links :c') {
+//         console.log(colorText.red(errorNoLinks));
+//       } else {
+//         console.log(colorText.red(errorPath));
+//       }
+//     });
+// }
+
+// .catch((reject) => {
+//   if (error.message === 'no such file or directory') {
+//     console.log(colorText.red(errorNoLinks));
+//   } else {
+//     console.log(colorText.red(errorPath));
+//   }
+// });
 
 // if (pathOrHelp.length === 1) {
 //   mdLinks(pathOrHelp, { validate: hasValidate })
