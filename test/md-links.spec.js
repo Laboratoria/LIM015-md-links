@@ -1,6 +1,6 @@
 const { pathExist, pathAbsolute, pathIsDirectory,
   readDirectory, extIsMd, readFile, concatRoute } = require('../src/path');
-const { traverseDirectoryFindFiles } = require('../src/mdLinksApi');
+const { traverseDirectoryFindFiles, traverseFilesToFindLinks } = require('../src/mdLinksApi');
 
 describe('pathExist', () => {
   it('Debería ser una función', () => {
@@ -83,14 +83,38 @@ describe('traverseDirectoryFindFiles', () => {
   });
   it('Debería mostrarme todos los archivos .md', () => {
     const result = [
-      'lib/READMELAB.md',
-      'lib/mdlinks.md',
-      'lib/prueba/prueba.md',
-      'lib/prueba/prueba2/prueba2.md'
+      '/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/READMELAB.md',
+      '/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/mdlinks.md',
+      '/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/prueba/prueba.md',
+      '/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/prueba/prueba2/prueba2.md'
     ]
     expect(traverseDirectoryFindFiles('lib')).toEqual(result);
   });
   it('Debería ser null para archivos diferentes a .md', () => {
-    expect('lib/prueba.txt').toBeNull;
+    expect(traverseDirectoryFindFiles('lib/prueba.txt')).toEqual([]);
+  });
+});
+
+describe('traverseFilesToFindLinks', () => {
+  it('Debería ser una función', () => {
+    expect(typeof traverseFilesToFindLinks).toBe('function');
+  });
+  it('Debería retornar info de los links de archivos .md', () => {
+    const result = [
+      {
+        href: 'https://es.wikipedia.org/wiki/Markdown',
+        title: 'Markdown',
+        text: '/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/mdLinks.md'
+      },
+      {
+        href: 'https://nodejs.org/es/',
+        title: 'Node.js',
+        text: '/Users/katy/Desktop/LABORATORIA-ANDREA/LIM015-md-links/lib/mdLinks.md'
+      }
+    ];
+    expect(traverseFilesToFindLinks('lib/mdLinks.md')).toEqual(result);
+  });
+  it('Debería retornar vacio si no hay links', () => {
+    expect(traverseFilesToFindLinks('lib/prueba/prueba.md')).toEqual([]);
   });
 });

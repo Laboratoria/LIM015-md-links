@@ -15,15 +15,16 @@ const traverseDirectoryFindFiles = (route) => {
       container = container.concat(loopOfRoutes);
     });
   } else {
-    extIsMd(route) ? container.push(route) : false
+    extIsMd(route) ? container.push(pathAbsolute(route)) : false
   }
   return container;
 };
 
+// función para obtener un array con los objs(href, textContent y ruta) de archivos .md
 const traverseFilesToFindLinks = (route) => {
   let arrLinks = [];
   const renderer = new marked.Renderer();
-  return traverseDirectoryFindFiles(route).map((file) => {
+  traverseDirectoryFindFiles(route).forEach((file) => {
     const md = readFile(file);
     renderer.link = (href, title, text) => {
       const obj = {
@@ -31,14 +32,17 @@ const traverseFilesToFindLinks = (route) => {
         title: text,
         text: file,
       }
-      return obj.href + obj.title + obj.text;
+      arrLinks.push(obj);
     };
-    return marked(md, { renderer });
+    marked(md, { renderer });
   });
+  return arrLinks;
 }
 
-console.log(traverseFilesToFindLinks('lib/mdLinks.md'));
+// console.log(traverseFilesToFindLinks('lib/mdLinks.md'));
+
 
 module.exports = {
   traverseDirectoryFindFiles,
+  traverseFilesToFindLinks,
 }
