@@ -2,7 +2,7 @@
   "name": "md-links-giovannaldi",
   "version": "0.1.0",
   "main": "src/cli.js",
-  "description": "Con Cli podras verificar el estado de los links de tu archivo md",
+  "description": "Con CLI podras verificar el estado de los links de tu archivo md",
   "bin": {
     "md-links": "src/cli.js"
   },
