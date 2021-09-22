@@ -9,7 +9,7 @@ const path = require('path');
 const marked = require('marked');
 const fetch = require('node-fetch');
 
-// const rutadelUsuario = process.argv[2];
+ const rutadelUsuario = process.argv[2];
 
 // Process es un objeto global de node //
 // process.argv es una propiedad que devuelve un arreglo con lo que escribes () en la terminal
