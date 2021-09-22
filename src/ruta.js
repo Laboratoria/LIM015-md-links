@@ -139,18 +139,21 @@ const validateLink = (links) => fetch(links.href)
 // Funcion de enlaces unicos
 const uniqueLink = (arrayLink) => {
     const uniquesLinks = new Set(arrayLink.map((link) => link.href));
-    return uniquesLinks.size;
+    const unique = `\nUnique: ${uniquesLinks.size}`
+    return unique;
 };
 
 // Funcion de enlaces rotos
 const brokenLink = (arrayLink) => {
     const brokenLinks = arrayLink.filter((link) => link.statusText === 'FAIL')
-    return brokenLinks.length;
+    const stats = `\nBroken: ${brokenLinks.length}`;
+    return stats;
 };
 
 const totalLink  = (arrayLink) => {
     const totalElementosArray = arrayLink.map(link => link.href);
-    return totalElementosArray.length;
+    const total = `\nTotal:${totalElementosArray.length}`
+    return total;
 }
 
 module.exports = {
