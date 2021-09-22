@@ -1,3 +1,4 @@
+// Desde este archivo debes exportar una función (mdLinks).
 // import { existsSync } from 'fs';
 const fs = require('fs');
 // const chalk = require('chalk');
@@ -28,3 +29,32 @@ console.log(fs.unlink);
 module.exports = () => {
   console.log('hola mundo');
 };
+
+function mdLinks(route) {
+  return new Promise(function (resolve, reject) {
+  });
+};
+
+// =======
+// proceso desde un directorio para obtener los archivos md en un array
+const traverseDirectoryFindFilesMd = (route) => {
+  let files = [];
+  if (pathIsDirectory(route)) {
+    readDirectory(route).forEach((data) => extIsMd(data) ? files.push(data) : false);
+    // traverseDirectoryFindFilesMd(route); // REVISAR CON COACHES
+  } else {
+    extIsMd(route) ? files.push(route) : false;
+  }
+  return files;
+};
+
+// Obtener todos los links dentro de un archivo .md
+const getLinks = (route) => {
+  let allLinks=[];
+  traverseDirectoryFindFilesMd(route).map((file) => {
+    console.log(readFile(file));
+  });
+  return allLinks;
+}
+
+
