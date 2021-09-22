@@ -31,7 +31,7 @@ const traverseFilesToFindLinks = (route) => {
         title: text,
         text: file,
       }
-      arrLinks.push(obj);
+      return obj.href + obj.title + obj.text;
     };
     return marked(md, { renderer });
   });
