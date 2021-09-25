@@ -101,7 +101,7 @@ if (args.length === 3) {
             .catch((err) => console.log(errMsg, err));
     };
 };
-if (args[1] !== '--stats' && args[1] !== '--validate' && args[1] !== null) {
+if (args[1] !== '--stats' && args[1] !== '--validate' && args[1] !== undefined && args[1] !== '--help' ) {
     console.log('No se encontró comando válido, pruebe con: --help')
 };
 

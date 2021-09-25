@@ -6,49 +6,22 @@ const fetch = require('node-fetch');
 // *Confirmar si la ruta existe*
 
 const pathExist = (isAPath) => fs.existsSync(isAPath) 
-  //? path.normalize(path.resolve(isAPath)) : 'La ruta no existe';
-
-// console.log(pathExist('src/indexs.js'));
-// console.log(pathExist('src/index.js'));
-
-// *Comprobar si la ruta un directorio*
-
-const isADirectory = isAPath => fs.lstatSync(isAPath).isDirectory();
-
-// console.log(isADirectory('src'));
-// console.log(isADirectory('src/index.js'));
 
 // *Comprobar si la ruta un archivo*
 
 const isAFile = isAPath => fs.lstatSync(isAPath).isFile();
 
-// console.log(isAFile('Pruebaa/archivo.md'));
-// console.log(isAFile('Pruebaa'));
-
 // *Verificar si es una ruta absoluta y resolverlo*
 
 const isAbsolute = isAPath => (path.isAbsolute(isAPath) ? isAPath : path.resolve(isAPath))
-
-// console.log(isAbsolute('Pruebaa'));
 
 // *Para leer un archivo de un directorio*
 
 const readAllFiles = (isAPath) => fs.readFileSync(isAPath, 'utf8');
 
-// console.log(fs.readFileSync('./Pruebaa/archivo.md', 'utf8'));
-
 // *Para verificar que la extension del archivo sea md*
 
 const isMd = (isAPath) => path.extname(isAPath) === '.md'
-
-// console.log(isMd('./Pruebaa/archivo.md'));
-// console.log(isMd('./Pruebaa/text.txt'));
-
-// path.extname('index.js');
-
-// console.log(path.extname('./Pruebaa/text.txt'));
-
-// console.log(fs.readdirSync('Pruebaa', 'utf8'));
 
 
 // *Funcion para extraer archivos md y guardarlo en un array*
@@ -79,7 +52,7 @@ const searchFileMd = (route) => {
 // *Funcion para recorrer los links de los archivos md*
 
 const readLinksMd = (file) => {
-    console.log(file);
+    // console.log(file);
     const arrayLinksMd = [];
     const arrFile = searchFileMd(file);
     arrFile.forEach((pathFile) => {
@@ -100,6 +73,8 @@ const readLinksMd = (file) => {
 };
 
 // console.log(readLinksMd('./Pruebaa/'));
+
+/*eslint prefer-spread: "warning"*/
 
 const validateLink = (links) => fetch(links.href)
     // const readMdLinks = readLinksMd(route);
@@ -126,7 +101,7 @@ const validateLink = (links) => fetch(links.href)
         };                                                                      
     });
 
-    // validateLink('https://curriculum.laboratoria.la/es/topics/javascript/04-arrays').then(resolve => {
+    // validateLink('https://docs.npmjs.com/cli/install').then(resolve => {
     //     console.log(resolve);
     //   }).catch(reject => console.log(reject));
 
@@ -139,33 +114,33 @@ const validateLink = (links) => fetch(links.href)
 // Funcion de enlaces unicos
 const uniqueLink = (arrayLink) => {
     const uniquesLinks = new Set(arrayLink.map((link) => link.href));
-    const unique = `\nUnique: ${uniquesLinks.size}`
+    const unique = `Unique: ${uniquesLinks.size}`
     return unique;
 };
 
 // Funcion de enlaces rotos
 const brokenLink = (arrayLink) => {
     const brokenLinks = arrayLink.filter((link) => link.statusText === 'FAIL')
-    const stats = `\nBroken: ${brokenLinks.length}`;
+    const stats = `Broken: ${brokenLinks.length}`;
     return stats;
 };
 
 const totalLink  = (arrayLink) => {
     const totalElementosArray = arrayLink.map(link => link.href);
-    const total = `\nTotal:${totalElementosArray.length}`
+    const total = `Total: ${totalElementosArray.length}`
     return total;
 }
 
 module.exports = {
-    searchFileMd,
+    searchFileMd,  /*ya esta el test */
     isAbsolute,    /*ya esta el test */
     pathExist,     /*ya esta el test */
     isAFile,       /*ya esta el test */
     readAllFiles,  /*ya esta el test */
     isMd,          /*ya esta el test */
-    readLinksMd,
-    validateLink,
-    uniqueLink,
-    brokenLink,
-    totalLink
+    readLinksMd,   /*ya esta el test */
+    validateLink,  /*ya esta el test */
+    uniqueLink,    /*ya esta el test */
+    brokenLink,    /*ya esta el test */
+    totalLink      /*ya esta el test */
 }

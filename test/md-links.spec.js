@@ -1,15 +1,52 @@
 const path = require('path');
 const mdLinks = require('../src/index.js');
-const {isAbsolute, isAFile, readAllFiles, isMd, pathExist, searchFileMd} = require("../src/ruta.js");
+const {
+  isAbsolute, 
+  isAFile, 
+  readAllFiles, 
+  isMd, pathExist, 
+  searchFileMd, 
+  readLinksMd, 
+  validateLink,
+  uniqueLink,
+  brokenLink,
+  totalLink} = require("../src/ruta.js");
 
+const arrLinkPrueb = [
+  {
+    href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Messages',
+    text: 'Mensajes HTTP - MDN',
+    pathFile: './Pruebaa/archivo2.md'
+  }
+]
 
-describe('mdLinks', () => {
+const arrArchPrueb = [ 'Pruebaa\\archivo.md', 'Pruebaa\\archivo2.md', 'Pruebaa\\pruebita\\archivo3.md' ]
 
-  it('should...', () => {
-    console.log('FIX ME!');
-  });
+const arrStatsPrueb = [
+  {
+  href: 'https://curriculum.laboratoria.la/es/topics/javascript/04-arrays',
+  text: 'Arreglos',
+  pathFile: 'Pruebaa\\archivo.md',
+  status: 200,
+  statusText: 'OK'
+  },
+  {
+  href: 'https://www.google.com/no-existe',
+  text: 'https://www.google.com/no-existe',
+  pathFile: 'Pruebaa\\archivo.md',
+  status: 404,
+  statusText: 'FAIL'
+  }
+]
 
-});
+const arrValidPrueb = { "0": ".", "1": "/", "10": "p", "11": "r", "12": "u", "13": "e", "14": "b", "15": "i",
+  "16": "t", "17": "a", "18": "/", "19": "a", "2": "P", "20": "r", "21": "c", "22": "h", "23": "i","24": "v", 
+  "25": "o", "26": "3","27": ".",  "28": "m", "29": "d",   "3": "r", "4": "u",
+  "5": "e", "6": "b", "7": "a", "8": "a", "9": "/",
+  "status": "ERR",
+  "statusText": "FAIL",
+}
+
 
 // Test de ruta absoluta
 describe('Permite convertir ruta relativa', () => {
@@ -70,14 +107,77 @@ describe('Verifica si la ruta es valida', () => {
   });
 });
 
-
-it('Extrae archivos md y los guarda en un array', () => {
+// Test que extrae los archivos .md
+describe('Extrae los archivos .md de un directorio', () => {
   it('Deberia ser una funcion', () => {
     expect(typeof searchFileMd).toBe('function');
   });
-  
+  it('Deberia extraer los archivos .md', () => {
+    expect(searchFileMd('./Pruebaa')).toEqual(arrArchPrueb);
+  });
+});
 
-  it('Deberia guardarlos en un array', () => {
-    
-  })
-})
+// Test que devuelve los links del archivo md
+describe('Extrae links de los archivos md y los guarda en un array', () => {
+  it('Deberia ser una funcion', () => {
+    expect(typeof readLinksMd).toBe('function');
+  });
+  it('Deberia mostrar los enlaces con el href, text y path file', () => {
+    expect(readLinksMd('./Pruebaa/archivo2.md')).toEqual(arrLinkPrueb);
+  });
+});
+
+// test('the data is peanut butter', () => {
+//   return validateLink().then(() => {
+//     expect(validateLink('./Pruebaa/archivo.md')).toStrictEqual(arrValidPrueb);
+//   });
+// });
+
+// describe('Valida links de los archivos md y los guarda en un array', () => {
+//   it('Deberia ser una funcion', () => {
+//     expect(typeof validateLink).toBe('function');
+//   });
+// });
+
+// Test de validar la ruta
+describe('Permite validar el link que se encuentra en la ruta ingresada', () => {
+  it('Deberia ser una funcion', () => {
+    expect(typeof validateLink).toBe('function')
+  });
+  it('Debería devolvernos una promesa', (/*done*/) => validateLink('./Pruebaa/pruebita/archivo3.md')
+    .then((data) => {
+      expect(data).toStrictEqual(arrValidPrueb);
+      // done();
+    }));
+});
+
+// Test de links unicos
+describe('Nos muestra enlace unico',() => {
+  it('Deberia ser una funcion', () => {
+    expect(typeof uniqueLink).toBe('function');
+  });
+  it('Deberia retornar enlaces unicos', () => {
+    expect(uniqueLink(arrStatsPrueb)).toBe("Unique: 2")
+  });
+});
+
+// Test de links rotos
+describe('Nos muestra enlaces rotos',() => {
+  it('Deberia ser una funcion', () => {
+    expect(typeof brokenLink).toBe('function');
+  });
+  it('Deberia retornar enlaces rotos', () => {
+    expect(brokenLink(arrStatsPrueb)).toBe("Broken: 1")
+  });
+});
+
+// Test de links totales
+describe('Nos muestra enlaces totales',() => {
+  it('Deberia ser una funcion', () => {
+    expect(typeof totalLink).toBe('function');
+  });
+  it('Deberia retornar enlaces totales', () => {
+    expect(totalLink(arrStatsPrueb)).toBe("Total: 2")
+  });
+});
+
