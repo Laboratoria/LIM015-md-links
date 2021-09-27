@@ -74,8 +74,6 @@ const readLinksMd = (file) => {
 
 // console.log(readLinksMd('./Pruebaa/'));
 
-/*eslint prefer-spread: "warning"*/
-
 const validateLink = (links) => fetch(links.href)
     // const readMdLinks = readLinksMd(route);
     // const promiseArray = readMdLinks.map((links) => fetch(links.href)
@@ -101,7 +99,10 @@ const validateLink = (links) => fetch(links.href)
         };                                                                      
     });
 
-    // validateLink('https://docs.npmjs.com/cli/install').then(resolve => {
+    
+  
+
+    // validateLink('C:\Users\Rocio Sulca\Desktop\laboratoria\LIM015-md-links\Pruebaa\archivo.md').then(resolve => {
     //     console.log(resolve);
     //   }).catch(reject => console.log(reject));
 
@@ -114,22 +115,22 @@ const validateLink = (links) => fetch(links.href)
 // Funcion de enlaces unicos
 const uniqueLink = (arrayLink) => {
     const uniquesLinks = new Set(arrayLink.map((link) => link.href));
-    const unique = `Unique: ${uniquesLinks.size}`
+    const unique = `\nUnique: ${uniquesLinks.size}`
     return unique;
 };
 
 // Funcion de enlaces rotos
 const brokenLink = (arrayLink) => {
     const brokenLinks = arrayLink.filter((link) => link.statusText === 'FAIL')
-    const stats = `Broken: ${brokenLinks.length}`;
+    const stats = `\nBroken: ${brokenLinks.length}`;
     return stats;
 };
 
 const totalLink  = (arrayLink) => {
     const totalElementosArray = arrayLink.map(link => link.href);
-    const total = `Total: ${totalElementosArray.length}`
+    const total = `\nTotal: ${totalElementosArray.length}`
     return total;
-}
+};
 
 module.exports = {
     searchFileMd,  /*ya esta el test */

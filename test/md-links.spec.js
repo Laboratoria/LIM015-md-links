@@ -1,10 +1,11 @@
 const path = require('path');
-const mdLinks = require('../src/index.js');
+const { mdLinks } = require('../src/index.js');
 const {
   isAbsolute, 
   isAFile, 
   readAllFiles, 
-  isMd, pathExist, 
+  isMd, 
+  pathExist, 
   searchFileMd, 
   readLinksMd, 
   validateLink,
@@ -37,7 +38,7 @@ const arrStatsPrueb = [
   status: 404,
   statusText: 'FAIL'
   }
-]
+];
 
 const arrValidPrueb = { "0": ".", "1": "/", "10": "p", "11": "r", "12": "u", "13": "e", "14": "b", "15": "i",
   "16": "t", "17": "a", "18": "/", "19": "a", "2": "P", "20": "r", "21": "c", "22": "h", "23": "i","24": "v", 
@@ -45,8 +46,7 @@ const arrValidPrueb = { "0": ".", "1": "/", "10": "p", "11": "r", "12": "u", "13
   "5": "e", "6": "b", "7": "a", "8": "a", "9": "/",
   "status": "ERR",
   "statusText": "FAIL",
-}
-
+};
 
 // Test de ruta absoluta
 describe('Permite convertir ruta relativa', () => {
@@ -127,28 +127,16 @@ describe('Extrae links de los archivos md y los guarda en un array', () => {
   });
 });
 
-// test('the data is peanut butter', () => {
-//   return validateLink().then(() => {
-//     expect(validateLink('./Pruebaa/archivo.md')).toStrictEqual(arrValidPrueb);
-//   });
-// });
-
-// describe('Valida links de los archivos md y los guarda en un array', () => {
-//   it('Deberia ser una funcion', () => {
-//     expect(typeof validateLink).toBe('function');
-//   });
-// });
-
 // Test de validar la ruta
 describe('Permite validar el link que se encuentra en la ruta ingresada', () => {
   it('Deberia ser una funcion', () => {
     expect(typeof validateLink).toBe('function')
   });
-  it('Debería devolvernos una promesa', (/*done*/) => validateLink('./Pruebaa/pruebita/archivo3.md')
+  it('Debería devolvernos una promesa', (done) => {validateLink('./Pruebaa/pruebita/archivo3.md')
     .then((data) => {
       expect(data).toStrictEqual(arrValidPrueb);
-      // done();
-    }));
+      done();
+    })});
 });
 
 // Test de links unicos
@@ -157,7 +145,7 @@ describe('Nos muestra enlace unico',() => {
     expect(typeof uniqueLink).toBe('function');
   });
   it('Deberia retornar enlaces unicos', () => {
-    expect(uniqueLink(arrStatsPrueb)).toBe("Unique: 2")
+    expect(uniqueLink(arrStatsPrueb)).toBe("\nUnique: 2")
   });
 });
 
@@ -167,7 +155,7 @@ describe('Nos muestra enlaces rotos',() => {
     expect(typeof brokenLink).toBe('function');
   });
   it('Deberia retornar enlaces rotos', () => {
-    expect(brokenLink(arrStatsPrueb)).toBe("Broken: 1")
+    expect(brokenLink(arrStatsPrueb)).toBe("\nBroken: 1")
   });
 });
 
@@ -177,7 +165,61 @@ describe('Nos muestra enlaces totales',() => {
     expect(typeof totalLink).toBe('function');
   });
   it('Deberia retornar enlaces totales', () => {
-    expect(totalLink(arrStatsPrueb)).toBe("Total: 2")
+    expect(totalLink(arrStatsPrueb)).toBe("\nTotal: 2")
   });
 });
 
+
+ const arrayUnvalided = [  
+    {
+      href: 'https://developer.mozilla.org/es/docs/Web/HTTP/Messages',
+      text: 'Mensajes HTTP - MDN',
+      pathFile: 'Pruebaa\\archivo2.md'
+    }
+  ]
+
+
+const pruebita = [
+  {
+    href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/",
+    pathFile: "Pruebaa\\archivo.md",
+    status: 200,
+    statusText: "OK",
+    text: "Array - MDN",
+  },
+  {
+    href: "https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+    pathFile: "Pruebaa\\archivo.md",
+    status: 200,
+    statusText: "OK",
+    text: "Array.prototype.sort() - MDN",
+  },
+  {
+    href: "https://www.google.com/no-existe",
+    pathFile: "Pruebaa\\archivo.md",
+    status: 404,
+    statusText: "FAIL",
+    text: "https://www.google.com/no-existe",
+ }
+]
+
+
+
+  describe('Permite devolver un array con objetos de la ruta ingresada', () => {
+    it('Debería devolvernos una promesa con validacion del link', (done) => { mdLinks('Pruebaa\\archivo.md', { validate: true })
+      .then((data) => {
+        expect(data).toStrictEqual(pruebita);
+        done();
+      })});
+    it('Debería devolvernos una promesa sin la validacion del link', (done) => { mdLinks('Pruebaa\\archivo2.md', { validate: false })
+      .then((data) => {
+        expect(data).toEqual(arrayUnvalided);
+        done();
+      })});
+    it('Debería devolvernos un mensaje indicando que ingrese una ruta', (done) => { mdLinks('p')
+      .catch((error) => {
+        expect(error.message).toBe('Ruta incorrecta');
+        done();
+      })});
+
+  });

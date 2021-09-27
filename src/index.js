@@ -41,7 +41,7 @@ const mdLinks = (path, options) =>
         }
     });
 //   console.log(arg[0], 'es esto');
-// mdLinks(arg1, { validate: true }).then(resolve => {
+// mdLinks('C:\\Users\\Rocio Sulca\\Desktop\\laboratoria\\LIM015-md-links\\Pruebaa', { validate: true }).then(resolve => {
 //     console.log(resolve);
 // }).catch(reject => console.log(reject));
 
