@@ -1,11 +1,42 @@
 const path = require('path');
 const fs = require('fs');
-
+// const fetch = require('node-fetch');
 
 const absolutePathFile = 'C:/Users/LORD/Desktop/mdlinks-prueba/LIM015-md-links/prueba/test.md';
 const relativePathFile = './prueba/test.md';
 const absolutePathDirectory = 'C:/Users/LORD/Desktop/mdlinks-prueba/LIM015-md-links/prueba';
 const relativePathDirectory = './prueba/';
+
+
+const listURLsDetails = [
+  {
+    href: 'https://www.uxlibrary.org/explore/ui-design',
+    text: 'UX library',
+    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
+  },
+  {
+    href: 'https://yoshiscraftedworld.nintendo.com',
+    text: 'Yoshi web page',
+    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
+  },
+  {
+    href: 'https://youtu.be/vqCHdVOzetc',
+    text: "Steamed Hams but it's Basket Case by Green Day🎵 ",
+    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
+  },
+  {
+    href: 'https://youtu.be/fGVtIpaqaVk',
+    text: "Unsettling Things You Didn't Know About the Smurfs",
+    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
+  },
+  {
+    href: 'https://youtu.be/qWVc-xVZxho',
+    text: '(HQ) Vitas - The 7th Element 2001🎵',
+    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
+  }
+]
+// console.log ( 'this is an example:' ,listURLsDetails[3].text);
+// console.log ( listURLsDetails[3].href, );
 
 // Function converts path in Absolute
 const convertToAbsolutePath = inputPath => path.resolve(inputPath);  
@@ -16,7 +47,9 @@ const detectPathExists = inputPath => fs.existsSync(inputPath);
 //function that detecs if the url is  a directory , returns a boolean
 const detectDirectory = inputPath => fs.statSync(inputPath).isDirectory;
 
+
 //function that opens and shows files from a directory
+
 const openDirectory = (inputPath) => {
     let listFiles = fs.readdirSync(inputPath);
     let filesArray = [];
@@ -50,29 +83,60 @@ const FilterMdFile = (inputArray) => {
     }
 };
 
-//function that gets the urls of the files
-const getURLs = (arrayRoutesMd) => {
-    //regex 
+
+//regex 
     const regExp = /\[(.*)\]\(((?:\/|https?:\/\/).*)\)/gi;
     const regExpText = /\[(.*)\]/g;
     const regExpURL = /\(((?:\/|https?:\/\/).*)\)/g;
-    let arrayHiperDetailsMaster = [];
-    arrayRoutesMd.forEach((route) => {
-        const stringInsideRoute = fs.readFileSync(route, 'utf8');
-        const arrayOfHipers = stringInsideRoute.match(regExp);
-        arrayHipersDetails = [];
-        arrayOfHipers.forEach((e) => {
-            const fileObject = {
-                href : path.normalize(route),
-                text : e.match(regExpText).join().slice(1,-1),
-                file : e.match(regExpURL).join().slice(1, -1),
-            }
-            arrayHipersDetails.push(fileObject);
-        })
-        arrayHiperDetailsMaster = arrayHiperDetailsMaster.concat(arrayHipersDetails);
-    }) 
-    return arrayHiperDetailsMaster;
-};
+
+//function that gets the urls of the files    
+const getURLs = (arrayRoutesMd) => {
+    const allUrls = arrayRoutesMd.map((link) => searchLinks(link));
+    return allUrls;
+     
+    // let arrayHiperDetailsMaster = [];
+    // arrayRoutesMd.forEach((route) => {
+    //     const stringInsideRoute = fs.readFileSync(route, 'utf8');
+    //     const arrayOfHipers = stringInsideRoute.match(regExp);
+    //     arrayHipersDetails = [];
+    //     arrayOfHipers.forEach((link) => {
+    //         const fileObject = {
+    //             href : link.match(regExpURL).join().slice(1, -1),
+    //             text : link.match(regExpText).join().slice(1,-1),
+    //             file : path.normalize(route),
+    //         }
+    //         arrayHipersDetails.push(fileObject);
+    //     })
+    //     arrayHiperDetailsMaster = arrayHiperDetailsMaster.concat(arrayHipersDetails);
+    // }) 
+    // return arrayHiperDetailsMaster;
+  };
+
+ const searchLinks = (link) => {
+      console.log(link , 'there are links here !! :D ');
+    const functionreadFileSync = fs.readFileSync(link, 'utf8', (err,data) => {
+     if (err) {
+         return 'error';
+     } else {
+         return data;
+     }
+
+   }); 
+
+   console.log(functionreadFileSync);
+   let allLinksMD = [];
+   const arrayLinks = functionreadFileSync.match(regExp);
+   console.log(arrayLinks);
+   arrayLinks.forEach((e) =>{
+       allLinksMD.push({
+           href : e.match(regExpURL).join().slice(1,-1),
+           text : e.match(regExpText).join().slice(1,-1),
+           file : path.normalize(link),
+       });
+   });
+   return allLinksMD;
+} 
+
 
 console.log(getURLs(filesArray2));
 
