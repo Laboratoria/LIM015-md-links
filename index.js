@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-// const fetch = require('node-fetch');
+const fetch = require('node-fetch');
 
 const absolutePathFile = 'C:/Users/LORD/Desktop/mdlinks-prueba/LIM015-md-links/prueba/test.md';
 const relativePathFile = './prueba/test.md';
@@ -39,7 +39,7 @@ const listURLsDetails = [
 // console.log ( listURLsDetails[3].href, );
 
 // Function converts path in Absolute
-const convertToAbsolutePath = inputPath => path.resolve(inputPath);  
+const convertPathToAbsolute = inputPath => path.resolve(inputPath);  
 
 //function that detects if file/directory exists, returns a boolean
 const detectPathExists = inputPath => fs.existsSync(inputPath);
@@ -54,7 +54,7 @@ const openDirectory = (inputPath) => {
     let listFiles = fs.readdirSync(inputPath);
     let filesArray = [];
     listFiles.forEach((file) => {
-        const pathChild = path.resolve(input,file)
+        const pathChild = path.resolve(inputPath,file)
         if (fs.statSync(pathChild).isFile()){
             filesArray.push(pathChild);
         } else {
@@ -74,100 +74,81 @@ const filesArray2 = [
     'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test3.md',
 ];
 
-const FilterMdFile = (inputArray) => {
-    const listFilesMd = inputArray.filter(file => path.extname(file) == '.md');
-    if (listFilesMd.length === 0) {
-        return "there isn't any Markdown files :c "
-    } else {
-        return listFilesMd;
-    }
-};
+
+//function that filters an array , returns array with only .md files
+const filterMdFile = (array) => array.filter(file => path.extname(file) == ".md");
 
 
-//regex 
-    const regExp = /\[(.*)\]\(((?:\/|https?:\/\/).*)\)/gi;
-    const regExpText = /\[(.*)\]/g;
-    const regExpURL = /\(((?:\/|https?:\/\/).*)\)/g;
+
+// last version :
+// const FilterMdFile = (inputArray) => {
+//     const listFilesMd = inputArray.filter(file => path.extname(file) == '.md');
+//     if (listFilesMd.length === 0) {
+//         return "there isn't any Markdown files :c "
+//     } else {
+//         return listFilesMd;
+//     }
+// };
+
+
 
 //function that gets the urls of the files    
 const getURLs = (arrayRoutesMd) => {
-    const allUrls = arrayRoutesMd.map((link) => searchLinks(link));
-    return allUrls;
-     
-    // let arrayHiperDetailsMaster = [];
-    // arrayRoutesMd.forEach((route) => {
-    //     const stringInsideRoute = fs.readFileSync(route, 'utf8');
-    //     const arrayOfHipers = stringInsideRoute.match(regExp);
-    //     arrayHipersDetails = [];
-    //     arrayOfHipers.forEach((link) => {
-    //         const fileObject = {
-    //             href : link.match(regExpURL).join().slice(1, -1),
-    //             text : link.match(regExpText).join().slice(1,-1),
-    //             file : path.normalize(route),
-    //         }
-    //         arrayHipersDetails.push(fileObject);
-    //     })
-    //     arrayHiperDetailsMaster = arrayHiperDetailsMaster.concat(arrayHipersDetails);
-    // }) 
-    // return arrayHiperDetailsMaster;
+     //regex 
+    const regExp = /\[(.*)\]\(((?:\/|https?:\/\/).*)\)/gi;
+    const regExpText = /\[(.*)\]/g;
+    const regExpURL = /\(((?:\/|https?:\/\/).*)\)/g;
+    let arrayLinksMaster = [];
+    if (arrayRoutesMd.length > 0) {
+        arrayRoutesMd.forEach((route) =>{
+          const stringLinks = fs.readFileSync(route,'utf8');
+          const arrayLinks = stringLinks.match(regExp);
+          if (arrayLinks) {
+            let arrayDetailed = [];
+            arrayLinks.forEach( (link) => {
+              const object = {
+               href: link.match(regExpURL).join().slice(1,-1),
+               text: link.match(regExpText).join().slice(1, -1),
+               file: route,
+              }
+              arrayDetailed.push(object);
+            });
+            arrayLinksMaster = arrayLinksMaster.concat(arrayDetailed);
+          }    
+      })
+      };
+      return arrayLinksMaster;
+
   };
-
- const searchLinks = (link) => {
-      console.log(link , 'there are links here !! :D ');
-    const functionreadFileSync = fs.readFileSync(link, 'utf8', (err,data) => {
-     if (err) {
-         return 'error';
-     } else {
-         return data;
-     }
-
-   }); 
-
-   console.log(functionreadFileSync);
-   let allLinksMD = [];
-   const arrayLinks = functionreadFileSync.match(regExp);
-   console.log(arrayLinks);
-   arrayLinks.forEach((e) =>{
-       allLinksMD.push({
-           href : e.match(regExpURL).join().slice(1,-1),
-           text : e.match(regExpText).join().slice(1,-1),
-           file : path.normalize(link),
-       });
-   });
-   return allLinksMD;
-} 
 
 
 console.log(getURLs(filesArray2));
 
 
 
-// statsObj = fs.statSync('./prueba/test.md');
-
-// const checkTypeObject = (inputPath) => {
-//     let arrayPathFiles = [];
-//     if (fs.statSync(inputPath).isDirectory()) {
-//       const readDirectory = fs.readdir(inputPath, (err,file) => {
-//           if (err) {
-//               return console.error(err);
-//           }
-//       })
-//      readDirectory.forEach(file => {
-//          const pathFile = path.join(inptPath, file);
-//          arrayPathFiles = arrayPathFiles.concat(checkTypeObject(pathFile))
-//      })
-//      return arrayPathFiles;
-
-//     } else {
-//         return console.log('it is a file', convertToAbsolutePath(inputPath))
-//     }
-// };
-
-// console.log(statsObj);
+const getStatusLinks = (arrLinks) => Promise.all(arrLinks.map((arrLink) => fetch(arrLink.href) 
+.then((res) => {
+   arrLink.status = res.status;
+   arrLink.ok = res.status !== 200 ? 'FAIL' : res.statusText;
+   return arrLink;
+  })
+.catch(() => {
+   arrLink.status = '...';
+   arrLink.ok = 'FAIL';
+   return arrLink;
+}))).then (res => {return res;})
 
 
-// module.exports = () => {
-//   // ...
-// };
+console.log(getStatusLinks(listURLsDetails))
 
-// console.log("henlo :P");
+
+
+module.exports = {
+    detectPathExists,
+    convertPathToAbsolute,
+    detectDirectory,
+    openDirectory,
+    filterMdFile,
+    getURLs,
+    getStatusLinks,
+}
