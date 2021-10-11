@@ -1,34 +1,29 @@
-const {
-    detectPathExists,
-    convertPathToAbsolute,
-    detectDirectory,
-    openDirectory,
-    filterMdFile,
-    getURLs
-} = require('./index.js');
+const api = require('./index.js');
 
-const mdLinks = (path, option = {validate:false}) => {
-    return new Promise((resolve, reject) => {
-        const pathToAbsolute = convertPathToAbsolute(path)
-        let arrayFilesMD;
-        if(detectPathExists(pathToAbsolute)) {
-            if (detectDirectory(pathToAbsolute)) {
-                const arrayfiles = openDirectory(pathToAbsolute);
-                arrayFilesMD = filterMdFile(arrayfiles);
-            } else {
-                arrayFilesMD = filterMdFile([pathToAbsolute]);
-            }
-            resolve(getURLs(arrayFilesMD));
+const mdLinks = (route, options = {}) => 
+new Promise ((resolve, reject) => {
+    if (!api.existPath(route)) {
+        reject('This path does not exist');
+    } else {
+        const allRoutes = api.checkPath(route);
+        let arrayAllRoutes = [];
+        allRoutes.forEach(element => {
+            const validLinks = api.getAllLinks(element);
+            arrayAllRoutes = arrayAllRoutes.concat(validLinks)
+        }) 
+        if (!(options.validate)) {
+            resolve(arrayAllRoutes);
         } else {
-            reject('The input path does not exist');
+            const statusLinks = api.validateLinks(arrayAllRoutes);
+            resolve(statusLinks);
         }
-    })
-}
-
-mdLinks('./prueba/', {validate:false})
-.then(response =>{
-    console.log(response);
-})
-.catch (error => {
-    console.log(error)
+    }
 });
+
+module.exports = {
+    mdLinks
+  }
+
+//console.log(mdLinks('C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md', { validate:true }));
+
+
