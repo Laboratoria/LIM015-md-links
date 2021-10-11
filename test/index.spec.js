@@ -7,11 +7,7 @@ const api = require('../index.js');
     it('should return true if the path exists', () => {
       expect(api.existPath('prueba')).toBe(true);
     });
-<<<<<<< HEAD
     it('should return false if the path does not exist', () => {
-=======
-    it('should return false if does not path exists', () => {
->>>>>>> 5cd7d9b06409674b9b069d6970e48eaecc09fae8
       expect(api.existPath('gitignore')).toBe(false);
     });
   });  
