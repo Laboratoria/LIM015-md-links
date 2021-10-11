@@ -14,8 +14,8 @@ const validatePath = (route) => path.resolve(route);
 //function that reads a directory
 const readDirectory = (route) => fs.readdirSync(route);
 
-// function that asks if ia file ends with the extension '.md'
-const isExtensionMD = (route) => {path.extname(route) === '.md'};
+// function that asks if a file ends with the extension '.md'
+const isExtensionMD = (route) => (path.extname(route) === '.md');
 
 // function that join 2 routes together
 const joinPaths = (path1, path2) => path.join(path1,path2);
