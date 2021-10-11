@@ -1,154 +1,114 @@
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 const fetch = require('node-fetch');
 
-const absolutePathFile = 'C:/Users/LORD/Desktop/mdlinks-prueba/LIM015-md-links/prueba/test.md';
-const relativePathFile = './prueba/test.md';
-const absolutePathDirectory = 'C:/Users/LORD/Desktop/mdlinks-prueba/LIM015-md-links/prueba';
-const relativePathDirectory = './prueba/';
+// function that detects if file/directory exists, returns a boolean
+const existPath = (route) => fs.existsSync(route);
 
+// function that detects if path is Absolute
+const isPathAbsolute = (route) => path.isAbsolute(route);
 
-const listURLsDetails = [
-  {
-    href: 'https://www.uxlibrary.org/explore/ui-design',
-    text: 'UX library',
-    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
-  },
-  {
-    href: 'https://yoshiscraftedworld.nintendo.com',
-    text: 'Yoshi web page',
-    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
-  },
-  {
-    href: 'https://youtu.be/vqCHdVOzetc',
-    text: "Steamed Hams but it's Basket Case by Green Day🎵 ",
-    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
-  },
-  {
-    href: 'https://youtu.be/fGVtIpaqaVk',
-    text: "Unsettling Things You Didn't Know About the Smurfs",
-    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
-  },
-  {
-    href: 'https://youtu.be/qWVc-xVZxho',
-    text: '(HQ) Vitas - The 7th Element 2001🎵',
-    file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md'
-  }
-]
-// console.log ( 'this is an example:' ,listURLsDetails[3].text);
-// console.log ( listURLsDetails[3].href, );
+// function that converts a relative path to an absolute path
+const validatePath = (route) => path.resolve(route);  
 
-// Function converts path in Absolute
-const convertPathToAbsolute = inputPath => path.resolve(inputPath);  
+//function that reads a directory
+const readDirectory = (route) => fs.readdirSync(route);
 
-//function that detects if file/directory exists, returns a boolean
-const detectPathExists = inputPath => fs.existsSync(inputPath);
+// function that asks if ia file ends with the extension '.md'
+const isExtensionMD = (route) => {path.extname(route) === '.md'};
 
-//function that detecs if the url is  a directory , returns a boolean
-const detectDirectory = inputPath => fs.statSync(inputPath).isDirectory;
+// function that join 2 routes together
+const joinPaths = (path1, path2) => path.join(path1,path2);
 
+// function that returns all the links from the file
+const fileContent = (route) => fs.readFileSync(route, 'utf8');
 
-//function that opens and shows files from a directory
-
-const openDirectory = (inputPath) => {
-    let listFiles = fs.readdirSync(inputPath);
-    let filesArray = [];
-    listFiles.forEach((file) => {
-        const pathChild = path.resolve(inputPath,file)
-        if (fs.statSync(pathChild).isFile()){
-            filesArray.push(pathChild);
-        } else {
-            const newDirectory = openDirectory(pathChild);
-            filesArray = filesArray.concat(newDirectory);
-        }
-    })
-    return filesArray;
+// Recursive function : opens a directory and reads all paths '.md'
+const checkPath = (path) => {
+    statsObj = fs.statSync(path); 
+    let arrayAllMD = [];
+    if ((statsObj.isFile() && isExtensionMD(path))) {
+        arrayAllMD.push(path);
+    } else if (statsObj.isDirectory()) {
+        // else if the file is inside a directory
+        const arrayPaths = readDirectory(path);
+        arrayPaths.forEach(pathX => {
+            const pathsDir = joinPaths(path,pathX);
+            const savePaths = checkPath(pathsDir);
+            arrayAllMD = arrayAllMD.concat(savePaths);
+        });
+    }
+    return arrayAllMD;
 };
-
-// console.log(openDirectory(absolutePathDirectory));
-
-//function that filters an array , returns array with only .md files
-const filesArray2 = [
-    'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md',
-    'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test2.md',
-    'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test3.md',
-];
-
-
-//function that filters an array , returns array with only .md files
-const filterMdFile = (array) => array.filter(file => path.extname(file) == ".md");
-
-
-
-// last version :
-// const FilterMdFile = (inputArray) => {
-//     const listFilesMd = inputArray.filter(file => path.extname(file) == '.md');
-//     if (listFilesMd.length === 0) {
-//         return "there isn't any Markdown files :c "
-//     } else {
-//         return listFilesMd;
-//     }
-// };
-
 
 
 //function that gets the urls of the files    
-const getURLs = (arrayRoutesMd) => {
-     //regex 
+const getAllLinks = (route) => {
+    //regex 
     const regExp = /\[(.*)\]\(((?:\/|https?:\/\/).*)\)/gi;
+    const regExpLink = /\(((?:\/|https?:\/\/).*)\)/g;
     const regExpText = /\[(.*)\]/g;
-    const regExpURL = /\(((?:\/|https?:\/\/).*)\)/g;
-    let arrayLinksMaster = [];
-    if (arrayRoutesMd.length > 0) {
-        arrayRoutesMd.forEach((route) =>{
-          const stringLinks = fs.readFileSync(route,'utf8');
-          const arrayLinks = stringLinks.match(regExp);
-          if (arrayLinks) {
-            let arrayDetailed = [];
-            arrayLinks.forEach( (link) => {
-              const object = {
-               href: link.match(regExpURL).join().slice(1,-1),
-               text: link.match(regExpText).join().slice(1, -1),
-               file: route,
-              }
-              arrayDetailed.push(object);
-            });
-            arrayLinksMaster = arrayLinksMaster.concat(arrayDetailed);
-          }    
-      })
-      };
-      return arrayLinksMaster;
-
+    
+    const allLinks = fileContent(route).match(regExp);
+    const arrayAllLinks = [];
+    if(allLinks !== null ) {
+        allLinks.forEach((link) => {
+            const objLinks = {
+                href : link.match(regExpLink).join().slice(1,-1),
+                text : link.match(regExpText).join().slice(1,-1),
+                file : route,
+            };
+            arrayAllLinks.push(objLinks);
+        });
+        // console.log(arrayAllLinks);
+    };
+    return arrayAllLinks;
+  };
+ 
+ // function that validates links
+  const validateLinks = (arrLinks) => {
+      const arrLinksStatus = arrLinks.map((link) => {
+          return fetch(link.href)
+          .then ((resultLink) => {
+              const statusText = resultLink.status === 200 ? 'OK' : 'Fail';
+              const statusData = {
+                  href : link.href,
+                  file : link.file,
+                  status : resultLink.status,
+                  message : statusText,
+                  text : (link.text.slice(0,50))
+              };
+              return statusData
+          })
+          .catch((error) =>{
+              const statusDataErr = {
+                href : link.href,
+                file : link.file,
+                status : 'No status',
+                message : `Fail ${error.message}`
+            };
+            return statusDataErr;
+          });
+      });
+      return Promise.all(arrLinksStatus);
   };
 
 
-console.log(getURLs(filesArray2));
+//   const demogetAllLinks = getAllLinks('C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md')
+//   console.log(demogetAllLinks);
+//   const demovalidateLinks = validateLinks(demogetAllLinks)
+//   console.log(demovalidateLinks);
 
 
-
-const getStatusLinks = (arrLinks) => Promise.all(arrLinks.map((arrLink) => fetch(arrLink.href) 
-.then((res) => {
-   arrLink.status = res.status;
-   arrLink.ok = res.status !== 200 ? 'FAIL' : res.statusText;
-   return arrLink;
-  })
-.catch(() => {
-   arrLink.status = '...';
-   arrLink.ok = 'FAIL';
-   return arrLink;
-}))).then (res => {return res;})
-
-
-console.log(getStatusLinks(listURLsDetails))
-
-
-
-module.exports = {
-    detectPathExists,
-    convertPathToAbsolute,
-    detectDirectory,
-    openDirectory,
-    filterMdFile,
-    getURLs,
-    getStatusLinks,
-}
+ module.exports = {
+     existPath, 
+     isPathAbsolute,
+     validatePath,
+     readDirectory,
+     isExtensionMD,
+     joinPaths,
+     fileContent,
+     checkPath,
+     getAllLinks,
+     validateLinks
+ };
