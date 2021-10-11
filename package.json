@@ -1,13 +1,13 @@
 {
   "name": "md-links-mysticbel",
   "version": "0.1.0",
-  "description": "Esta es una libreria md-Links",
+  "description": "md-Links",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "test --verbose --coverage",
+    "test": "jest --verbose --coverage --detectOpenHandles",
     "dev": "nodemon index.js"
   },
   "repository": {
@@ -17,10 +17,17 @@
   "keywords": [
     "md-links",
     "npm",
-    "Javascript"
+    "Javascript",
+    "Nodejs",
+    "API",
+    "CLI",
+    "HTTP"
   ],
   "author": "Maribel Maza",
   "license": "MIT",
+  "bin": {
+     "md-links": "cli.js"
+  },
   "bugs": {
     "url": "https://github.com/mysticBel/LIM015-md-links/issues"
   },
