@@ -1,6 +1,6 @@
 **useful pages for devs**
 
-[Cat😻Ipsum](http://www.catipsum.com)
+[Cat😻Ipsum](http://www.catipsum)
 
 [CSS Gradient](https://cssgradient.io/)
 
