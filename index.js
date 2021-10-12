@@ -84,8 +84,9 @@ const getAllLinks = (route) => {
               const statusDataErr = {
                 href : link.href,
                 file : link.file,
-                status : 'No status',
-                message : `Fail ${error.message}`
+                status : `Fail ${error.message}`,
+                message : 'No status',
+                text : (link.text.slice(0,50))
             };
             return statusDataErr;
           });
