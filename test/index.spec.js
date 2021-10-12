@@ -1,5 +1,8 @@
+const fetch = require('../__mock__/mock_fetch.js');
 const api = require('../index.js');
 
+
+  /* ***********************  existPath()   *********************** */
   describe('existPath() : function that detects if file/directory exists, returns a boolean', () => {
     it('should be a function', () => {
       expect(typeof(api.existPath)).toBe('function');
@@ -12,6 +15,8 @@ const api = require('../index.js');
     });
   });  
 
+
+  /* **********************  isPathAbsolute()  ********************** */
   describe('isPathAbsolute() : function that detects if path is Absolute ', () => {
     it('should be a function', () => {
       expect(typeof(api.isPathAbsolute)).toBe('function');
@@ -24,6 +29,8 @@ const api = require('../index.js');
     });
   }); //works ok!!!
 
+   
+  /* **********************  validatePath()  ********************** */
   describe('validatePath() : function that converts a relative path to an absolute path', () => {
     it('should be a function', () => {
       expect(typeof(api.validatePath)).toBe('function');
@@ -32,7 +39,9 @@ const api = require('../index.js');
       expect(api.validatePath('README.md')).toBe('C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\README.md');
     });
   });
+  
 
+  /* **********************  readDirectory()  ********************** */
   describe('readDirectory() : function that reads a directory', () => {
     it('should be a function', () => {
       expect(typeof(api.readDirectory)).toBe('function');
@@ -48,6 +57,8 @@ const api = require('../index.js');
     });
   });
   
+
+  /* **********************  isExtensionMD()  ********************** */
   describe('isExtensionMD() : function that asks if a file ends with the extension ".md"', () => {
     it('should be a function', () => {
       expect(typeof(api.isExtensionMD)).toBe('function');
@@ -60,6 +71,8 @@ const api = require('../index.js');
     });
   });
 
+
+  /* **********************  joinPaths()  ********************** */
   describe('joinPaths() : function that join 2 routes together', () => {
     it('should be a function', () => {
        expect(typeof(api.joinPaths)).toBe('function');
@@ -74,6 +87,8 @@ const api = require('../index.js');
      });
    });
    
+
+   /* **********************  fileContent()  ********************** */
    describe('fileContent() : function that returns all the links from the file ', () => {
     it('should be a function', () => {
       expect(typeof(api.fileContent)).toBe('function');
@@ -83,6 +98,8 @@ const api = require('../index.js');
     });
   });
 
+
+  /* **********************  checkPath()  ********************** */
   describe('checkPath() : Recursive function : opens a directory and reads all paths ".md"', () => {
     it('should be a function', () => {
       expect(typeof(api.checkPath)).toBe('function');
@@ -97,9 +114,18 @@ const api = require('../index.js');
       ];
       expect(api.checkPath(pathDir)).toEqual(result);
     });
+    it('should return a directory', () => {
+      const pathDir = 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder';
+      const result = [
+        'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test2.md',
+        'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test4.md',
+      ];
+      expect(api.checkPath(pathDir)).toEqual(result);
+    });
   });
 
 
+  /* **********************  getAllLinks()  ********************** */
   describe('getAllLinks() : function that gets links from a file', () => {
     it('getAllLinks should be a function', () => {
       expect(typeof(api.getAllLinks)).toBe('function');
@@ -137,3 +163,56 @@ const api = require('../index.js');
     });
   });
 
+  
+  /* **********************  validateLinks()  ********************** */
+  const data = [
+    { 
+      file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test4.md',
+      href: 'https://youtu.be/XBepfdg_FvY',
+      text: 'ENTIRE Phantom Blood but ONLY Speedwagon💛',    
+    },
+  ];
+  
+  const dataError = [
+    { 
+      file: 'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test2.md',
+      href: 'http://www.catipsum',
+      text: 'Cat😻Ipsum',
+    },
+  ];
+ 
+  describe(' validateLinks() : function that validates links', () => {
+    it('validateLinks() debe ser una función', () => {
+      expect(typeof(api.validateLinks)).toBe('function');
+    });
+    it('should return message Ok and validate status of links', () => {
+      const output = [
+        {
+          "file": "C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test4.md",
+          "href": "https://youtu.be/XBepfdg_FvY",
+          "message": "OK",
+          "status": 200,
+          "text": "ENTIRE Phantom Blood but ONLY Speedwagon💛",
+        },
+      ];
+      fetch.mockResolvedValue(data);
+      return api.validateLinks(data).then((e) => {
+        expect(e).toEqual(output);
+      });
+    });
+    it('should return error message and no status', () => {
+      const outputError = [
+        {
+          "file": "C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test2.md",
+          "href": "http://www.catipsum",
+          "message": "No status",
+          "status": "Fail request to http://www.catipsum/ failed, reason: getaddrinfo ENOTFOUND www.catipsum",
+          "text": "Cat😻Ipsum",
+        },
+      ];
+      fetch.mockResolvedValue(dataError);
+      return api.validateLinks(dataError).then((e) => {
+        expect(e).toEqual(outputError);
+      })
+    });
+  });
