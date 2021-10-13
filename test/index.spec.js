@@ -50,7 +50,7 @@ const api = require('../index.js');
       expect(api.readDirectory('prueba')).toEqual([ 'empty', 'newFolder', 'test.md','test3.md']);
     });
     it('should return the files from a directory', () => {
-      expect(api.readDirectory('prueba\\newFolder')).toEqual(['test2.md','test4.md' ]);
+      expect(api.readDirectory('prueba\\newFolder')).toEqual(['test2.md','test4.md', 'test5.md' ]);
     });
     it('should return the files from a directory', () => {
       expect(api.readDirectory('prueba\\empty')).toEqual([]);
@@ -109,6 +109,7 @@ const api = require('../index.js');
       const result = [
         'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test2.md',
         'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test4.md',
+        "C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test5.md",
         'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test.md',
         'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\test3.md',
       ];
@@ -119,6 +120,7 @@ const api = require('../index.js');
       const result = [
         'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test2.md',
         'C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test4.md',
+        "C:\\Users\\LORD\\Desktop\\mdlinks-prueba\\LIM015-md-links\\prueba\\newFolder\\test5.md",
       ];
       expect(api.checkPath(pathDir)).toEqual(result);
     });
