@@ -70,12 +70,11 @@ const getAllLinks = (route) => {
       const arrLinksStatus = arrLinks.map((link) => {
           return fetch(link.href)
           .then ((resultLink) => {
-              const statusText = resultLink.status === 200 ? 'OK' : 'Fail';
               const statusData = {
                   href : link.href,
                   file : link.file,
                   status : resultLink.status,
-                  message : statusText,
+                  message : resultLink.status > 199 && resultLink.status < 400 ? 'OK' : 'Fail',
                   text : (link.text.slice(0,50))
               };
               return statusData
